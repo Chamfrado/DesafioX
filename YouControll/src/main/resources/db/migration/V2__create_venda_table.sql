@@ -1,0 +1,7 @@
+CREATE TABLE venda (
+  id SERIAL PRIMARY KEY,
+  cliente_id INTEGER NOT NULL REFERENCES cliente (id),
+  data DATE NOT NULL,
+  status VARCHAR(20) NOT NULL,
+  valor NUMERIC(10,2) NOT NULL
+);
