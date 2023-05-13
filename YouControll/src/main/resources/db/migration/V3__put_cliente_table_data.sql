@@ -1,4 +1,4 @@
-INSERT INTO cliente (name, cnpj, email, telefone, uf, localizacao, created_at) 
+INSERT INTO cliente (nome, cnpj, email, telefone, uf, localizacao, created_at) 
 VALUES 
   ('Pedro Silva', '32.254.763/0001-98', 'pedro.silva@example.com', '(11) 91234-5678', 'SP', 'São Paulo', NOW()),
   ('Maria Souza', '91.508.172/0001-06', 'maria.souza@example.com', '(21) 94567-8901', 'RJ', 'Rio de Janeiro', NOW()),
