@@ -9,14 +9,13 @@ import java.util.Optional;
 
 
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
-    Object findById = null;
 
     List<Cliente> findAll();
 
     Optional<Cliente> findById(Long id);
 
     void deleteById(Long id);
-    
+
     default Cliente create(Cliente cliente) {
         return save(cliente);
     }

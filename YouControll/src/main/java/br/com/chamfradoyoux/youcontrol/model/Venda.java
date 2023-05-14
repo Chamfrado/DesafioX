@@ -13,7 +13,7 @@ public class Venda {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long idCliente;
+    private Long clienteId;
     private Date data;
     private String status;
     private Double valor;
@@ -22,10 +22,10 @@ public class Venda {
     public Venda() {
     }
 
-    public Venda(Date data, Double valor,String status, Long idCliente) {
+    public Venda(Date data, Double valor,String status, Long clienteId) {
         this.data = data;
         this.valor = valor;
-        this.idCliente = idCliente;
+        this.clienteId = clienteId;
         this.status = status;
     }
 
@@ -61,11 +61,11 @@ public class Venda {
         this.valor = valor;
     }
 
-    public Long getIdCliente() {
-        return idCliente;
+    public Long getclienteId() {
+        return clienteId;
     }
 
-    public void setIdCliente(Long idCliente) {
-        this.idCliente = idCliente;
+    public void setclienteId(Long clienteId) {
+        this.clienteId = clienteId;
     }
 }
