@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.net.URI;
 import java.util.List;
@@ -19,6 +20,7 @@ import br.com.chamfradoyoux.youcontrol.model.Cliente;
 import br.com.chamfradoyoux.youcontrol.repository.ClienteRepository;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class ClienteController {
 
     @Autowired
