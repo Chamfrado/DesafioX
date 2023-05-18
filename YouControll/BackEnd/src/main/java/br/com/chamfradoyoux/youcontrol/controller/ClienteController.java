@@ -31,7 +31,13 @@ public class ClienteController {
     @GetMapping("/clientes")
     public List<Cliente> getAllClientes(@RequestParam(required = false) String search) {
         if (StringUtils.hasText(search)) {
-            return clienteRepository.findByNomeContainingOrCnpjContaining(search, search);
+            if (search.matches("\\d+")) {
+                // Search is a CNPJ (string with only numbers)
+                return clienteRepository.findByCnpjContaining(search);
+            } else {
+                // Search is a nome (string with only letters)
+                return clienteRepository.findByNomeContainingIgnoreCaseAndAccentInsensitive(search);
+            }
         }
         return clienteRepository.findAll();
     }
