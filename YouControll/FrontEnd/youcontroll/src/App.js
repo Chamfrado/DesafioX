@@ -8,9 +8,8 @@ import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css'; // If using webpack
 
 
-import TableView from "./view/TableView"
 import HomeView from "./view/HomeView"
-import TestView from "./view/TestView"
+import ClienteView from "./view/ClienteView"
 import MapView from "./view/MapTest"
 
 function App() {
@@ -18,8 +17,7 @@ function App() {
     <div>
         <Routes>
         <Route path="/" element={<HomeView />} />
-        <Route path="/table" element={<TableView />} />
-        <Route path="/test" element={<TestView/>}/>
+        <Route path="/clientes" element={<ClienteView/>}/>
         <Route path='/map' element={<MapView/>}/>
         </Routes>
     </div>

@@ -1,8 +1,8 @@
 
-import React, { useState } from 'react';
 import axios from 'axios';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import { Container, Card, CardBody, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { useState, useEffect, useRef } from 'react';
 import shopIcon from '../resources/shop.png'; // Import the icon image directly
 
 import L from 'leaflet';
@@ -15,7 +15,9 @@ function Map() {
   const [postalCode, setPostalCode] = useState('');
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
-  const position = [-22.238752362746666,-45.70767076988293]
+
+  const mapRef = useRef(); // Define the mapRef using useRef
+
 
   const shopMarker = L.icon({
     iconUrl: shopIcon,
@@ -45,12 +47,18 @@ function Map() {
     }
   };
 
+  useEffect(() => {
+    if (latitude && longitude) {
+      // Center the map on the marker's position
+      mapRef.current.setView([latitude, longitude]);
+    }
+  }, [latitude, longitude]);
   
   return (
     <Container>
       <Card>
         <CardBody>
-          <MapContainer center={[-15.7801, -47.9292]} zoom={5} style={{ height: '500px' }}>
+          <MapContainer ref={mapRef} center={[-15.7801, -47.9292]} zoom={5} style={{ height: '500px' }}>
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             {latitude && longitude && <Marker position={[latitude, longitude]} icon={shopMarker} />}
 
