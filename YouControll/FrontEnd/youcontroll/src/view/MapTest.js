@@ -1,8 +1,8 @@
 
 import axios from 'axios';
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import { MapContainer, TileLayer,  Marker, } from 'react-leaflet';
 import { Container, Card, CardBody, Form, FormGroup, Label, Input, Button } from 'reactstrap';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import shopIcon from '../resources/shop.png'; // Import the icon image directly
 
 import L from 'leaflet';
@@ -13,10 +13,53 @@ function Map() {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [postalCode, setPostalCode] = useState('');
-  const [latitude, setLatitude] = useState(null);
-  const [longitude, setLongitude] = useState(null);
+  const [isChecked, setIsChecked] = useState(false);
 
+  const [draggable, setDraggable] = useState(false)
+  const [position, setPosition] = useState()
+
+  const markerRef = useRef(null)
   const mapRef = useRef(); // Define the mapRef using useRef
+
+
+  const eventHandlers = useMemo(
+    () => ({
+      dragend() {
+        const marker = markerRef.current
+        if (marker != null) {
+          setPosition(marker.getLatLng());
+          handleRequest();
+        }
+      },
+    }),
+    [],
+  )
+
+  //LAT:-22.24268403312832     LONG:-45.71109108063319
+  //LAT:-22.24268403312832     LONG:-45.71109108063319
+
+
+  const handleMarkerDragEnd = (event) => {
+    const marker = event.target;
+    const markerPosition = marker.getLatLng();
+  
+    setPosition(markerPosition);
+  };
+
+  const handleRequest = async () => {
+    
+    try {
+      
+      const response = await axios.get(
+        `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
+          position.lat
+        )}%2C+${encodeURIComponent(position.lng)}&key=d8b4eb08039043f4acb5f58f7f99f752&pretty=1`
+      );
+      alert(response.data.results[0].formatted);
+    } catch (error) {
+      alert(error);
+    }
+  };
 
 
   const shopMarker = L.icon({
@@ -29,7 +72,6 @@ function Map() {
     e.preventDefault();
 
     const address = `${houseNumber} ${street}, ${city}, ${state}, ${postalCode}`;
-    alert(address);
 
     try {
       const response = await axios.get(
@@ -38,29 +80,52 @@ function Map() {
         )}&key=d8b4eb08039043f4acb5f58f7f99f752&pretty=1`
       );
 
-      const { lat, lng } = response.data.results[0].geometry;
-      setLatitude(lat);
-      setLongitude(lng);
-      alert(response.data.results[0].formatted);
+      setPosition(response.data.results[0].geometry);
+      mapRef.current.setView(position)
+
     } catch (error) {
       alert(error);
     }
   };
 
-  useEffect(() => {
-    if (latitude && longitude) {
-      // Center the map on the marker's position
-      mapRef.current.setView([latitude, longitude]);
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+    if (!isChecked) {
+      toggleDraggable();
     }
-  }, [latitude, longitude]);
+  };
+
+
+
+  const toggleDraggable = useCallback(() => {
+    setDraggable((d) => !d)
+  }, [])
+
+  useEffect(() => {
+  if (position) {
+    handleRequest();
+  }
+}, [position]);
   
+  useEffect(() => {
+    if (position) {
+      // Center the map on the marker's position
+      const { lat, lng } = position;
+      mapRef.current.setView([lat, lng]);
+    }
+  }, [position?.lat, position?.lng]); 
+
   return (
     <Container>
       <Card>
         <CardBody>
-          <MapContainer ref={mapRef} center={[-15.7801, -47.9292]} zoom={5} style={{ height: '500px' }}>
+          <MapContainer ref={mapRef} center={[-15.7801, -47.9292]} zoom={15} style={{ height: '500px' }}>
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-            {latitude && longitude && <Marker position={[latitude, longitude]} icon={shopMarker} />}
+
+            {position && <Marker draggable={draggable} 
+              eventHandlers={{ dragend: handleMarkerDragEnd }} ref={markerRef} position={position} icon={shopMarker} >
+                
+              </Marker>}
 
           </MapContainer>
 
@@ -117,10 +182,19 @@ function Map() {
             </FormGroup>
             <Button type="submit" color="primary">Localizar</Button>
           </Form>
+          <Button onClick={() => { alert(position) }} >UltimateTest</Button>
+          <Input  type="checkbox" checked={isChecked} onChange={handleCheckboxChange} />
+          {' '}
+          <Label check>
+            Marcar localização no mapa?
+          </Label>
         </CardBody>
       </Card>
     </Container>
   );
 }
+//LatLng(-22.242585, -45.710946)
+//LatLng(-22.242888, -45.709825)
+//LatLng(-22.2425, -45.7085)
 
 export default Map;
