@@ -4,6 +4,8 @@ import { MapContainer, TileLayer,  Marker, } from 'react-leaflet';
 import { Container, Card, CardBody, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import shopIcon from '../resources/shop.png'; // Import the icon image directly
+import MapaClientes from '../components/MapaClientes/MapaClientes';
+
 
 import L from 'leaflet';
 
@@ -189,6 +191,10 @@ function Map() {
             Marcar localização no mapa?
           </Label>
         </CardBody>
+      </Card>
+      <Card>
+        <Label>TESTEEE</Label>
+        <MapaClientes/>
       </Card>
     </Container>
   );

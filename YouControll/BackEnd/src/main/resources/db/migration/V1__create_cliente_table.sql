@@ -1,11 +1,11 @@
 CREATE TABLE cliente (
   id SERIAL PRIMARY KEY,
-  nome VARCHAR(50) NOT NULL,
-  cnpj VARCHAR(50) NOT NULL UNIQUE,
-  email VARCHAR(255) NOT NULL ,
-  telefone VARCHAR(255) NOT NULL,
-  uf VARCHAR(2) NOT NULL,
-  localizacao VARCHAR(255) NOT NULL,
-  created_at TIMESTAMP NOT NULL DEFAULT NOW()
+  nome VARCHAR(255),
+  cnpj VARCHAR(14),
+  email VARCHAR(255),
+  telefone VARCHAR(20),
+  uf CHAR(2),
+  localizacao GEOMETRY(Point),
+  created_at TIMESTAMP
 );
 
