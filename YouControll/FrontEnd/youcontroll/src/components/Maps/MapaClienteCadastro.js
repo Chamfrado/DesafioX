@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import shopIcon from '../../resources/shop.png';
-import { Container, Label, Row, Input, Col, Button } from 'reactstrap'
+import { Container, Label, Row, Input, Col, Button, FormGroup } from 'reactstrap'
 import axios from "axios"
 
 
 import L from 'leaflet';
 
 
-const MapClienteCadastro = ({ endereco, onChangeCoordenadas}) => {
+const MapClienteCadastro = ({ endereco, onChangeCoordenadas }) => {
 
     const [isChecked, setIsChecked] = useState(false);
-    
+
     const [draggable, setDraggable] = useState(false)
     const [position, setPosition] = useState()
 
@@ -22,23 +22,23 @@ const MapClienteCadastro = ({ endereco, onChangeCoordenadas}) => {
 
     const handleLocalizar = async (e) => {
         e.preventDefault();
-    
+
         const address = ` ${endereco.logradouro} ${endereco.complemento} , ${endereco.bairro}, ${endereco.cidade}, ${endereco.cep}`;
-    
+
         try {
-          const response = await axios.get(
-            `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
-              address
-            )}&key=d8b4eb08039043f4acb5f58f7f99f752&pretty=1`
-          );
-    
-          setPosition(response.data.results[0].geometry);
-          mapRef.current.setView(position)
-    
+            const response = await axios.get(
+                `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
+                    address
+                )}&key=d8b4eb08039043f4acb5f58f7f99f752&pretty=1`
+            );
+
+            setPosition(response.data.results[0].geometry);
+            mapRef.current.setView(position)
+
         } catch (error) {
-          
+
         }
-      };
+    };
 
     const handleMarkerDragEnd = (event) => {
         const marker = event.target;
@@ -58,9 +58,9 @@ const MapClienteCadastro = ({ endereco, onChangeCoordenadas}) => {
             );
             const { lat, lng } = position;
             alert(response.data.results[0].formatted);
-            onChangeCoordenadas({ latitude: lat, longitude: lng});
+            onChangeCoordenadas({ latitude: lat, longitude: lng });
         } catch (error) {
-            
+
         }
     };
 
@@ -102,7 +102,7 @@ const MapClienteCadastro = ({ endereco, onChangeCoordenadas}) => {
     return (
         <Container>
             <Row style={{ paddingBottom: 10 }}>
-                <Col  >
+                <Col className='d-flex align-items-center justify-content-center'>
                     <Button color='primary' onClick={handleLocalizar}>Localizar</Button>
                 </Col>
             </Row>
@@ -119,11 +119,14 @@ const MapClienteCadastro = ({ endereco, onChangeCoordenadas}) => {
 
             </Row>
             <Row >
-            <Input type="checkbox" checked={isChecked} onChange={handleCheckboxChange} />
-                    {' '}
-                    <Label check>
-                        Ajustar Localizacao no mapa?
-                    </Label>
+                <FormGroup switch>
+                <Input type="switch" checked={isChecked} name='radio'  onClick={handleCheckboxChange} />
+                {' '}
+                <Label check>
+                    Ajustar Localizacao no mapa?
+                </Label>
+                </FormGroup>
+                
             </Row>
 
         </Container>

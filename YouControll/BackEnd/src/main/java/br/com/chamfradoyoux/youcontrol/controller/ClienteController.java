@@ -30,6 +30,7 @@ public class ClienteController {
 
     @GetMapping("/clientes")
     public List<Cliente> getAllClientes(@RequestParam(required = false) String search) {
+        System.out.println(search);
         if (StringUtils.hasText(search)) {
             if (search.matches("\\d+")) {
                 // Search is a CNPJ (string with only numbers)

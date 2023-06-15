@@ -3,9 +3,9 @@ import { BiSearch, BiPlus } from "react-icons/bi";
 import { useState } from 'react';
 import { useEffect } from 'react';
 import MainHeader from '../components/Header/Header'
-import TableClient from '../components/TableClient/TableCliente'
+import TableClient from '../components/Tables/TableClientes'
 import YCapi from '../services/YouControllApi'
-import MapaClienteCadastro from '../components/MapaClientes/MapaClienteCadastro';
+import MapaClienteCadastro from '../components/Maps/MapaClienteCadastro';
 import ViaCepApi from '../services/ViaCepApi'
 
 
@@ -16,7 +16,6 @@ const Home = () => {
     const [tableData, setTableData] = useState([]);
     const [modal, setModal] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
-    const [isCEPLoading, setIsCEPLoading] = useState(false);
     const [isSaveLoading, setIsSaveLoading] = useState(false);
     const [isFormValid, setIsFormValid] = useState(false);
     const [ufOptions, setUfOptions] = useState([]);
@@ -36,7 +35,6 @@ const Home = () => {
 
     const [endereco, setEndereco] = useState({
         logradouro: '',
-        complemento: '',
         bairro: '',
         cidade: '',
         uf: ''
@@ -97,7 +95,6 @@ const Home = () => {
 
     const handleChangeCEP = (event) => {
         const { value } = event.target;
-        setIsCEPLoading(true);
         const url = value + '/json/?callback=callback_name';
 
         ViaCepApi.get(url)
@@ -109,12 +106,11 @@ const Home = () => {
                 const responseObject = JSON.parse(jsonString);
 
                 // Extrair o logradouro do objeto
-                const { logradouro, complemento, bairro, localidade, uf } = responseObject;
+                const { logradouro,  bairro, localidade, uf } = responseObject;
 
                 // Atualizar o estado com o logradouro
                 setEndereco({ // Reset form data to empty values
                     logradouro: logradouro,
-                    complemento: complemento,
                     bairro: bairro,
                     cidade: localidade,
                     uf: uf
@@ -145,17 +141,7 @@ const Home = () => {
         save();
     };
 
-    const renderCidades = (index) => {
-        fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados/' + index + '/distritos')
-            .then((response) => response.json())
-            .then((data) => {
-                alert(data)
-            })
-            .catch((error) => {
-                console.error('Error fetching UF options:', error);
-
-            });
-    }
+    
 
 
     const toggle = (index) => {
@@ -401,19 +387,6 @@ const Home = () => {
                                         onChange={handleChangeEnd}
 
                                     />
-                                </Col>
-                                <Col xs="3">
-                                    <Label for="IdComplemento">Complemento*</Label>
-
-                                    <Input
-                                        id="IdComplemento"
-                                        name="complemento"
-                                        placeholder="Complemento"
-                                        value={endereco.complemento}
-                                        onChange={handleChangeEnd}
-
-                                    />
-
                                 </Col>
 
                             </Row>

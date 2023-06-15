@@ -65,7 +65,7 @@ const Header = ({ height }) => {
                             <Collapse isOpen={!collapsedClientes} navbar>
                                 <Nav navbar>
                                     <NavItem>
-                                        <NavLink href="/home">Lista de clientes</NavLink>
+                                        <NavLink href="/clientes">Lista de clientes</NavLink>
                                     </NavItem>
                                     <NavItem>
                                         <NavLink href="/home">
@@ -78,13 +78,12 @@ const Header = ({ height }) => {
                             <Collapse isOpen={!collapsedVendas} navbar>
                                 <Nav navbar>
                                     <NavItem>
-                                        <NavLink href="/home">Lista de vendas</NavLink>
+                                        <NavLink href="/vendas">Lista de vendas</NavLink>
                                     </NavItem>
                                     <NavItem>
                                         <NavLink href="/home">
                                             Cadastrar venda
                                         </NavLink>
-                                        <Link to='/map'> TESTE DO MAPA</Link>
                                     </NavItem>
                                 </Nav>
                             </Collapse>

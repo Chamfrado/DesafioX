@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import br.com.chamfradoyoux.youcontrol.model.Venda;
 import br.com.chamfradoyoux.youcontrol.repository.VendaRepository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 public class VendaController {
@@ -21,8 +22,9 @@ public class VendaController {
     private VendaRepository vendaRepository;
 
     @GetMapping("/vendas")
-    public List<Venda> getAllVendas(){
-        return vendaRepository.findAll();
+    @CrossOrigin(origins = "http://localhost:3000")
+    public List<Object> find(){
+        return vendaRepository.findAllWithClientName();
     }
 
     @GetMapping("/vendas/{id}")

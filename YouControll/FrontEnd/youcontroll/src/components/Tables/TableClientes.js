@@ -1,5 +1,5 @@
 import React, {  useState } from 'react'
-import {  Table,  Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Label } from 'reactstrap'
+import {  Table,  Dropdown,Button ,DropdownToggle, DropdownMenu, DropdownItem, Label } from 'reactstrap'
 import { BiPencil, BiTrash } from "react-icons/bi";
 
 const TableCliente = ({ data }) => {
@@ -83,7 +83,7 @@ const TableCliente = ({ data }) => {
           ))}
         </tbody>
       </Table>
-      
+      <Button onClick={() => alert(data)}>Teste</Button>
     </div>
 
   );

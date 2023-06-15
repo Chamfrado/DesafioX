@@ -10,7 +10,7 @@ import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 
 import HomeView from "./view/HomeView"
 import ClienteView from "./view/ClienteView"
-import MapView from "./view/MapTest"
+import VendaView from './view/VendaView';
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
         <Routes>
         <Route path="/" element={<HomeView />} />
         <Route path="/clientes" element={<ClienteView/>}/>
-        <Route path='/map' element={<MapView/>}/>
+        <Route path='/vendas' element={<VendaView/>}/>
         </Routes>
     </div>
   );
