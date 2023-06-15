@@ -17,16 +17,22 @@ public class Cliente {
     private String email;
     private String telefone;
     private String uf;
-    private String localizacao;
+    private Double lat;
+    private Double lng;
+    
+
     
 
     public Cliente() {
     }
 
-    public Cliente(String nome, String email, String telefone) {
+    public Cliente(String nome, String email, String telefone, String cnpj, String uf, Double lat, Double lng) {
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
+        this.cnpj = cnpj;
+        this.lat = lat;
+        this.lng = lng;
     }
 
     public Long getId() {
@@ -37,12 +43,12 @@ public class Cliente {
         this.id = id;
     }
 
-    public String getLocalizacao() {
-        return localizacao;
+    public Double getLat() {
+        return lat;
     }
 
-    public void setLocalizacao(String localizacao) {
-        this.localizacao = localizacao;
+    public void setLat(Double lat) {
+        this.lat = lat;
     }
     
     public String getNome() {
@@ -59,6 +65,13 @@ public class Cliente {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
     }
 
     public String getTelefone() {

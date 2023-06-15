@@ -16,6 +16,7 @@ function Map() {
   const [state, setState] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [isChecked, setIsChecked] = useState(false);
+  const [testModal, setTestModal] = useState(false);
 
   const [draggable, setDraggable] = useState(false)
   const [position, setPosition] = useState()
@@ -37,8 +38,6 @@ function Map() {
     [],
   )
 
-  //LAT:-22.24268403312832     LONG:-45.71109108063319
-  //LAT:-22.24268403312832     LONG:-45.71109108063319
 
 
   const handleMarkerDragEnd = (event) => {
@@ -73,7 +72,7 @@ function Map() {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    const address = `${houseNumber} ${street}, ${city}, ${state}, ${postalCode}`;
+    const address = ` ${street} ${houseNumber}, ${city}, ${state}, ${postalCode}`;
 
     try {
       const response = await axios.get(
@@ -111,7 +110,6 @@ function Map() {
   
   useEffect(() => {
     if (position) {
-      // Center the map on the marker's position
       const { lat, lng } = position;
       mapRef.current.setView([lat, lng]);
     }
@@ -199,8 +197,6 @@ function Map() {
     </Container>
   );
 }
-//LatLng(-22.242585, -45.710946)
-//LatLng(-22.242888, -45.709825)
-//LatLng(-22.2425, -45.7085)
+
 
 export default Map;

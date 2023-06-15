@@ -72,7 +72,8 @@ public class ClienteController {
             existingCliente.setEmail(cliente.getEmail());
             existingCliente.setTelefone(cliente.getTelefone());
             existingCliente.setUf(cliente.getUf());
-            existingCliente.setLocalizacao(cliente.getLocalizacao());
+            existingCliente.setLat(cliente.getLat());
+            existingCliente.setLng(cliente.getLng());
             Cliente updatedCliente = clienteRepository.save(existingCliente);
             return ResponseEntity.ok(updatedCliente);
         } else {

@@ -5,7 +5,7 @@ CREATE TABLE cliente (
   email VARCHAR(255),
   telefone VARCHAR(20),
   uf CHAR(2),
-  localizacao GEOMETRY(Point),
+  lat DOUBLE PRECISION,
+  lng DOUBLE PRECISION,
   created_at TIMESTAMP
 );
-
