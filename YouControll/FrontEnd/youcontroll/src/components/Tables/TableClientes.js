@@ -1,11 +1,21 @@
 import React, {  useState } from 'react'
-import {  Table,  Dropdown,Button ,DropdownToggle, DropdownMenu, DropdownItem, Label } from 'reactstrap'
-import { BiPencil, BiTrash } from "react-icons/bi";
+import { Table, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Label, Row, Col, Pagination, PaginationItem, PaginationLink, Container } from 'reactstrap';
+import { BiPencil, BiTrash } from 'react-icons/bi';
 
 const TableCliente = ({ data }) => {
 
   const [dropdownOpen, setDropdownOpen] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(8);
 
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentData = data.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
   const toggle = (index) => {
     setDropdownOpen((prevState) => (prevState === index ? null : index));
   };
@@ -36,7 +46,7 @@ const TableCliente = ({ data }) => {
   };
 
   return (
-    <div>
+    <Container fluid>
       <Table hover>
         <thead>
           <tr>
@@ -58,7 +68,7 @@ const TableCliente = ({ data }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map(item => (
+          {currentData.map(item => (
             <tr key={item.id}>
               <td>{item.nome}</td>
               <td>{formatCnpj(item.cnpj)}</td>
@@ -83,9 +93,34 @@ const TableCliente = ({ data }) => {
           ))}
         </tbody>
       </Table>
-      <Button onClick={() => alert(data)}>Teste</Button>
-    </div>
+      <Row>
+        <Col className='d-flex align-items-end justify-content-end'>
+          {/* Pagination */}
 
+          <Pagination aria-label="Page navigation example" size="sm">
+            <PaginationItem disabled={currentPage === 1}>
+              <PaginationLink first onClick={() => handlePageChange(1)} />
+            </PaginationItem>
+            <PaginationItem disabled={currentPage === 1}>
+              <PaginationLink previous onClick={() => handlePageChange(currentPage - 1)} />
+            </PaginationItem>
+            {Array.from({ length: totalPages }, (_, index) => (
+              <PaginationItem key={index} active={currentPage === index + 1}>
+                <PaginationLink onClick={() => handlePageChange(index + 1)}>{index + 1}</PaginationLink>
+              </PaginationItem>
+            ))}
+            <PaginationItem disabled={currentPage === totalPages}>
+              <PaginationLink next onClick={() => handlePageChange(currentPage + 1)} />
+            </PaginationItem>
+            <PaginationItem disabled={currentPage === totalPages}>
+              <PaginationLink last onClick={() => handlePageChange(totalPages)} />
+            </PaginationItem>
+          </Pagination>
+        </Col>
+      </Row>
+    </Container>
+
+    
   );
 };
 

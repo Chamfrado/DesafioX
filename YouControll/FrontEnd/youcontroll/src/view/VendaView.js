@@ -1,11 +1,10 @@
-import { Button, Container, Card, Row, Input, Label, Col, Modal, ModalHeader, ModalBody, ModalFooter, Form, Spinner, Alert } from 'reactstrap'
+import { Button, Container, Card, Row, Input, Col, Spinner, Alert } from 'reactstrap'
 import { BiSearch, BiPlus } from "react-icons/bi";
 import { useState } from 'react';
 import { useEffect } from 'react';
 import MainHeader from '../components/Header/Header'
 import TableVendas from '../components/Tables/TableVendas';
 import YCapi from '../services/YouControllApi'
-import ViaCepApi from '../services/ViaCepApi'
 
 
 const VendaView = () => {
@@ -14,7 +13,7 @@ const VendaView = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [toggleCadastro, setToggleCadastro] = useState(null);
+    const [toggleCadastro] = useState(null);
 
     const onDismiss = () => setAlertSaveSucess(false);
 
