@@ -3,7 +3,7 @@ import { Button, Col, Form, Input, Label, Modal, ModalBody, ModalFooter, ModalHe
 import EstadosApi from "../../services/EstadosApi";
 import ViaCepApi from "../../services/ViaCepApi";
 import YCapi from "../../services/YouControllApi";
-import MapClienteCadastro from "../Maps/MapaClienteCadatro";
+import MapClienteCadastro from "../Maps/MapaClienteCadastro";
 
 // eslint-disable-next-line react/prop-types
 const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
@@ -36,6 +36,7 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 		logradouro: "",
 		bairro: "",
 		cidade: "",
+		cep: "",
 		lat: "",
 		lng: ""
 	});
@@ -127,7 +128,8 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 					uf: uf,
 					logradouro: logradouro,
 					bairro: bairro,
-					cidade: localidade
+					cidade: localidade,
+					cep: value
 				}));
         
 				alert(JSON.stringify(responseObject));
@@ -191,8 +193,14 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 	const handleChangeLocation = (location) => {
 		setFormData((prevFormData) => ({
 			...prevFormData,
+			logradouro: location.logradouro,
 			lat: location.lat,
-			lng: location.lng
+			lng: location.lng,
+			cep: location.cep,
+			cidade: location.cidade,
+			bairro: location.bairro,
+			uf: location.uf
+
 		}));
 	}; 
 

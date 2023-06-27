@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-mixed-spaces-and-tabs */
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import shopIcon from "../../resources/shop.png";
@@ -9,7 +11,7 @@ import L from "leaflet";
 
 
 // eslint-disable-next-line react/prop-types
-const MapClienteCadastro = ({ endereco, onChangeLocation }) => {
+const MapClienteCadastro = ({ endereco, onChangeLocation, startLocation }) => {
 
 	const [isChecked, setIsChecked] = useState(false);
 
@@ -20,26 +22,37 @@ const MapClienteCadastro = ({ endereco, onChangeLocation }) => {
 	const mapRef = useRef(); // Define the mapRef using useRef
 
 
+	useEffect(() => {
+		if(startLocation != undefined){
+			setPosition(startLocation);
+			handleRequest();
 
-	const handleLocalizar = async (e) => {
-		e.preventDefault();
+		}
+	},[startLocation]); 
 
+
+	const handleLocalizar = async () => {
+
+		
+		
 		// eslint-disable-next-line react/prop-types
-		const address = ` ${endereco.logradouro} ${endereco.complemento} , ${endereco.bairro}, ${endereco.cidade}, ${endereco.cep}`;
-
+		const address = ` ${endereco.logradouro} , ${endereco.bairro}, ${endereco.cidade}, ${endereco.cep}`;
+		alert(address);
 		try {
 			const response = await axios.get(
 				`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
 					address
 				)}&key=d8b4eb08039043f4acb5f58f7f99f752&pretty=1`
 			);
-
-			setPosition(response.data.results[0].geometry);
-			alert(JSON.stringify(position));
-			mapRef.current.setView(position);
+			const response1 = response;
+			alert("teste");
+			alert(response1);
+			//setPosition(response.data.results[0].geometry);
+			//alert(JSON.stringify(position));
+			//mapRef.current.setView(position);
 
 		} catch (error) {
-			alert(error);
+			alert("Coloque um endereço válido!");
 		}
 	};
 
@@ -59,19 +72,18 @@ const MapClienteCadastro = ({ endereco, onChangeLocation }) => {
 					position.lat
 				)}%2C+${encodeURIComponent(position.lng)}&key=d8b4eb08039043f4acb5f58f7f99f752&pretty=1`
 			);
-			onChangeLocation(position);
-			alert(response.data.results[0].formatted);
-			//onChangeCoordenadas({
-			//    lat: lat,
-			//    lng: lng,
-			//    logradouro: response.data.results[0].components.road,
-			//    cep: response.data.results[0].components.postcode,
-			//    cidade: response.data.results[0].components.town,
-			//    bairro: response.results[0].components.suburb,
-			//    uf: response.data.results[0].components.state_code
-			//});
+			onChangeLocation({
+				lat: response.data.results[0].geometry.lat,
+			    lng: response.data.results[0].geometry.lng,
+				logradouro: response.data.results[0].components.road,
+				cep: response.data.results[0].components.postcode,
+				cidade: response.data.results[0].components.town,
+				bairro: response.data.results[0].components.suburb,
+				uf: response.data.results[0].components.state_code
+			    
+			});
 		} catch (error) {
-			alert(error);
+			console.log(error);
 		}
 	};
 

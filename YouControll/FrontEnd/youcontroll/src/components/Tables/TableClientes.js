@@ -5,7 +5,7 @@ import YCapi from "../../services/YouControllApi";
 import CadastrarClienteModal from "../Modals/CadastrarClienteModal";
 import { BiSearch, BiPlus } from "react-icons/bi";
 import PropTypes from "prop-types";
-
+import AtualizarClienteModal from "../Modals/AtualizarClienteModal";
 
 // eslint-disable-next-line react/prop-types
 const TableCliente = ({onSaveSucess}) => {
@@ -88,7 +88,8 @@ const TableCliente = ({onSaveSucess}) => {
 		return telefone;
 	};
 
-
+	//Abrir Modal de Atualizar Cadastro
+	const[selectedCliente, setSelectedCliente] = useState(-1);
 
 	//Chamando modal de Cadastro
 	const [clienteCadastroModal, setClienteCadastroModal] = useState(false);
@@ -99,6 +100,7 @@ const TableCliente = ({onSaveSucess}) => {
 	//Confirmando O save do cliente
 	const handleOnSaveSucess = () => {
 		onSaveSucess(true);
+		fetchTableData();
 	};
 
 
@@ -163,7 +165,7 @@ const TableCliente = ({onSaveSucess}) => {
 								<Dropdown isOpen={dropdownOpen === item.id} toggle={() => toggle(item.id)} direction="down" size="medium">
 									<DropdownToggle color='primary' caret>Ações</DropdownToggle>
 									<DropdownMenu >
-										<DropdownItem onClick={() => alert(item.id)}>
+										<DropdownItem onClick={() => {setSelectedCliente(item.id);}}>
 											<BiPencil />
 											<Label style={{ paddingLeft: 10, paddingRight: 10 }}>Alterar</Label>
 										</DropdownItem>
@@ -204,6 +206,7 @@ const TableCliente = ({onSaveSucess}) => {
 					</Pagination>
 				</Col>
 			</Row>
+			<AtualizarClienteModal ClienteId={selectedCliente}/>
 		</Container>
 
 
