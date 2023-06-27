@@ -8,7 +8,7 @@ import axios from "axios"
 import L from 'leaflet';
 
 
-const MapClienteCadastro = ({ endereco, onChangeCoordenadas }) => {
+const MapClienteCadastro = ({ endereco , onchangeTeste}) => {
 
     const [isChecked, setIsChecked] = useState(false);
 
@@ -33,6 +33,7 @@ const MapClienteCadastro = ({ endereco, onChangeCoordenadas }) => {
             );
 
             setPosition(response.data.results[0].geometry);
+            alert(JSON.stringify(position));
             mapRef.current.setView(position)
 
         } catch (error) {
@@ -58,7 +59,16 @@ const MapClienteCadastro = ({ endereco, onChangeCoordenadas }) => {
             );
             const { lat, lng } = position;
             alert(response.data.results[0].formatted);
-            onChangeCoordenadas({ latitude: lat, longitude: lng });
+            onchangeTeste(lat)
+            //onChangeCoordenadas({
+            //    lat: lat,
+            //    lng: lng,
+            //    logradouro: response.data.results[0].components.road,
+            //    cep: response.data.results[0].components.postcode,
+            //    cidade: response.data.results[0].components.town,
+            //    bairro: response.results[0].components.suburb,
+            //    uf: response.data.results[0].components.state_code
+            //});
         } catch (error) {
 
         }
@@ -120,13 +130,13 @@ const MapClienteCadastro = ({ endereco, onChangeCoordenadas }) => {
             </Row>
             <Row >
                 <FormGroup switch>
-                <Input type="switch" checked={isChecked} name='radio'  onClick={handleCheckboxChange} />
-                {' '}
-                <Label check>
-                    Ajustar Localizacao no mapa?
-                </Label>
+                    <Input type="switch" checked={isChecked} name='radio' onClick={handleCheckboxChange} />
+                    {' '}
+                    <Label check>
+                        Ajustar Localizacao no mapa?
+                    </Label>
                 </FormGroup>
-                
+
             </Row>
 
         </Container>

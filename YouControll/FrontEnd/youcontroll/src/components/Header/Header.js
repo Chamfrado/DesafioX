@@ -9,7 +9,6 @@ import {
 import { BiUserCircle, BiExit } from "react-icons/bi";
 import logoImage from '../../resources/referencia.png';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 
 const Header = ({ height }) => {
