@@ -6,9 +6,10 @@ import CadastrarClienteModal from "../Modals/CadastrarClienteModal";
 import { BiSearch, BiPlus } from "react-icons/bi";
 import PropTypes from "prop-types";
 import AtualizarClienteModal from "../Modals/AtualizarClienteModal";
+import DeletarClienteModal from "../Modals/DeletarClienteModal";
 
 // eslint-disable-next-line react/prop-types
-const TableCliente = ({onSaveSucess}) => {
+const TableCliente = ({onSaveSucess, onUpdateSucess, onDeleteSucess}) => {
   
 	const [error, setError] = useState();
 
@@ -18,6 +19,10 @@ const TableCliente = ({onSaveSucess}) => {
 		const { value } = event.target;
 		setSearchQuery(value);
 	};
+
+
+	
+
 
 	//Pegando os dados da API
 	const [tableData, setTableData] = useState([]);
@@ -90,6 +95,10 @@ const TableCliente = ({onSaveSucess}) => {
 
 	//Abrir Modal de Atualizar Cadastro
 	const[selectedCliente, setSelectedCliente] = useState(-1);
+	const [deleteCliente, setDeleteCliente] = useState({
+		id: -1,
+		nome: ""
+	});
 
 	//Chamando modal de Cadastro
 	const [clienteCadastroModal, setClienteCadastroModal] = useState(false);
@@ -103,7 +112,17 @@ const TableCliente = ({onSaveSucess}) => {
 		fetchTableData();
 	};
 
+	//Confirmando o update do cliente
+	const handleOnUpdateSucess = () => {
+		onUpdateSucess(true);
+		fetchTableData();
+	};
 
+	//Confirmando o delete do cliente
+	const handleOnDeleteSucess = () => {
+		onDeleteSucess(true);
+		fetchTableData();
+	};
 
 	if (error) {
 		return <p>Error: {error}</p>;
@@ -127,7 +146,7 @@ const TableCliente = ({onSaveSucess}) => {
 				<Col style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
 
 					<Button onClick={handleToggleClienteCadastroModal} color='primary' ><BiPlus /> Cadastrar Cliente</Button>
-					<CadastrarClienteModal state={clienteCadastroModal} Sucess={handleOnSaveSucess} onChangeState={handleToggleClienteCadastroModal}></CadastrarClienteModal>
+					
 
 				</Col>
 
@@ -171,7 +190,7 @@ const TableCliente = ({onSaveSucess}) => {
 										</DropdownItem>
 										<DropdownItem>
 											<BiTrash />
-											<Label style={{ paddingLeft: 10 }}>Excluir</Label>
+											<Label style={{ paddingLeft: 10 }} onClick={() => setDeleteCliente({id: item.id, nome: item.nome}) }>Excluir</Label>
 										</DropdownItem>
 									</DropdownMenu>
 								</Dropdown>
@@ -206,7 +225,9 @@ const TableCliente = ({onSaveSucess}) => {
 					</Pagination>
 				</Col>
 			</Row>
-			<AtualizarClienteModal ClienteId={selectedCliente}/>
+			<AtualizarClienteModal ClienteId={selectedCliente} Sucess={handleOnUpdateSucess}/>
+			<CadastrarClienteModal state={clienteCadastroModal} Sucess={handleOnSaveSucess} onChangeState={handleToggleClienteCadastroModal}/>
+			<DeletarClienteModal Cliente={deleteCliente} Sucess={handleOnDeleteSucess}/>
 		</Container>
 
 

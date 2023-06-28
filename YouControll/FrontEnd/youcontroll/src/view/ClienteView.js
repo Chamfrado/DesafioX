@@ -4,11 +4,23 @@ import MainHeader from "../components/Header/Header";
 import TableClient from "../components/Tables/TableClientes";
 const Home = () => {
 	const [alertSaveSucess, setAlertSaveSucess] = useState(false);
+	const [alertUpdateSucess, setAlertUpdateSucess] = useState(false);
+	const [alertDeleteSucess, setAlertDeleteSucess] = useState(false);
 
-	const onDismiss = () => { setAlertSaveSucess(!alertSaveSucess); };
+	const onDismissSave = () => { setAlertSaveSucess(!alertSaveSucess); };
+	const onDismissUpdate = () => {setAlertUpdateSucess(!alertUpdateSucess);};
+	const onDismissDelete = () => {setAlertDeleteSucess(!alertDeleteSucess);};
 
 	const handleSaveSucess = () => {
 		setAlertSaveSucess(true);
+	};
+
+	const handleUpdateSucess = () =>{
+		setAlertUpdateSucess(true);
+	};
+
+	const handleDeleteSucess = () => {
+		setAlertDeleteSucess(true);
 	};
 
 
@@ -22,8 +34,14 @@ const Home = () => {
 
 			<Row style={{ paddingTop: 10 }}>
 				<Col>
-					<Alert isOpen={alertSaveSucess} toggle={onDismiss}>
+					<Alert isOpen={alertSaveSucess} toggle={onDismissSave}>
                         Cliente cadastrado com sucesso!
+					</Alert>
+					<Alert isOpen={alertUpdateSucess} toggle={onDismissUpdate}>
+						Cliente atualizado com sucesso!
+					</Alert>
+					<Alert isOpen={alertDeleteSucess} toggle={onDismissDelete}>
+						Cliente Deletado com sucesso!
 					</Alert>
 				</Col>
 
@@ -38,7 +56,7 @@ const Home = () => {
 
 			<Row style={{ paddingTop: 10, margin: "1%" }}>
 				<Card>
-					<TableClient onSaveSucess={handleSaveSucess} />
+					<TableClient onSaveSucess={handleSaveSucess} onUpdateSucess={handleUpdateSucess} onDeleteSucess={handleDeleteSucess} />
 				</Card>
 
 

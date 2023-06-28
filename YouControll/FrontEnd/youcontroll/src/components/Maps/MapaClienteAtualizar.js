@@ -1,17 +1,13 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable no-mixed-spaces-and-tabs */
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
-import shopIcon from "../../resources/shop.png";
-import { Container, Label, Row, Input, Col, Button, FormGroup } from "reactstrap";
+import { Button, Col, Container, FormGroup, Input, Label, Row } from "reactstrap";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import axios from "axios";
-
-
+import shopIcon from "../../resources/shop.png";
 import L from "leaflet";
 
 
-// eslint-disable-next-line react/prop-types
-const MapClienteCadastro = ({ endereco, onChangeLocation }) => {
+const MapaClienteAtualizar = ({ClientCoordinates, onChangeLocation, StartLocation}) => {
 
 	const [isChecked, setIsChecked] = useState(false);
 
@@ -23,15 +19,17 @@ const MapClienteCadastro = ({ endereco, onChangeLocation }) => {
 
 
 
-
+	useEffect(() => {
+		if(StartLocation.lat !== 0 && StartLocation.lng !==0  ){
+			setPosition({"lat": StartLocation.lat,"lng": StartLocation.lng});
+			handleRequest();
+		}
+	}, [StartLocation]);
 
 	const handleLocalizar = async () => {
 
-		
-		
 		// eslint-disable-next-line react/prop-types
-		const address = ` ${endereco.logradouro} , ${endereco.bairro}, ${endereco.cidade}, ${endereco.cep}`;
-		alert(address);
+		const address = ` ${ClientCoordinates.logradouro} , ${ClientCoordinates.bairro}, ${ClientCoordinates.cidade}, ${ClientCoordinates.cep}`;
 		try {
 			const response = await axios.get(
 				`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
@@ -39,18 +37,16 @@ const MapClienteCadastro = ({ endereco, onChangeLocation }) => {
 				)}&key=d8b4eb08039043f4acb5f58f7f99f752&pretty=1`
 			);
 			setPosition(response.data.results[0].geometry);
-			//alert(JSON.stringify(position));
 			mapRef.current.setView(position);
 
 		} catch (error) {
-			alert("Coloque um endereço válido!");
+			console.log(error);
 		}
 	};
 
 	const handleMarkerDragEnd = (event) => {
 		const marker = event.target;
 		const markerPosition = marker.getLatLng();
-
 		setPosition(markerPosition);
 	};
 
@@ -65,16 +61,16 @@ const MapClienteCadastro = ({ endereco, onChangeLocation }) => {
 			);
 			onChangeLocation({
 				lat: response.data.results[0].geometry.lat,
-			    lng: response.data.results[0].geometry.lng,
+				lng: response.data.results[0].geometry.lng,
 				logradouro: response.data.results[0].components.road,
 				cep: response.data.results[0].components.postcode,
 				cidade: response.data.results[0].components.town,
 				bairro: response.data.results[0].components.suburb,
 				uf: response.data.results[0].components.state_code
-			    
+
 			});
 		} catch (error) {
-			alert(error);
+			console.log(error);
 		}
 	};
 
@@ -148,4 +144,4 @@ const MapClienteCadastro = ({ endereco, onChangeLocation }) => {
 	);
 };
 
-export default MapClienteCadastro;
+export default MapaClienteAtualizar;
