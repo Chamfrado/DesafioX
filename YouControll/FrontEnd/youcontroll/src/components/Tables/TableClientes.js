@@ -8,9 +8,14 @@ import PropTypes from "prop-types";
 import AtualizarClienteModal from "../Modals/AtualizarClienteModal";
 import DeletarClienteModal from "../Modals/DeletarClienteModal";
 
+// eslint-disable-next-line no-unused-vars
+import{BsChevronDoubleDown,BsDashLg} from "react-icons/bs";
+
+
 // eslint-disable-next-line react/prop-types
 const TableCliente = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 
+	
 	const [error, setError] = useState();
 
 	//Cuidando da pesquisa 
@@ -20,16 +25,25 @@ const TableCliente = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 		setSearchQuery(value);
 	};
 
+	//Filtro
+	const[orderBy,setOrderBy] = useState("nome");
+	// eslint-disable-next-line no-unused-vars
+	const[isDesc, setIsDesc] = useState("false");
 
+	const handleChangeFiltro = (index) => {
+		if(orderBy === index){
+			setIsDesc(!isDesc);
+		}
+		setOrderBy(index);
 
+	};
 
 
 	//Pegando os dados da API
 	const [tableData, setTableData] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const fetchTableData = () => {
-		const url = searchQuery ? `clientes?search=${encodeURIComponent(searchQuery)}` : "clientes";
-
+		const url = searchQuery ? `clientes?orderBy=${encodeURIComponent(orderBy)}&search=${encodeURIComponent(searchQuery)}` : `clientes?orderBy=${encodeURIComponent(orderBy)}` ;
 		YCapi.get(url)
 			.then(({ data }) => {
 				setTableData(data);
@@ -44,7 +58,7 @@ const TableCliente = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 	//Inicialização da tabela e Promover pesquisa
 	useEffect(() => {
 		fetchTableData();
-	}, [searchQuery]);
+	}, [searchQuery, orderBy, isDesc]);
 
 
 	//Paginação
@@ -58,7 +72,6 @@ const TableCliente = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 	const handlePageChange = (pageNumber) => {
 		setCurrentPage(pageNumber);
 	};
-
 
 	//Ativação do Dropdown Ações
 	const [dropdownOpen, setDropdownOpen] = useState(null);
@@ -157,16 +170,21 @@ const TableCliente = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 				<thead>
 					<tr>
 						<th>
-							Nome
+							
+							<Button style={{backgroundColor: "white", borderWidth:0, color: "black"}} onClick={() => handleChangeFiltro("nome")}><strong>Nome</strong></Button>
+							{orderBy === "nome" ? <BsChevronDoubleDown/> : <BsDashLg/>}
 						</th>
 						<th>
-							CNPJ
+							<Button style={{backgroundColor: "white", borderWidth:0, color: "black"}} onClick={() => handleChangeFiltro("cnpj")}><strong>Cnpj</strong></Button>
+							{orderBy === "cnpj" ? <BsChevronDoubleDown/> : <BsDashLg/>}
 						</th>
 						<th>
-							Email
+							<Button style={{backgroundColor: "white", borderWidth:0, color: "black"}} onClick={() => handleChangeFiltro("email")}><strong>Email</strong></Button>
+							{orderBy === "email" ? <BsChevronDoubleDown/> : <BsDashLg/>}
 						</th>
 						<th>
-							Telefone
+							<Button style={{backgroundColor: "white", borderWidth:0, color: "black"}} onClick={() => handleChangeFiltro("telefone")}><strong>telefone</strong></Button>
+							{orderBy === "telefone" ? <BsChevronDoubleDown/> : <BsDashLg/>}
 						</th>
 						<th>
 

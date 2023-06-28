@@ -29,18 +29,17 @@ public class ClienteController {
     private ClienteRepository clienteRepository;
 
     @GetMapping("/clientes")
-    public List<Cliente> getAllClientes(@RequestParam(required = false) String search) {
-        System.out.println(search);
+    public List<Cliente> getAllClientes(@RequestParam(required = false) String search, @RequestParam(required = false) String orderBy ) {
         if (StringUtils.hasText(search)) {
             if (search.matches("\\d+")) {
                 // Search is a CNPJ (string with only numbers)
-                return clienteRepository.findByCnpjContaining(search);
+                return clienteRepository.findByCnpjContaining(search, orderBy);
             } else {
                 // Search is a nome (string with only letters)
-                return clienteRepository.findByNomeContainingIgnoreCaseAndAccentInsensitive(search);
+                return clienteRepository.findByNomeContainingIgnoreCaseAndAccentInsensitive(search, orderBy);
             }
         }
-        return clienteRepository.findAll();
+        return clienteRepository.findAll(orderBy);
     }
 
 
