@@ -40,7 +40,7 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 		lat: "",
 		lng: ""
 	});
-  
+
 
 
 	//Formatação Dos Dados do Form
@@ -122,7 +122,7 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 
 				// Extrair o logradouro do objeto
 				const { logradouro, bairro, localidade, uf } = responseObject;
-        
+
 				setFormData((prevFormData) => ({
 					...prevFormData,
 					uf: uf,
@@ -131,7 +131,7 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 					cidade: localidade,
 					cep: value
 				}));
-        
+
 				alert(JSON.stringify(responseObject));
 
 			})
@@ -141,7 +141,7 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 	};
 
 
-	const handleSaveSucess = () => {Sucess();};
+	const handleSaveSucess = () => { Sucess(); };
 
 	//Salvar Usuario
 	const [isSaveLoading, setIsSaveLoading] = useState(false);
@@ -202,7 +202,7 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 			uf: location.uf
 
 		}));
-	}; 
+	};
 
 	return (
 		<Modal isOpen={modal} toggle={toggle} size="lg">
@@ -346,24 +346,24 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 							/>
 						</Col>
 					</Row>
-          
+
 				</Form>
 				<Row>
 					<Col>
-						<MapClienteCadastro endereco={formData} onChangeLocation={handleChangeLocation}/>
+						<MapClienteCadastro endereco={formData} onChangeLocation={handleChangeLocation} />
 					</Col>
 				</Row>
 			</ModalBody>
 			<ModalFooter>
 				<Button color="secondary" onClick={toggle}>
-          Cancelar
+					Cancelar
 				</Button>
 				<Button onClick={handleSubmit} color="primary">
-          Salvar
+					Salvar
 				</Button>
 				{isSaveLoading && (
 					<Label>
-            Carregando Dados<Spinner color="primary" style={{ alignSelf: "center" }} />
+						Carregando Dados<Spinner color="primary" style={{ alignSelf: "center" }} />
 					</Label>
 				)}
 			</ModalFooter>

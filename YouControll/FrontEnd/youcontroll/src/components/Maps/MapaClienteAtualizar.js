@@ -7,7 +7,7 @@ import shopIcon from "../../resources/shop.png";
 import L from "leaflet";
 
 
-const MapaClienteAtualizar = ({ClientCoordinates, onChangeLocation, StartLocation}) => {
+const MapaClienteAtualizar = ({ ClientCoordinates, onChangeLocation, StartLocation }) => {
 
 	const [isChecked, setIsChecked] = useState(false);
 
@@ -20,8 +20,8 @@ const MapaClienteAtualizar = ({ClientCoordinates, onChangeLocation, StartLocatio
 
 
 	useEffect(() => {
-		if(StartLocation.lat !== 0 && StartLocation.lng !==0  ){
-			setPosition({"lat": StartLocation.lat,"lng": StartLocation.lng});
+		if (StartLocation.lat !== 0 && StartLocation.lng !== 0) {
+			setPosition({ "lat": StartLocation.lat, "lng": StartLocation.lng });
 			handleRequest();
 		}
 	}, [StartLocation]);
@@ -133,7 +133,7 @@ const MapaClienteAtualizar = ({ClientCoordinates, onChangeLocation, StartLocatio
 					<Input type="switch" checked={isChecked} name='radio' onClick={handleCheckboxChange} />
 					{" "}
 					<Label check>
-                        Ajustar Localizacao no mapa?
+						Ajustar Localizacao no mapa?
 					</Label>
 				</FormGroup>
 

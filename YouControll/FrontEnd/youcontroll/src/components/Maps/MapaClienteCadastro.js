@@ -27,8 +27,8 @@ const MapClienteCadastro = ({ endereco, onChangeLocation }) => {
 
 	const handleLocalizar = async () => {
 
-		
-		
+
+
 		// eslint-disable-next-line react/prop-types
 		const address = ` ${endereco.logradouro} , ${endereco.bairro}, ${endereco.cidade}, ${endereco.cep}`;
 		alert(address);
@@ -65,13 +65,13 @@ const MapClienteCadastro = ({ endereco, onChangeLocation }) => {
 			);
 			onChangeLocation({
 				lat: response.data.results[0].geometry.lat,
-			    lng: response.data.results[0].geometry.lng,
+				lng: response.data.results[0].geometry.lng,
 				logradouro: response.data.results[0].components.road,
 				cep: response.data.results[0].components.postcode,
 				cidade: response.data.results[0].components.town,
 				bairro: response.data.results[0].components.suburb,
 				uf: response.data.results[0].components.state_code
-			    
+
 			});
 		} catch (error) {
 			alert(error);
@@ -137,7 +137,7 @@ const MapClienteCadastro = ({ endereco, onChangeLocation }) => {
 					<Input type="switch" checked={isChecked} name='radio' onClick={handleCheckboxChange} />
 					{" "}
 					<Label check>
-                        Ajustar Localizacao no mapa?
+						Ajustar Localizacao no mapa?
 					</Label>
 				</FormGroup>
 

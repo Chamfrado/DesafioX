@@ -22,21 +22,21 @@ const Header = ({ height }) => {
 	const toggleOffcanvas = () => {
 		setIsOpen((prevState) => !prevState);
 	};
-    
 
-   
-  
+
+
+
 	const toggleNavbarClientes = () => {
 		setCollapsedClientes((prevState) => !prevState);
 		setCollapsedVendas(true);
 	};
-  
+
 	const toggleNavbarVendas = () => {
 		setCollapsedVendas((prevState) => !prevState);
 		setCollapsedClientes(true);
 	};
 
-    
+
 	return (
 		<div style={{ backgroundColor: "#0a58ca", height: height }}>
 			<Row style={{ height: "100%" }}>
@@ -60,8 +60,8 @@ const Header = ({ height }) => {
 					<OffcanvasHeader toggle={toggleOffcanvas}></OffcanvasHeader>
 					<OffcanvasBody>
 						<Navbar dark light>
-                            
-							<NavbarToggler style={{borderWidth:"0", color:"white"}} onClick={toggleNavbarClientes}>GESTÃO DE CLIENTES</NavbarToggler>
+
+							<NavbarToggler style={{ borderWidth: "0", color: "white" }} onClick={toggleNavbarClientes}>GESTÃO DE CLIENTES</NavbarToggler>
 							<Collapse isOpen={!collapsedClientes} navbar>
 								<Nav navbar>
 									<NavItem>
@@ -69,12 +69,12 @@ const Header = ({ height }) => {
 									</NavItem>
 									<NavItem>
 										<NavLink href="/home">
-                                            Cadastrar cliente
+											Cadastrar cliente
 										</NavLink>
 									</NavItem>
 								</Nav>
 							</Collapse>
-							<NavbarToggler style={{borderWidth:"0", color:"white", marginTop:50}} onClick={toggleNavbarVendas}>GESTÃO DE VENDAS</NavbarToggler>
+							<NavbarToggler style={{ borderWidth: "0", color: "white", marginTop: 50 }} onClick={toggleNavbarVendas}>GESTÃO DE VENDAS</NavbarToggler>
 							<Collapse isOpen={!collapsedVendas} navbar>
 								<Nav navbar>
 									<NavItem>
@@ -82,7 +82,7 @@ const Header = ({ height }) => {
 									</NavItem>
 									<NavItem>
 										<NavLink href="/home">
-                                            Cadastrar venda
+											Cadastrar venda
 										</NavLink>
 									</NavItem>
 								</Nav>

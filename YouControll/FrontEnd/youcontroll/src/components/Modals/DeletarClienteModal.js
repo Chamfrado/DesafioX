@@ -5,9 +5,9 @@ import YCapi from "../../services/YouControllApi";
 
 
 
-const DeletarClienteModal = ({Cliente, Sucess}) => {
+const DeletarClienteModal = ({ Cliente, Sucess }) => {
 
-	const [modal,setModal] = useState(false);
+	const [modal, setModal] = useState(false);
 
 	const toggle = () => {
 		setModal(!modal);
@@ -28,24 +28,24 @@ const DeletarClienteModal = ({Cliente, Sucess}) => {
 			.catch((error) => {
 				alert(error);
 			});
-            
+
 	};
 
 
 	useEffect(() => {
-		if(Cliente.id !== -1){
+		if (Cliente.id !== -1) {
 			setModal(!modal);
-            
+
 		}
-	},[Cliente.id]);
-	return(
+	}, [Cliente.id]);
+	return (
 		<Modal isOpen={modal} fluid toggle={toggle}>
-			<ModalHeader style={{backgroundColor: "#dc3545" , color: "#fff"}}>Deletar Cliente </ModalHeader>
+			<ModalHeader style={{ backgroundColor: "#dc3545", color: "#fff" }}>Deletar Cliente </ModalHeader>
 			<ModalBody>
 				<Row >
 					<Label size="lg">Tem Certeza que deseja excluir o Cliente:  </Label>
 				</Row>
-				<Row style={{alignContent:"center", flex: 1}}>
+				<Row style={{ alignContent: "center", flex: 1 }}>
 					<Label size="lg">{Cliente.nome}</Label>
 				</Row>
 

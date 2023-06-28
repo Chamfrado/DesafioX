@@ -47,7 +47,7 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 			});
 	}, []);
 
-    
+
 	//Validator do formulario
 	const [isFormValid, setIsFormValid] = useState(false);
 	useEffect(() => {
@@ -81,7 +81,7 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 	const handleChangeCEP = (event) => {
 		const { value } = event.target;
 		const url = value + "/json/?callback=callback_name";
-		setUpdateForm(((prevUpdateForm) =>({
+		setUpdateForm(((prevUpdateForm) => ({
 			...prevUpdateForm,
 			cep: value
 		})));
@@ -95,7 +95,7 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 
 				// Extrair o logradouro do objeto
 				const { logradouro, bairro, localidade, uf } = responseObject;
-        
+
 				setUpdateForm((prevUpdateForm) => ({
 					...prevUpdateForm,
 					uf: uf,
@@ -104,7 +104,7 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 					cidade: localidade,
 					cep: value
 				}));
-        
+
 
 			})
 			.catch((error) => {
@@ -184,7 +184,7 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 		update();
 	};
 
-	const handleUpdateSucess = () => {Sucess();};
+	const handleUpdateSucess = () => { Sucess(); };
 
 	//Save update
 	const update = () => {
@@ -388,17 +388,17 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 			</ModalBody>
 			<ModalFooter>
 				<Button color="secondary" onClick={toggle}>
-                    Cancel
+					Cancel
 				</Button>
 				<Button onClick={handleSubmit} color="primary">
-          Salvar
+					Salvar
 				</Button>
 				{isUpdateLoading && (
 					<Label>
-            Carregando Dados<Spinner color="primary" style={{ alignSelf: "center" }} />
+						Carregando Dados<Spinner color="primary" style={{ alignSelf: "center" }} />
 					</Label>
 				)}
-				
+
 			</ModalFooter>
 		</Modal>
 	);

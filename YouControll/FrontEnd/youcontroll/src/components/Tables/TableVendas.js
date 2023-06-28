@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { Table, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Label, Row, Col, Pagination, PaginationItem, PaginationLink, Container } from "reactstrap";
 import { BiPencil, BiTrash } from "react-icons/bi";
 
@@ -49,7 +49,7 @@ const TableVenda = ({ data }) => {
 							<td>
 								<Dropdown isOpen={dropdownOpen === item.id} toggle={() => toggle(item.id)} direction="down" size="medium">
 									<DropdownToggle color="primary" caret>
-                    Ações
+										Ações
 									</DropdownToggle>
 									<DropdownMenu>
 										<DropdownItem>

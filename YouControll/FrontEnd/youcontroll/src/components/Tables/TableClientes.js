@@ -9,8 +9,8 @@ import AtualizarClienteModal from "../Modals/AtualizarClienteModal";
 import DeletarClienteModal from "../Modals/DeletarClienteModal";
 
 // eslint-disable-next-line react/prop-types
-const TableCliente = ({onSaveSucess, onUpdateSucess, onDeleteSucess}) => {
-  
+const TableCliente = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
+
 	const [error, setError] = useState();
 
 	//Cuidando da pesquisa 
@@ -21,7 +21,7 @@ const TableCliente = ({onSaveSucess, onUpdateSucess, onDeleteSucess}) => {
 	};
 
 
-	
+
 
 
 	//Pegando os dados da API
@@ -94,7 +94,7 @@ const TableCliente = ({onSaveSucess, onUpdateSucess, onDeleteSucess}) => {
 	};
 
 	//Abrir Modal de Atualizar Cadastro
-	const[selectedCliente, setSelectedCliente] = useState(-1);
+	const [selectedCliente, setSelectedCliente] = useState(-1);
 	const [deleteCliente, setDeleteCliente] = useState({
 		id: -1,
 		nome: ""
@@ -146,7 +146,7 @@ const TableCliente = ({onSaveSucess, onUpdateSucess, onDeleteSucess}) => {
 				<Col style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
 
 					<Button onClick={handleToggleClienteCadastroModal} color='primary' ><BiPlus /> Cadastrar Cliente</Button>
-					
+
 
 				</Col>
 
@@ -157,16 +157,16 @@ const TableCliente = ({onSaveSucess, onUpdateSucess, onDeleteSucess}) => {
 				<thead>
 					<tr>
 						<th>
-              Nome
+							Nome
 						</th>
 						<th>
-              CNPJ
+							CNPJ
 						</th>
 						<th>
-              Email
+							Email
 						</th>
 						<th>
-              Telefone
+							Telefone
 						</th>
 						<th>
 
@@ -184,13 +184,13 @@ const TableCliente = ({onSaveSucess, onUpdateSucess, onDeleteSucess}) => {
 								<Dropdown isOpen={dropdownOpen === item.id} toggle={() => toggle(item.id)} direction="down" size="medium">
 									<DropdownToggle color='primary' caret>Ações</DropdownToggle>
 									<DropdownMenu >
-										<DropdownItem onClick={() => {setSelectedCliente(item.id);}}>
+										<DropdownItem onClick={() => { setSelectedCliente(item.id); }}>
 											<BiPencil />
 											<Label style={{ paddingLeft: 10, paddingRight: 10 }}>Alterar</Label>
 										</DropdownItem>
 										<DropdownItem>
 											<BiTrash />
-											<Label style={{ paddingLeft: 10 }} onClick={() => setDeleteCliente({id: item.id, nome: item.nome}) }>Excluir</Label>
+											<Label style={{ paddingLeft: 10 }} onClick={() => setDeleteCliente({ id: item.id, nome: item.nome })}>Excluir</Label>
 										</DropdownItem>
 									</DropdownMenu>
 								</Dropdown>
@@ -225,9 +225,9 @@ const TableCliente = ({onSaveSucess, onUpdateSucess, onDeleteSucess}) => {
 					</Pagination>
 				</Col>
 			</Row>
-			<AtualizarClienteModal ClienteId={selectedCliente} Sucess={handleOnUpdateSucess}/>
-			<CadastrarClienteModal state={clienteCadastroModal} Sucess={handleOnSaveSucess} onChangeState={handleToggleClienteCadastroModal}/>
-			<DeletarClienteModal Cliente={deleteCliente} Sucess={handleOnDeleteSucess}/>
+			<AtualizarClienteModal ClienteId={selectedCliente} Sucess={handleOnUpdateSucess} />
+			<CadastrarClienteModal state={clienteCadastroModal} Sucess={handleOnSaveSucess} onChangeState={handleToggleClienteCadastroModal} />
+			<DeletarClienteModal Cliente={deleteCliente} Sucess={handleOnDeleteSucess} />
 		</Container>
 
 
