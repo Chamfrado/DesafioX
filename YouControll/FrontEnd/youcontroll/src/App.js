@@ -6,6 +6,7 @@ import "leaflet/dist/leaflet.css";
 import "react-leaflet-markercluster/dist/styles.min.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css"; // If using webpack
+import "react-datepicker/dist/react-datepicker.css";
 
 
 import HomeView from "./view/HomeView";

@@ -15,16 +15,18 @@ import br.com.chamfradoyoux.youcontrol.model.Venda;
 import br.com.chamfradoyoux.youcontrol.repository.VendaRepository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class VendaController {
     
     @Autowired
     private VendaRepository vendaRepository;
 
     @GetMapping("/vendas")
-    @CrossOrigin(origins = "http://localhost:3000")
-    public List<Object> find(){
-        return vendaRepository.findAllWithClientName();
+    public List<Object> find(@RequestParam(required = false) String search){
+        return vendaRepository.findAllWithClientName(search);
     }
 
     @GetMapping("/vendas/{id}")
