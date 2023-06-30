@@ -91,6 +91,8 @@
         			<password>1524</password>
    				 </configuration>
 			</plugin>
+			
+			
 		</plugins>
 	</build>
 	

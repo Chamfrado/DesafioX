@@ -170,7 +170,6 @@ const TableCliente = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 				<thead>
 					<tr>
 						<th>
-							
 							<Button style={{backgroundColor: "white", borderWidth:0, color: "black"}} onClick={() => handleChangeFiltro("nome")}><strong>Nome</strong></Button>
 							{orderBy === "nome" ? <BsChevronDoubleDown/> : <BsDashLg/>}
 						</th>
