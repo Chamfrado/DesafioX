@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.Date;
 
 @Entity
 public class Venda {
@@ -14,7 +13,7 @@ public class Venda {
     private Long id;
 
     private Long clienteId;
-    private Date data;
+    private String data;
     private String status;
     private Double valor;
     
@@ -22,7 +21,7 @@ public class Venda {
     public Venda() {
     }
 
-    public Venda(Date data, Double valor,String status, Long clienteId) {
+    public Venda(String data, Double valor,String status, Long clienteId) {
         this.data = data;
         this.valor = valor;
         this.clienteId = clienteId;
@@ -37,11 +36,11 @@ public class Venda {
         this.id = id;
     }
 
-    public Date getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(String data) {
         this.data = data;
     }
     public String getStatus() {

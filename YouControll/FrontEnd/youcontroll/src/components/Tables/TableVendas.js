@@ -160,7 +160,7 @@ const TableVendas = ({onSaveSucess}) => {
 							<td>{item[1]}</td>
 							<td>{item[2]}</td>
 							<td>{item[3]}</td>
-							<td>{item[4]}</td>
+							<td>R$ {item[4]}</td>
 							<td>
 								<Dropdown isOpen={dropdownOpen === item[0]} toggle={() => toggle(item[0])} direction="down" size="medium">
 									<DropdownToggle color='primary' caret>Ações</DropdownToggle>

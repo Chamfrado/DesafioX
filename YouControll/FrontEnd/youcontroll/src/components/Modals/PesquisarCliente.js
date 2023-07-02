@@ -23,6 +23,12 @@ const PesquisarCliente = ({onClienteSelected, searchState, state, onChangeState 
 		setModal(state);
 	}, [state]);
 
+	useEffect(() => {
+		setSearchQuery(searchState);
+	}, [searchState]);
+
+
+
 	const toggle = () => {
 		setModal(!modal);
 		onChangeState(modal);
@@ -144,6 +150,7 @@ const PesquisarCliente = ({onClienteSelected, searchState, state, onChangeState 
 							<Input
 								id="search"
 								name="searchQuery"
+								value={searchQuery}
 								placeholder="Digite o nome ou CNPJ do cliente que deseja pesquisar"
 								onChange={handleSearchChange}
 								type="search"

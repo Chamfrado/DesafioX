@@ -89,9 +89,10 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 
 	///FUNÇÃO PARA SALVAR USUARIO
 	async function save() {
+		
 		try {
-			await YCapi.post("vendas", {
-				cliente_id: formData.cliente_id,
+			await YCapi.post("vendas/add", {
+				clienteId: formData.cliente_id,
 				data: formData.data,
 				status: formData.status,
 				valor: formData.valor
@@ -106,7 +107,7 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 			setIsSaveLoading(false);
 			setModal(false);
 		} catch (error) {
-			console.error("Error saving venda:", error);
+			alert("Error saving venda:", error);
 		}
 	}
 
@@ -216,7 +217,7 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 					</Label>
 				)}
 			</ModalFooter>
-			<PesquisarCliente state={pesquisaModal} onChangeState={handlePesquisaModal} onClienteSelected={handleSelectedCliente}/>
+			<PesquisarCliente state={pesquisaModal} onChangeState={handlePesquisaModal} onClienteSelected={handleSelectedCliente} searchState={formData.nome}/>
 		</Modal>
 	);
 };

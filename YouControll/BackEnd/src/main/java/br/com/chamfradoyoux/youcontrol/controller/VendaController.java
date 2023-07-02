@@ -25,8 +25,9 @@ public class VendaController {
     private VendaRepository vendaRepository;
 
     @GetMapping("/vendas")
-    public List<Object> find(@RequestParam(required = false) String search){
-        return vendaRepository.findAllWithClientName(search);
+    public List<Object> find(@RequestParam(required = false) String search, @RequestParam(required = false) String orderBy){
+        System.out.println(orderBy);
+        return vendaRepository.findAllWithClientName(search, orderBy);
     }
 
     @GetMapping("/vendas/{id}")
