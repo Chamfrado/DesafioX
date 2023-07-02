@@ -138,16 +138,16 @@ const TableVendas = ({onSaveSucess}) => {
 							{orderBy === "nome" ? <BsChevronDoubleDown/> : <BsDashLg/>}
 						</th>
 						<th>
-							<Button style={{backgroundColor: "white", borderWidth:0, color: "black"}} onClick={() => handleChangeFiltro("cnpj")}><strong>Data</strong></Button>
-							{orderBy === "cnpj" ? <BsChevronDoubleDown/> : <BsDashLg/>}
+							<Button style={{backgroundColor: "white", borderWidth:0, color: "black"}} onClick={() => handleChangeFiltro("data")}><strong>Data</strong></Button>
+							{orderBy === "data" ? <BsChevronDoubleDown/> : <BsDashLg/>}
 						</th>
 						<th>
-							<Button style={{backgroundColor: "white", borderWidth:0, color: "black"}} onClick={() => handleChangeFiltro("email")}><strong>Status</strong></Button>
-							{orderBy === "email" ? <BsChevronDoubleDown/> : <BsDashLg/>}
+							<Button style={{backgroundColor: "white", borderWidth:0, color: "black"}} onClick={() => handleChangeFiltro("status")}><strong>Status</strong></Button>
+							{orderBy === "status" ? <BsChevronDoubleDown/> : <BsDashLg/>}
 						</th>
 						<th>
-							<Button style={{backgroundColor: "white", borderWidth:0, color: "black"}} onClick={() => handleChangeFiltro("telefone")}><strong>Valor</strong></Button>
-							{orderBy === "telefone" ? <BsChevronDoubleDown/> : <BsDashLg/>}
+							<Button style={{backgroundColor: "white", borderWidth:0, color: "black"}} onClick={() => handleChangeFiltro("valor")}><strong>Valor</strong></Button>
+							{orderBy === "valor" ? <BsChevronDoubleDown/> : <BsDashLg/>}
 						</th>
 						<th>
 
