@@ -3,21 +3,13 @@ import { Button, Col, Form, Input, InputGroup, InputGroupText, Label, Modal, Mod
 import YCapi from "../../services/YouControllApi";
 import { BiSearch } from "react-icons/bi";
 
-import CustomDatePicker from "../DatePicker/CustomDatePicker";
 import PesquisarCliente from "./PesquisarCliente";
 
 
 // eslint-disable-next-line react/prop-types
 const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 
-	//handle date change   
-	const handleDateChange = (date) => {
-		setFormData((prevFormData) => ({
-			...prevFormData,
-			data: date
-		}));
 
-	};
 
 
 	//Configuração para Mostrar ou esconder o Modal
@@ -39,7 +31,7 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 
 	//Configuração do Form
 	const [formData, setFormData] = useState({
-		cliente_id: "",
+		cliente_id: -1,
 		nome: "",
 		data: "",
 		status: "",
@@ -47,17 +39,23 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 	});
 	const statusOptions = ["Aguardando Pagamento", "Pagamento Aprovado", "Aguardando Envio", "À caminho", "Finalizado"];
 
-
+	
 	//Validator do formulario
+	const [isClienteValid, setIsClienteValid] = useState(false);
+	// eslint-disable-next-line no-unused-vars
+	const [isDateValid, setIsDateValid] = useState(true);
+	// eslint-disable-next-line no-unused-vars
+	const [isStatusValid, setIsStatusValid] = useState(true);
+	// eslint-disable-next-line no-unused-vars
+	const [isValueValid, setIsValueValid] = useState(true);
 	const [isFormValid, setIsFormValid] = useState(false);
 	useEffect(() => {
-		const isClienteValid = true;
-		const isDateValid = true;
-		const isStatusValid = true;
-		const isValueValid = true;
+		verifyCliente();
+		verifyData();
+		verifyValor();
+		verifyStatus();
 
-
-		setIsFormValid(isClienteValid, isDateValid, isStatusValid, isValueValid);
+		setIsFormValid( isClienteValid && isDateValid && isStatusValid && isValueValid);
 	}, [formData]);
 
 
@@ -75,10 +73,15 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 	const handleChange = (event) => {
 		const { name, value } = event.target;
 
+
+		
 		setFormData((prevFormData) => ({
 			...prevFormData,
 			[name]: value
 		}));
+		
+
+		
 	};
 
 
@@ -88,6 +91,7 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 	const [isSaveLoading, setIsSaveLoading] = useState(false);
 
 	///FUNÇÃO PARA SALVAR USUARIO
+	// eslint-disable-next-line no-unused-vars
 	async function save() {
 		
 		try {
@@ -99,7 +103,7 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 			});
 			handleSaveSucess();
 			setFormData({ // Reset form data to empty values
-				cliente_id: "",
+				cliente_id: -1,
 				data: "",
 				status: "",
 				valor: ""
@@ -108,6 +112,7 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 			setModal(false);
 		} catch (error) {
 			alert("Error saving venda:", error);
+			setIsSaveLoading(false);
 		}
 	}
 
@@ -119,20 +124,43 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 			return;
 		}
 
+		
 		setIsSaveLoading(true);
 
+		
 		// Convert form data to JSON
-		save();
+		//save();
 	};
 
 	const [pesquisaModal, setPesquisaModal] = useState(false);
 	const handlePesquisaModal = () => {
 		setPesquisaModal(!pesquisaModal);
 	};
+
+
+
+	//Analizadores de Form
+	const verifyCliente = () => {
+		const url = "vendas/" + formData.cliente_id;
+		YCapi.get(url)
+			.then(() => {
+				setIsClienteValid(true);
+				
+			})
+			.catch(() => {
+				setIsClienteValid(false);
+			});
+	};
+
+	const verifyData = () => {formData.data.length === 10 ? setIsDateValid(true) : setIsDateValid(false);};
+
+	const verifyValor = () => { formData.valor > 0 && formData.valor !== ""? setIsValueValid(true) : setIsValueValid(false); };
+
+	const verifyStatus = () => {formData.status === "Aguardando Pagamento" || formData.status === "Aguardando Pagamento" || formData.status === "Aguardando Envio" || formData.status === "À caminho" || formData.status === "Pagamento Aprovado"? setIsStatusValid(true):setIsStatusValid(false);  };
 	//######################################################### COMPONENTES
 
 	return (
-		<Modal isOpen={modal} toggle={toggle} size="md">
+		<Modal isOpen={modal} toggle={toggle} size="lg">
 			<ModalHeader toggle={toggle} close={toggle} onClosed={handleDismiss}>Cadastrar Venda</ModalHeader>
 			<ModalBody>
 				<Form onSubmit={handleSubmit}>
@@ -148,7 +176,9 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 									type="text"
 									value={formData.nome}
 									onChange={handleChange}
+									onBlur={handlePesquisaModal}
 									required
+									className={isClienteValid? "is-valid" : "is-invalid"}
 								/>
 								<Button color="primary" onClick={handlePesquisaModal}><BiSearch/></Button>
 							</InputGroup>
@@ -156,7 +186,17 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 						
 					</Row>
 					<Row style={{ paddingBottom: 10 }}>
-						
+						<Col>
+							<Label for="status">Data*</Label>
+							<Input 
+								type="date"
+								id="data"
+								name="data"
+								onChange={handleChange}
+								value={formData.data}
+								className={isDateValid? "is-valid" : "is-invalid"}
+							></Input>
+						</Col>
 						<Col >
 							<Label for="status">Situação*</Label>
 							
@@ -167,7 +207,7 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 								type="select"
 								value={formData.uf}
 								onChange={handleChange}
-
+								className={isStatusValid? "is-valid" : "is-invalid"}
 
 							>
 								{statusOptions.map((option) => (
@@ -175,7 +215,14 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 								))}
 							</Input>
 						</Col>
-						<Col xl={5}>
+						
+					</Row>
+					<Row style={{ paddingBottom: 10 }}>
+						
+						
+						
+						
+						<Col xl={6}>
 						
 							<Label for="valor">Valor da Venda*</Label>
 							<InputGroup>
@@ -186,21 +233,15 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 									id="valor"
 									name="valor"
 									placeholder="0,00"
-									value={formData.logradouro}
+									type="number"
+									value={formData.valor}
 									onChange={handleChange}
+									className={isValueValid? "is-valid" : "is-invalid"}
 
 								/>
 							</InputGroup>
 							
 						</Col>
-					</Row>
-					<Row style={{ paddingBottom: 10 }}>
-						
-						
-						<Col >
-							<CustomDatePicker onChange={handleDateChange}/>
-						</Col>
-
 					</Row>
 				</Form>
 			</ModalBody>

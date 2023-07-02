@@ -229,7 +229,7 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 
 								name="cnpj"
 								placeholder="CNPJ"
-								type="text"
+								type="number"
 								value={formatCnpj(formData.cnpj)}
 								onChange={handleChange}
 								required
@@ -245,6 +245,7 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 								name="telefone"
 								id="telefone"
 								value={formatTelefone(formData.telefone)}
+								type="number"
 								onChange={handleChange}
 								placeholder="(35) 9 9202-5205"
 								required

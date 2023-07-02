@@ -30,11 +30,15 @@ const PesquisarCliente = ({onClienteSelected, searchState, state, onChangeState 
 
 
 	const toggle = () => {
+		if(selectedCliente.id === -1){
+			onClienteSelected(selectedCliente);
+		}
 		setModal(!modal);
 		onChangeState(modal);
 	};
 
 	const handleDismiss = () => {
+		
 		onChangeState(false);
 	};
 
@@ -69,6 +73,12 @@ const PesquisarCliente = ({onClienteSelected, searchState, state, onChangeState 
 		const url = searchQuery ? `clientes?orderBy=${encodeURIComponent(orderBy)}&search=${encodeURIComponent(searchQuery)}` : `clientes?orderBy=${encodeURIComponent(orderBy)}` ;
 		YCapi.get(url)
 			.then(({ data }) => {
+				if(data.length === 1){
+					handleSelectedCliente(data[0].id, data[0].nome);
+				}
+				if(data.length === 0){
+					handleSelectedCliente(-1, "");
+				}
 				setTableData(data);
 				setIsLoading(false);
 			})
