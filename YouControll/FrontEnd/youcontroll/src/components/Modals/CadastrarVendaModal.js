@@ -1,19 +1,54 @@
-import { useEffect, useState, React } from "react";
-import { Button, Col, Form, Input, InputGroup, InputGroupText, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row, Spinner } from "reactstrap";
+import React, { useEffect, useState } from "react";
+import {
+	Button,
+	Col,
+	Form,
+	FormFeedback,
+	FormGroup,
+	Input,
+	InputGroup,
+	InputGroupText,
+	Label,
+	Modal,
+	ModalBody,
+	ModalFooter,
+	ModalHeader,
+	Row,
+	Spinner,
+} from "reactstrap";
 import YCapi from "../../services/YouControllApi";
 import { BiSearch } from "react-icons/bi";
 
 import PesquisarCliente from "./PesquisarCliente";
-
-
+//FormatDate
+function formatDate(dateString) {
+	const [year, month, day] = dateString.split("-");
+	return `${day}/${month}/${year}`;
+}
 // eslint-disable-next-line react/prop-types
 const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
-
-
-
-
-	//Configuração para Mostrar ou esconder o Modal
 	const [modal, setModal] = useState(false);
+	const [formData, setFormData] = useState({
+		cliente_id: -1,
+		nome: "",
+		data: "",
+		status: "",
+		valor: "",
+	});
+	// eslint-disable-next-line no-unused-vars
+	const [errorForm, setErrorForm] = useState({
+		nome: "",
+		data: "",
+		status: "",
+		valor: "",
+	});
+	const [isClienteValid, setIsClienteValid] = useState(false);
+	const [isDateValid, setIsDateValid] = useState(false);
+	const [isStatusValid, setIsStatusValid] = useState(false);
+	const [isValueValid, setIsValueValid] = useState(false);
+	const [isFormValid, setIsFormValid] = useState(false);
+	const [isSaveLoading, setIsSaveLoading] = useState(false);
+	const [pesquisaModal, setPesquisaModal] = useState(false);
 
 	useEffect(() => {
 		setModal(state);
@@ -28,85 +63,56 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 		onChangeState(false);
 	};
 
+	const handleSelectedCliente = (cliente) => {
+		setFormData((prevForm) => ({
+			...prevForm,
+			cliente_id: cliente.id,
+			nome: cliente.nome,
+		}));
+	};
 
-	//Configuração do Form
-	const [formData, setFormData] = useState({
-		cliente_id: -1,
-		nome: "",
-		data: "",
-		status: "",
-		valor: ""
-	});
-	const statusOptions = ["Aguardando Pagamento", "Pagamento Aprovado", "Aguardando Envio", "À caminho", "Finalizado"];
-
-	
-	//Validator do formulario
-	const [isClienteValid, setIsClienteValid] = useState(false);
-	// eslint-disable-next-line no-unused-vars
-	const [isDateValid, setIsDateValid] = useState(true);
-	// eslint-disable-next-line no-unused-vars
-	const [isStatusValid, setIsStatusValid] = useState(true);
-	// eslint-disable-next-line no-unused-vars
-	const [isValueValid, setIsValueValid] = useState(true);
-	const [isFormValid, setIsFormValid] = useState(false);
 	useEffect(() => {
 		verifyCliente();
 		verifyData();
 		verifyValor();
 		verifyStatus();
 
-		setIsFormValid( isClienteValid && isDateValid && isStatusValid && isValueValid);
-	}, [formData]);
+		
+	});
 
-
-	const handleSelectedCliente = (cliente) => {
-		setFormData((prevForm) => ({
-			...prevForm,
-			cliente_id: cliente.id,
-			nome: cliente.nome
-		})
-
-		);
-	};
-
-	//Handle quando algum form é alterado
 	const handleChange = (event) => {
 		const { name, value } = event.target;
 
+		verifyCliente();
+		verifyData();
+		verifyValor();
+		verifyStatus();
 
-		
 		setFormData((prevFormData) => ({
 			...prevFormData,
-			[name]: value
+			[name]: value,
 		}));
-		
-
-		
 	};
 
+	const handleSaveSucess = () => {
+		Sucess();
+	};
 
-	const handleSaveSucess = () => { Sucess(); };
-
-	//Salvar Venda
-	const [isSaveLoading, setIsSaveLoading] = useState(false);
-
-	///FUNÇÃO PARA SALVAR USUARIO
-	// eslint-disable-next-line no-unused-vars
-	async function save() {
-		
+	const save = async () => {
 		try {
 			await YCapi.post("vendas/add", {
 				clienteId: formData.cliente_id,
-				data: formData.data,
+				data: formatDate(formData.data),
 				status: formData.status,
-				valor: formData.valor
+				valor: formData.valor,
 			});
 			handleSaveSucess();
-			setFormData({ // Reset form data to empty values
+			setFormData({
 				cliente_id: -1,
+				nome:"",
 				data: "",
 				status: "",
-				valor: ""
+				valor: "",
 			});
 			setIsSaveLoading(false);
 			setModal(false);
@@ -114,131 +120,201 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 			alert("Error saving venda:", error);
 			setIsSaveLoading(false);
 		}
-	}
-
+	};
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-
+		setIsFormValid(
+			isClienteValid && isDateValid && isStatusValid && isValueValid
+		);
+		
 		if (!isFormValid) {
 			return;
 		}
 
-		
 		setIsSaveLoading(true);
-
-		
-		// Convert form data to JSON
-		//save();
+		save();
 	};
 
-	const [pesquisaModal, setPesquisaModal] = useState(false);
 	const handlePesquisaModal = () => {
 		setPesquisaModal(!pesquisaModal);
 	};
 
-
-
-	//Analizadores de Form
 	const verifyCliente = () => {
-		const url = "vendas/" + formData.cliente_id;
-		YCapi.get(url)
-			.then(() => {
-				setIsClienteValid(true);
-				
-			})
-			.catch(() => {
-				setIsClienteValid(false);
-			});
+		if (formData.nome === "") {
+			setIsClienteValid(false);
+			setErrorForm((prevErrorForm) => ({
+				...prevErrorForm,
+				nome: "Selecione um Cliente! Clique na lupa para procurar.",
+			}));
+		} else {
+			setIsClienteValid(true);
+			setErrorForm((prevErrorForm) => ({
+				...prevErrorForm,
+				nome: "",
+			}));
+		}	  
 	};
 
-	const verifyData = () => {formData.data.length === 10 ? setIsDateValid(true) : setIsDateValid(false);};
+	const verifyData = () => {
+		formData.data.length === 10
+			? setIsDateValid(true)
+			: setIsDateValid(false);
+		setErrorForm((prevErrorForm) => ({
+			...prevErrorForm,
+			data: "Coloque uma data válida!"
+		}));
+	};
 
-	const verifyValor = () => { formData.valor > 0 && formData.valor !== ""? setIsValueValid(true) : setIsValueValid(false); };
+	const verifyValor = () => {
+		if(formData.valor === ""){
+			setIsValueValid(false);
+			setErrorForm((prevErrorForm) => ({
+				...prevErrorForm,
+				valor: "Valor é obrigatório!"
+			}));
+		}
+		else if(formData.valor < 0){
+			setIsValueValid(false);
+			setErrorForm((prevErrorForm) => ({
+				...prevErrorForm,
+				valor: "Não é permitido valor negativo!"
+			}));
+		}else{
+			const absoluteValue = Math.abs(formData.valor);
+			const maxAllowedValue = Math.pow(10, 8);
+			const roundedValue = Math.round(absoluteValue * 100) / 100;
 
-	const verifyStatus = () => {formData.status === "Aguardando Pagamento" || formData.status === "Aguardando Pagamento" || formData.status === "Aguardando Envio" || formData.status === "À caminho" || formData.status === "Pagamento Aprovado"? setIsStatusValid(true):setIsStatusValid(false);  };
-	//######################################################### COMPONENTES
+			roundedValue < maxAllowedValue? setIsValueValid(true)
+				:setIsValueValid(false);
+			setErrorForm((prevErrorForm) => ({
+				...prevErrorForm,
+				valor: "Valor muito alto!"
+			}));
+		}
+		
+	};
+
+	const verifyStatus = () => {
+		statusOptions.includes(formData.status)
+			? setIsStatusValid(true)
+			: setIsStatusValid(false);
+		setErrorForm((prevErrorForm) => ({
+			...prevErrorForm,
+			status: "Situação errada!"
+		}));
+	};
+
+	const statusOptions = [
+		"Aguardando Pagamento",
+		"Pagamento Aprovado",
+		"Aguardando Envio",
+		"À caminho",
+		"Finalizado",
+	];
 
 	return (
 		<Modal isOpen={modal} toggle={toggle} size="lg">
-			<ModalHeader toggle={toggle} close={toggle} onClosed={handleDismiss}>Cadastrar Venda</ModalHeader>
+			<ModalHeader toggle={toggle} close={toggle} onClosed={handleDismiss}>
+        Cadastrar Venda
+			</ModalHeader>
 			<ModalBody>
 				<Form onSubmit={handleSubmit}>
 					<Row style={{ paddingBottom: 10 }}>
 						<Col>
-							<Label for="nome">Cliente*</Label>
-							<InputGroup>
-								
-								<Input
+							<FormGroup>
+								<Label for="clienteNome">Cliente*</Label>
+								<InputGroup>
+									<Input
+										disabled
+										id="clienteNome"
+										name="nome"
+										placeholder="Selecione o Cliente"
+										type="text"
+										value={formData.nome}
+										onChange={handleChange}
+										onBlur={handlePesquisaModal}
+										onClick={handlePesquisaModal}
+										required
+										className={isClienteValid ? "is-valid" : "is-invalid"}
+									/>
+									
+									<Button 
+										color="primary" 
+										style={{borderTopRightRadius: 8, borderBottomRightRadius: 8}} 
+										onClick={handlePesquisaModal}>
+										<BiSearch />
+									</Button>
+									{errorForm.valor && (
+										<FormFeedback>{errorForm.nome}</FormFeedback>
+									)}
+								</InputGroup>
 
-									name="nome"
-									placeholder="Selecione o Cliente"
-									type="text"
-									value={formData.nome}
-									onChange={handleChange}
-									onBlur={handlePesquisaModal}
-									required
-									className={isClienteValid? "is-valid" : "is-invalid"}
-								/>
-								<Button color="primary" onClick={handlePesquisaModal}><BiSearch/></Button>
-							</InputGroup>
+								{errorForm.valor && (
+									<FormFeedback>{errorForm.nome}</FormFeedback>
+								)}
+								
+							</FormGroup>
 						</Col>
-						
 					</Row>
 					<Row style={{ paddingBottom: 10 }}>
 						<Col>
-							<Label for="status">Data*</Label>
-							<Input 
+							<Label for="data">Data*</Label>
+							<Input
 								type="date"
 								id="data"
 								name="data"
 								onChange={handleChange}
 								value={formData.data}
-								className={isDateValid? "is-valid" : "is-invalid"}
-							></Input>
+								className={isDateValid ? "is-valid" : "is-invalid"}
+							/>
+							{errorForm.valor && (
+								<FormFeedback>{errorForm.data}</FormFeedback>
+							)}
 						</Col>
-						<Col >
+						<Col>
 							<Label for="status">Situação*</Label>
-							
 							<Input
 								id="status"
 								name="status"
 								placeholder="Selecione a Situação."
 								type="select"
-								value={formData.uf}
+								value={formData.status}
 								onChange={handleChange}
-								className={isStatusValid? "is-valid" : "is-invalid"}
-
+								className={isStatusValid ? "is-valid" : "is-invalid"}
 							>
-								{statusOptions.map((option) => (
-									<option key={option.id}>{option}</option>
+								<option>Selecione a Situação</option>
+								{statusOptions.map((option, index) => (
+									<option key={index}>{option}</option>
 								))}
 							</Input>
+							{errorForm.valor && (
+								<FormFeedback>{errorForm.status}</FormFeedback>
+							)}
+							
 						</Col>
-						
 					</Row>
 					<Row style={{ paddingBottom: 10 }}>
-						
-						
-						
-						
 						<Col xl={6}>
-						
 							<Label for="valor">Valor da Venda*</Label>
-							<InputGroup>
-								<InputGroupText >
-                                R$
-								</InputGroupText>
+							<InputGroup  >
+								
+								<InputGroupText>R$</InputGroupText>
 								<Input
+									style={{borderTopRightRadius: 8, borderBottomRightRadius: 8}}
 									id="valor"
 									name="valor"
 									placeholder="0,00"
 									type="number"
 									value={formData.valor}
 									onChange={handleChange}
-									className={isValueValid? "is-valid" : "is-invalid"}
-
+									valid={isValueValid}
+									invalid={!isValueValid} // Add the invalid prop based on validation state
 								/>
+								{errorForm.valor && (
+									<FormFeedback>{errorForm.valor}</FormFeedback>
+								)}
+								
 							</InputGroup>
 							
 						</Col>
@@ -247,18 +323,23 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 			</ModalBody>
 			<ModalFooter>
 				<Button color="secondary" onClick={toggle}>
-					Cancelar
+          Cancelar
 				</Button>
 				<Button onClick={handleSubmit} color="primary">
-					Salvar
+          Salvar
 				</Button>
 				{isSaveLoading && (
 					<Label>
-						Carregando Dados<Spinner color="primary" style={{ alignSelf: "center" }} />
+            Carregando Dados<Spinner color="primary" style={{ alignSelf: "center" }} />
 					</Label>
 				)}
 			</ModalFooter>
-			<PesquisarCliente state={pesquisaModal} onChangeState={handlePesquisaModal} onClienteSelected={handleSelectedCliente} searchState={formData.nome}/>
+			<PesquisarCliente
+				state={pesquisaModal}
+				onChangeState={handlePesquisaModal}
+				onClienteSelected={handleSelectedCliente}
+				searchState={formData.nome}
+			/>
 		</Modal>
 	);
 };
