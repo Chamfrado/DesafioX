@@ -1,14 +1,15 @@
 /* eslint-disable react/prop-types */
-import { Button, Col, Container, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Input, Label, Pagination, PaginationItem, PaginationLink, Row, Spinner, Table } from "reactstrap";
+import {  Button, Col, Container, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Input, Label, Pagination, PaginationItem, PaginationLink, Row, Spinner, Table } from "reactstrap";
 import React, { useEffect, useState } from "react";
 import { BiPencil, BiPlus, BiSearch, BiTrash } from "react-icons/bi";
 import { BsChevronDoubleDown, BsDashLg } from "react-icons/bs";
 import YCapi from "../../services/YouControllApi";
 import CadastrarVendaModal from "../Modals/CadastrarVendaModal";
 import AtualizarVendaModal from "../Modals/AtualizarVendaModal";
+import DeletarVendaModal from "../Modals/DeletarVendaModal";
 
 
-const TableVendas = ({onSaveSucess, onUpdateSucess}) => {
+const TableVendas = ({onSaveSucess, onUpdateSucess, onDeleteSucess}) => {
 
 	const [error, setError] = useState();
 
@@ -73,10 +74,8 @@ const TableVendas = ({onSaveSucess, onUpdateSucess}) => {
 
 	//Abrir Modal de Atualizar Cadastro
 	const [selectedVenda, setSelectedVenda] = useState(-1);
-	//const [deleteVenda, setDeleteVenda] = useState({
-	//	id: -1,
-	//	nome: ""
-	//});
+	// eslint-disable-next-line no-unused-vars
+	const [deleteVenda, setDeleteVenda] = useState(-1);
 
 	//Chamando modal de Cadastro
 	const [vendaCadastroModal, setVendaCadastroModal] = useState(false);
@@ -96,11 +95,11 @@ const TableVendas = ({onSaveSucess, onUpdateSucess}) => {
 		fetchTableData();
 	};
 
-	////Confirmando o delete do venda
-	//const handleOnDeleteSucess = () => {
-	//	onDeleteSucess(true);
-	//	fetchTableData();
-	//};
+	//Confirmando o delete do venda
+	const handleOnDeleteSucess = () => {
+		onDeleteSucess(true);
+		fetchTableData();
+	};
 
 	if (error) {
 		return <p>Error: {error}</p>;
@@ -172,7 +171,7 @@ const TableVendas = ({onSaveSucess, onUpdateSucess}) => {
 										</DropdownItem>
 										<DropdownItem>
 											<BiTrash />
-											<Label style={{ paddingLeft: 10 }} onClick={() => alert("SelectedId")}>Excluir</Label>
+											<Label style={{ paddingLeft: 10 }} onClick={() =>setDeleteVenda(item[0])}>Excluir</Label>
 										</DropdownItem>
 									</DropdownMenu>
 								</Dropdown>
@@ -209,6 +208,7 @@ const TableVendas = ({onSaveSucess, onUpdateSucess}) => {
 			</Row>
 			<AtualizarVendaModal VendaId={selectedVenda} Sucess={handleOnUpdateSucess}/>
 			<CadastrarVendaModal state={vendaCadastroModal} Sucess={handleOnSaveSucess} onChangeState={handleToggleVendaCadastroModal} />
+			<DeletarVendaModal VendaId={deleteVenda}  Sucess={handleOnDeleteSucess} />
 		</Container>
 
 	);

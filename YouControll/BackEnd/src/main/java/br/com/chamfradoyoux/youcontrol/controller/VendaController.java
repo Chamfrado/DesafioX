@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,10 +56,22 @@ public class VendaController {
             existingVenda.setData(venda.getData());
             existingVenda.setStatus(venda.getStatus());
             existingVenda.setValor(venda.getValor());
-            existingVenda.setclienteId(venda.getclienteId());
+            existingVenda.setId(venda.getId());
             Venda updatedVenda = vendaRepository.save(existingVenda);
             return ResponseEntity.ok(updatedVenda);
         }else{
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/vendas/delete/{id}")
+    public ResponseEntity<String> deleteVenda(@PathVariable Long id) {
+        Optional<Venda> vendaOptional = vendaRepository.findById(id);
+        if (vendaOptional.isPresent()) {
+            vendaRepository.deleteById(id);
+            return ResponseEntity.ok("deletado com sucesso!");
+        } else {
+            System.out.println(id);
             return ResponseEntity.notFound().build();
         }
     }
