@@ -31,7 +31,6 @@ const MapClienteCadastro = ({ endereco, onChangeLocation }) => {
 
 		// eslint-disable-next-line react/prop-types
 		const address = ` ${endereco.logradouro} , ${endereco.bairro}, ${endereco.cidade}, ${endereco.cep}`;
-		alert(address);
 		try {
 			const response = await axios.get(
 				`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
@@ -39,11 +38,10 @@ const MapClienteCadastro = ({ endereco, onChangeLocation }) => {
 				)}&key=d8b4eb08039043f4acb5f58f7f99f752&pretty=1`
 			);
 			setPosition(response.data.results[0].geometry);
-			//alert(JSON.stringify(position));
 			mapRef.current.setView(position);
 
 		} catch (error) {
-			alert("Coloque um endereço válido!");
+			console.log("Coloque um endereço válido!");
 		}
 	};
 
@@ -74,7 +72,7 @@ const MapClienteCadastro = ({ endereco, onChangeLocation }) => {
 
 			});
 		} catch (error) {
-			alert(error);
+			console.log(error);
 		}
 	};
 

@@ -5,15 +5,13 @@ import YCapi from "../../services/YouControllApi";
 
 
 
-const DeletarVendaModal = ({ VendaId ,onDeletar, Sucess }) => {
+const DeletarVendaModal = ({ VendaId , Sucess }) => {
 
 	const [modal, setModal] = useState(false);
 
 	const toggle = () => {
 		setModal(!modal);
 	};
-
-	useEffect(()=> alert(VendaId),[onDeletar]);
 
 	const handleConfirmar = () => {
 		Delete();
@@ -30,7 +28,7 @@ const DeletarVendaModal = ({ VendaId ,onDeletar, Sucess }) => {
 				alert(error);
 			});
 
-	};
+	}; 
 
 
 	useEffect(() => {

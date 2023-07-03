@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row, Spinner } from "reactstrap";
+import { Button, Col, Form, FormFeedback, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row, Spinner } from "reactstrap";
 import YCapi from "../../services/YouControllApi";
 import MapaClienteAtualizar from "../Maps/MapaClienteAtualizar";
 import EstadosApi from "../../services/EstadosApi";
@@ -27,6 +27,18 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 		lat: 0,
 		lng: 0
 	});
+		//Configuração do Form de Erro
+	const [errorForm, setErrorForm] = useState({
+		nome: "",
+		cnpj: "",
+		telefone: "",
+		uf: "",
+		email: "",
+		logradouro: "",
+		bairro: "",
+		cidade: "",
+		cep: "",
+	});
 	//Puxando a API de UF para configurar o dropdown
 	const [ufOptions, setUfOptions] = useState([]);
 	const [isLoadingUfOptions, setIsLoadingUfOptions] = useState(true);
@@ -47,15 +59,214 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 			});
 	}, []);
 
+	const confirmarCEP = (cep) =>{
+		ViaCepApi.get(cep + "/json")
+			.then(() => {
+				return true;
+			}).catch(() => {
+				return false;
+			});
+	};
 
 	//Validator do formulario
 	const [isFormValid, setIsFormValid] = useState(false);
 	useEffect(() => {
-		const isEmailValid = emailRegex.test(updateForm.email);
-		const isCnpjValid = updateForm.cnpj.length === 14;
-		const isTelefoneValid = updateForm.telefone.length === 11;
+		let isNomeValido = false;
+		let isCnpjValid = false;
+		let isTelefoneValid = false;
+		let isEmailValid = false;
+		let isCEPValid = false;
+		let isUFValid = false;
+		let isLogradouroValid = false;
+		let isBairroValid = false;
+		let isCidadeValid = false;
+		let isLocalizacaoValid= false;
 
-		setIsFormValid(isEmailValid && isCnpjValid && isTelefoneValid);
+		if(updateForm.nome === ""){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				nome: "Preencher o nome é obrigatório!"
+			}));
+			isNomeValido = false;
+		}else{
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				nome: ""
+			}));
+			isNomeValido = true;
+		}
+
+		if(updateForm.cnpj === ""){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				cnpj: "Preencher o CNPJ é obrigatório!"
+			}));
+			isCnpjValid = false;
+		}else if((!updateForm.cnpj.length === 14)){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				cnpj: "CNPJ precisa conter 14 caracteres!"
+			}));
+			isCnpjValid = false;
+		}else{
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				cnpj: ""
+			}));
+			isCnpjValid = true;
+		}
+
+		if(updateForm.telefone === ""){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				telefone: "Preencher o telefone é obrigatório!"
+			}));
+			isTelefoneValid = false;
+		}else if((!updateForm.telefone.length === 11)){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				telefone: "telefone precisa conter 11 caracteres!"
+			}));
+			isTelefoneValid = false;
+		}else{
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				telefone: ""
+			}));
+			isTelefoneValid = true;
+		}
+
+		if(updateForm.email === ""){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				email: "Preencher o email é obrigatório!"
+			}));
+			isEmailValid = false;
+		}else if(!emailRegex.test(updateForm.email)){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				email: "Entrar com um e-mail valido!"
+			}));
+			isEmailValid = false;
+		}else{
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				email: ""
+			}));
+			isEmailValid = true;
+		}
+
+		if(updateForm.cep === ""){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				cep: "Preencher o CEP é obrigatório!"
+			}));
+			isCEPValid = false;
+		}else if((updateForm.cep.replace(/\D/g, "").length !== 8)){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				cep: "O CEP precisa conter 8 caracteres"
+			}));
+			isCEPValid = false;
+		}else if(confirmarCEP(updateForm.cep)){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				cep: "Digite um CEP válido"
+			}));
+			isCEPValid = false;
+		}else{
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				cep: ""
+			}));
+			isCEPValid = true;
+		}
+
+		if(updateForm.uf === ""){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				uf: "Selecione a UF"
+			}));
+			isUFValid = false;
+		}else if(!ufOptions.includes(updateForm)){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				uf: "Selecione uma UF válida"
+			}));
+			isUFValid = false;
+		}else{
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				uf: ""
+			}));
+			isUFValid = true;
+		}
+
+		if(updateForm.uf === ""){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				uf: "Selecione a UF"
+			}));
+			isUFValid = false;
+		}else{
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				uf: ""
+			}));
+			isUFValid = true;
+		}
+
+		if(updateForm.logradouro === ""){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				logradouro: "Logradouro Obrigatório!"
+			}));
+			isLogradouroValid = false;
+		}else{
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				logradouro: ""
+			}));
+			isLogradouroValid = true;
+		}
+
+		if(updateForm.bairro === ""){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				bairro: "bairro Obrigatório!"
+			}));
+			isBairroValid = false;
+		}else{
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				bairro: ""
+			}));
+			isBairroValid = true;
+		}
+
+		if(updateForm.cidade === ""){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				cidade: "Cidade Obrigatória!"
+			}));
+			isCidadeValid = false;
+		}else{
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				cidade: ""
+			}));
+			isCidadeValid = true;
+		}
+
+		if(updateForm.lat && updateForm.lng){
+			isLocalizacaoValid = true;
+		}else{
+			isLocalizacaoValid = false;
+		}
+
+		
+
+		setIsFormValid(isEmailValid&& isLocalizacaoValid && isUFValid && isCnpjValid && isTelefoneValid && isBairroValid && isCEPValid && isNomeValido && isCidadeValid && isLogradouroValid);
 	}, [updateForm]);
 
 	//Formatação Dos Dados do Form
@@ -163,11 +374,20 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 	//Handle quando algum form é alterado
 	const handleChange = (event) => {
 		const { name, value } = event.target;
-
-		setUpdateForm((prevUpdateForm) => ({
-			...prevUpdateForm,
-			[name]: value
-		}));
+		if(name === "cnpj" || name=== "telefone"){
+			setUpdateForm((prevFormData) => ({
+				...prevFormData,
+				[name]: value.replace(/\D/g, "")
+			}));
+		}else if(name === "cep" && value.replace(/\D/g, "").length === 8){
+			handleChangeCEP(value);
+		}else{
+			setUpdateForm((prevFormData) => ({
+				...prevFormData,
+				[name]: value
+			}));
+		}
+		
 	};
 
 	const [isUpdateLoading, setIsUpdateLoading] = useState(false);
@@ -206,6 +426,7 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 				cnpj: "",
 				telefone: "",
 				uf: "",
+				cep: "",
 				email: "",
 				logradouro: "",
 				bairro: "",
@@ -224,9 +445,10 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 		setUpdateForm({
 			id: "",
 			nome: "",
-			cnpj: "",
-			telefone: "",
+			cnpj: " ",
+			telefone: " ",
 			uf: "",
+			cep: " ",
 			email: "",
 			logradouro: "",
 			bairro: "",
@@ -240,19 +462,29 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 			<ModalHeader toggle={toggle} close={toggle} >Atualizar Cliente</ModalHeader>
 			<ModalBody>
 				<Form onSubmit={handleSubmit}>
-					<Row style={{ paddingBottom: 10 }}>
-						<Col>
-							<Label for="nome">Nome*</Label>
-							<Input
-								id="nome"
-								name="nome"
-								placeholder="Nome"
-								type="text"
-								value={updateForm.nome}
-								onChange={handleChange}
-							/>
-						</Col>
-					</Row>
+					<FormGroup>
+						<Row style={{ paddingBottom: 10 }}>
+							<Col>
+							
+								<Label for="nome">Nome*</Label>
+								<Input
+									id="nome"
+									name="nome"
+									placeholder="Nome"
+									type="text"
+									value={updateForm.nome}
+									onChange={handleChange}
+									className={errorForm.nome? "is-invalid" : "is-valid"}
+								/>
+								{errorForm.nome && (
+									<FormFeedback>{errorForm.nome}</FormFeedback>
+								)}
+								
+							
+							
+							</Col>
+						</Row>
+					</FormGroup>
 					<Row style={{ paddingBottom: 10 }}>
 						<Col>
 							<Label for="cnpj">CNPJ*</Label>
@@ -266,8 +498,11 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 								required
 								minLength={14}
 								maxLength={14}
-								className={updateForm.cnpj.length === 14 ? "is-valid" : "is-invalid"}
+								className={errorForm.cnpj? "is-invalid" : "is-valid"}
 							/>
+							{errorForm.cnpj && (
+								<FormFeedback>{errorForm.cnpj}</FormFeedback>
+							)}
 						</Col>
 						<Col>
 							<Label for="telefone">Telefone*</Label>
@@ -275,14 +510,18 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 
 								name="telefone"
 								id="telefone"
+								type="text"
 								value={formatTelefone(updateForm.telefone)}
 								onChange={handleChange}
 								placeholder="(35) 9 9202-5205"
 								required
 								minLength={11}
 								maxLength={11}
-								className={updateForm.telefone.length === 11 ? "is-valid" : "is-invalid"}
+								className={errorForm.telefone? "is-invalid" : "is-valid"}
 							/>
+							{errorForm.telefone && (
+								<FormFeedback>{errorForm.telefone}</FormFeedback>
+							)}
 						</Col>
 					</Row>
 
@@ -296,8 +535,11 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 								type="email"
 								value={updateForm.email}
 								onChange={handleChange}
-								className={updateForm.email !== "" && !emailRegex.test(updateForm.email) ? "is-invalid" : "valid"}
+								className={errorForm.email? "is-invalid" : "is-valid"}
 							/>
+							{errorForm.email && (
+								<FormFeedback>{errorForm.email}</FormFeedback>
+							)}
 						</Col>
 
 					</Row>
@@ -306,15 +548,20 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 							<Label for="idCEP">CEP*</Label>
 
 							<Input
-								id="IdCEP"
 								name="cep"
+								id="cep"
+								type="text"
 								value={updateForm.cep}
-								placeholder="CEP"
-								onChange={handleChangeCEP}
+								onChange={handleChange}
+								placeholder="Insira o CEP"
+								required
 								minLength={8}
 								maxLength={8}
-
+								className={errorForm.cep? "is-invalid" : "is-valid"}
 							/>
+							{errorForm.cep && (
+								<FormFeedback>{errorForm.cep}</FormFeedback>
+							)}
 
 						</Col>
 						<Col>
@@ -329,13 +576,18 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 									type="select"
 									value={updateForm.uf}
 									onChange={handleChange}
-
+									className={errorForm.uf? "is-invalid" : "is-valid"}
 
 								>
 									{ufOptions.map((option) => (
 										<option key={option.id}>{option}</option>
 									))}
 								</Input>
+								
+								
+							)}
+							{errorForm.uf && (
+								<FormFeedback>{errorForm.uf}</FormFeedback>
 							)}
 						</Col>
 					</Row>
@@ -348,8 +600,11 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 								placeholder="Logradouro"
 								value={updateForm.logradouro}
 								onChange={handleChange}
-
+								className={errorForm.logradouro? "is-invalid" : "is-valid"}
 							/>
+							{errorForm.logradouro && (
+								<FormFeedback>{errorForm.logradouro}</FormFeedback>
+							)}
 						</Col>
 
 					</Row>
@@ -363,19 +618,26 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 								placeholder="Bairro"
 								value={updateForm.bairro}
 								onChange={handleChange}
-
+								className={errorForm.bairro? "is-invalid" : "is-valid"}
 							/>
+							{errorForm.bairro && (
+								<FormFeedback>{errorForm.bairro}</FormFeedback>
+							)}
 
 						</Col>
 						<Col>
-							<Label for="IdCidade">Cidade*</Label>
+							<Label for="cidade">Cidade*</Label>
 							<Input
-								id="IdCidade"
+								id="cidade"
 								name="cidade"
 								placeholder="Cidade"
 								value={updateForm.cidade}
 								onChange={handleChange}
+								className={errorForm.cidade? "is-invalid" : "is-valid"}
 							/>
+							{errorForm.cidade && (
+								<FormFeedback>{errorForm.cidade}</FormFeedback>
+							)}
 						</Col>
 					</Row>
 

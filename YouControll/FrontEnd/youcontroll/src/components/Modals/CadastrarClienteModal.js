@@ -1,5 +1,5 @@
 import { useEffect, useState, React } from "react";
-import { Button, Col, Form, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row, Spinner } from "reactstrap";
+import { Button, Col, Form, FormFeedback, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row, Spinner } from "reactstrap";
 import EstadosApi from "../../services/EstadosApi";
 import ViaCepApi from "../../services/ViaCepApi";
 import YCapi from "../../services/YouControllApi";
@@ -12,10 +12,13 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 	//Configuração para Mostrar ou esconder o Modal
 	const [modal, setModal] = useState(false);
 
+	//hook do modal
 	useEffect(() => {
 		setModal(state);
 	}, [state]);
 
+
+	//Controle do modal
 	const toggle = () => {
 		setModal(!modal);
 		onChangeState(modal);
@@ -41,6 +44,18 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 		lng: ""
 	});
 
+	//Configuração do Form de Erro
+	const [errorForm, setErrorForm] = useState({
+		nome: "",
+		cnpj: "",
+		telefone: "",
+		uf: "",
+		email: "",
+		logradouro: "",
+		bairro: "",
+		cidade: "",
+		cep: "",
+	});
 
 
 	//Formatação Dos Dados do Form
@@ -62,11 +77,19 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 		return telefone;
 	};
 
+	const confirmarCEP = (cep) =>{
+		ViaCepApi.get(cep + "/json")
+			.then(() => {
+				return true;
+			}).catch(() => {
+				return false;
+			});
+	};
+
 
 	//Puxando a API de UF para configurar o dropdown
 	const [ufOptions, setUfOptions] = useState([]);
 	const [isLoadingUfOptions, setIsLoadingUfOptions] = useState(true);
-
 	useEffect(() => {
 		setIsLoadingUfOptions(true);
 
@@ -87,11 +110,202 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 	//Validator do formulario
 	const [isFormValid, setIsFormValid] = useState(false);
 	useEffect(() => {
-		const isEmailValid = emailRegex.test(formData.email);
-		const isCnpjValid = formData.cnpj.length === 14;
-		const isTelefoneValid = formData.telefone.length === 11;
+		let isNomeValido = false;
+		let isCnpjValid = false;
+		let isTelefoneValid = false;
+		let isEmailValid = false;
+		let isCEPValid = false;
+		let isUFValid = false;
+		let isLogradouroValid = false;
+		let isBairroValid = false;
+		let isCidadeValid = false;
+		let isLocalizacaoValid= false;
 
-		setIsFormValid(isEmailValid && isCnpjValid && isTelefoneValid);
+		if(formData.nome === ""){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				nome: "Preencher o nome é obrigatório!"
+			}));
+			isNomeValido = false;
+		}else{
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				nome: ""
+			}));
+			isNomeValido = true;
+		}
+
+		if(formData.cnpj === ""){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				cnpj: "Preencher o CNPJ é obrigatório!"
+			}));
+			isCnpjValid = false;
+		}else if((!formData.cnpj.length === 14)){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				cnpj: "CNPJ precisa conter 14 caracteres!"
+			}));
+			isCnpjValid = false;
+		}else{
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				cnpj: ""
+			}));
+			isCnpjValid = true;
+		}
+
+		if(formData.telefone === ""){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				telefone: "Preencher o telefone é obrigatório!"
+			}));
+			isTelefoneValid = false;
+		}else if((!formData.telefone.length === 11)){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				telefone: "telefone precisa conter 11 caracteres!"
+			}));
+			isTelefoneValid = false;
+		}else{
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				telefone: ""
+			}));
+			isTelefoneValid = true;
+		}
+
+		if(formData.email === ""){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				email: "Preencher o email é obrigatório!"
+			}));
+			isEmailValid = false;
+		}else if(!emailRegex.test(formData.email)){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				email: "Entrar com um e-mail valido!"
+			}));
+			isEmailValid = false;
+		}else{
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				email: ""
+			}));
+			isEmailValid = true;
+		}
+
+		if(formData.cep === ""){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				cep: "Preencher o CEP é obrigatório!"
+			}));
+			isCEPValid = false;
+		}else if((formData.cep.replace(/\D/g, "").length !== 8)){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				cep: "O CEP precisa conter 8 caracteres"
+			}));
+			isCEPValid = false;
+		}else if(confirmarCEP(formData.cep)){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				cep: "Digite um CEP válido"
+			}));
+			isCEPValid = false;
+		}else{
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				cep: ""
+			}));
+			isCEPValid = true;
+		}
+
+		if(formData.uf === ""){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				uf: "Selecione a UF"
+			}));
+			isUFValid = false;
+		}else if(!ufOptions.includes(formData)){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				uf: "Selecione uma UF válida"
+			}));
+			isUFValid = false;
+		}else{
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				uf: ""
+			}));
+			isUFValid = true;
+		}
+
+		if(formData.uf === ""){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				uf: "Selecione a UF"
+			}));
+			isUFValid = false;
+		}else{
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				uf: ""
+			}));
+			isUFValid = true;
+		}
+
+		if(formData.logradouro === ""){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				logradouro: "Logradouro Obrigatório!"
+			}));
+			isLogradouroValid = false;
+		}else{
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				logradouro: ""
+			}));
+			isLogradouroValid = true;
+		}
+
+		if(formData.bairro === ""){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				bairro: "bairro Obrigatório!"
+			}));
+			isBairroValid = false;
+		}else{
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				bairro: ""
+			}));
+			isBairroValid = true;
+		}
+
+		if(formData.cidade === ""){
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				cidade: "Cidade Obrigatória!"
+			}));
+			isCidadeValid = false;
+		}else{
+			setErrorForm((prevErrorForm) =>({
+				...prevErrorForm,
+				cidade: ""
+			}));
+			isCidadeValid = true;
+		}
+
+		if(formData.lat && formData.lng){
+			isLocalizacaoValid = true;
+		}else{
+			isLocalizacaoValid = false;
+		}
+
+		
+
+		setIsFormValid(isEmailValid&& isLocalizacaoValid && isUFValid && isCnpjValid && isTelefoneValid && isBairroValid && isCEPValid && isNomeValido && isCidadeValid && isLogradouroValid);
 	}, [formData]);
 
 
@@ -100,16 +314,26 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 	//Handle quando algum form é alterado
 	const handleChange = (event) => {
 		const { name, value } = event.target;
-
-		setFormData((prevFormData) => ({
-			...prevFormData,
-			[name]: value
-		}));
+		if(name === "cnpj" || name=== "telefone"){
+			setFormData((prevFormData) => ({
+				...prevFormData,
+				[name]: value.replace(/\D/g, "")
+			}));
+		}else if(name === "cep" && value.replace(/\D/g, "").length === 8){
+			handleChangeCEP(value);
+		}else{
+			setFormData((prevFormData) => ({
+				...prevFormData,
+				[name]: value
+			}));
+		}
+		
 	};
 
 	//Quando o CEP é alterado
-	const handleChangeCEP = (event) => {
-		const { value } = event.target;
+	// eslint-disable-next-line no-unused-vars
+	const handleChangeCEP = (value) => {
+		
 		const url = value + "/json/?callback=callback_name";
 
 		ViaCepApi.get(url)
@@ -132,11 +356,10 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 					cep: value
 				}));
 
-				alert(JSON.stringify(responseObject));
 
 			})
 			.catch((error) => {
-				alert(error);
+				console.log(error);
 			});
 	};
 
@@ -164,7 +387,10 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 				cnpj: "",
 				telefone: "",
 				uf: "",
+				cep:"",
 				email: "",
+				lat: "",
+				lng: "",
 			});
 			setIsSaveLoading(false);
 			setModal(false);
@@ -174,10 +400,10 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 	}
 
 
-
+	//Handle para completar o Form
 	const handleSubmit = (event) => {
 		event.preventDefault();
-
+		alert(isFormValid);
 		if (!isFormValid) {
 			return;
 		}
@@ -209,19 +435,29 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 			<ModalHeader toggle={toggle} close={toggle} onClosed={handleDismiss}>Cadastrar Cliente</ModalHeader>
 			<ModalBody>
 				<Form onSubmit={handleSubmit}>
-					<Row style={{ paddingBottom: 10 }}>
-						<Col>
-							<Label for="nome">Nome*</Label>
-							<Input
-								id="nome"
-								name="nome"
-								placeholder="Nome"
-								type="text"
-								value={formData.nome}
-								onChange={handleChange}
-							/>
-						</Col>
-					</Row>
+					<FormGroup>
+						<Row style={{ paddingBottom: 10 }}>
+							<Col>
+							
+								<Label for="nome">Nome*</Label>
+								<Input
+									id="nome"
+									name="nome"
+									placeholder="Nome"
+									type="text"
+									value={formData.nome}
+									onChange={handleChange}
+									className={errorForm.nome? "is-invalid" : "is-valid"}
+								/>
+								{errorForm.nome && (
+									<FormFeedback>{errorForm.nome}</FormFeedback>
+								)}
+								
+							
+							
+							</Col>
+						</Row>
+					</FormGroup>
 					<Row style={{ paddingBottom: 10 }}>
 						<Col>
 							<Label for="cnpj">CNPJ*</Label>
@@ -229,14 +465,17 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 
 								name="cnpj"
 								placeholder="CNPJ"
-								type="number"
+								type="text"
 								value={formatCnpj(formData.cnpj)}
 								onChange={handleChange}
 								required
 								minLength={14}
 								maxLength={14}
-								className={formData.cnpj.length === 14 ? "is-valid" : "is-invalid"}
+								className={errorForm.cnpj? "is-invalid" : "is-valid"}
 							/>
+							{errorForm.cnpj && (
+								<FormFeedback>{errorForm.cnpj}</FormFeedback>
+							)}
 						</Col>
 						<Col>
 							<Label for="telefone">Telefone*</Label>
@@ -244,15 +483,18 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 
 								name="telefone"
 								id="telefone"
+								type="text"
 								value={formatTelefone(formData.telefone)}
-								type="number"
 								onChange={handleChange}
 								placeholder="(35) 9 9202-5205"
 								required
 								minLength={11}
 								maxLength={11}
-								className={formData.telefone.length === 11 ? "is-valid" : "is-invalid"}
+								className={errorForm.telefone? "is-invalid" : "is-valid"}
 							/>
+							{errorForm.telefone && (
+								<FormFeedback>{errorForm.telefone}</FormFeedback>
+							)}
 						</Col>
 					</Row>
 
@@ -266,8 +508,11 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 								type="email"
 								value={formData.email}
 								onChange={handleChange}
-								className={formData.email !== "" && !emailRegex.test(formData.email) ? "is-invalid" : "valid"}
+								className={errorForm.email? "is-invalid" : "is-valid"}
 							/>
+							{errorForm.email && (
+								<FormFeedback>{errorForm.email}</FormFeedback>
+							)}
 						</Col>
 
 					</Row>
@@ -276,14 +521,20 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 							<Label for="idCEP">CEP*</Label>
 
 							<Input
-								id="IdCEP"
 								name="cep"
-								placeholder="CEP"
-								onChange={handleChangeCEP}
+								id="cep"
+								type="text"
+								value={formData.cep}
+								onChange={handleChange}
+								placeholder="Insira o CEP"
+								required
 								minLength={8}
 								maxLength={8}
-
+								className={errorForm.cep? "is-invalid" : "is-valid"}
 							/>
+							{errorForm.cep && (
+								<FormFeedback>{errorForm.cep}</FormFeedback>
+							)}
 
 						</Col>
 						<Col>
@@ -298,13 +549,18 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 									type="select"
 									value={formData.uf}
 									onChange={handleChange}
-
+									className={errorForm.uf? "is-invalid" : "is-valid"}
 
 								>
 									{ufOptions.map((option) => (
 										<option key={option.id}>{option}</option>
 									))}
 								</Input>
+								
+								
+							)}
+							{errorForm.uf && (
+								<FormFeedback>{errorForm.uf}</FormFeedback>
 							)}
 						</Col>
 					</Row>
@@ -317,8 +573,11 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 								placeholder="Logradouro"
 								value={formData.logradouro}
 								onChange={handleChange}
-
+								className={errorForm.logradouro? "is-invalid" : "is-valid"}
 							/>
+							{errorForm.logradouro && (
+								<FormFeedback>{errorForm.logradouro}</FormFeedback>
+							)}
 						</Col>
 
 					</Row>
@@ -332,19 +591,26 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 								placeholder="Bairro"
 								value={formData.bairro}
 								onChange={handleChange}
-
+								className={errorForm.bairro? "is-invalid" : "is-valid"}
 							/>
+							{errorForm.bairro && (
+								<FormFeedback>{errorForm.bairro}</FormFeedback>
+							)}
 
 						</Col>
 						<Col>
-							<Label for="IdCidade">Cidade*</Label>
+							<Label for="cidade">Cidade*</Label>
 							<Input
-								id="IdCidade"
+								id="cidade"
 								name="cidade"
 								placeholder="Cidade"
 								value={formData.cidade}
 								onChange={handleChange}
+								className={errorForm.cidade? "is-invalid" : "is-valid"}
 							/>
+							{errorForm.cidade && (
+								<FormFeedback>{errorForm.cidade}</FormFeedback>
+							)}
 						</Col>
 					</Row>
 
