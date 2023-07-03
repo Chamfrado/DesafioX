@@ -5,9 +5,10 @@ import { BiPencil, BiPlus, BiSearch, BiTrash } from "react-icons/bi";
 import { BsChevronDoubleDown, BsDashLg } from "react-icons/bs";
 import YCapi from "../../services/YouControllApi";
 import CadastrarVendaModal from "../Modals/CadastrarVendaModal";
+import AtualizarVendaModal from "../Modals/AtualizarVendaModal";
 
 
-const TableVendas = ({onSaveSucess}) => {
+const TableVendas = ({onSaveSucess, onUpdateSucess}) => {
 
 	const [error, setError] = useState();
 
@@ -71,7 +72,7 @@ const TableVendas = ({onSaveSucess}) => {
 	};
 
 	//Abrir Modal de Atualizar Cadastro
-	//const [selectedVenda, setSelectedVenda] = useState(-1);
+	const [selectedVenda, setSelectedVenda] = useState(-1);
 	//const [deleteVenda, setDeleteVenda] = useState({
 	//	id: -1,
 	//	nome: ""
@@ -89,11 +90,11 @@ const TableVendas = ({onSaveSucess}) => {
 		fetchTableData();
 	};
 
-	////Confirmando o update do venda
-	//const handleOnUpdateSucess = () => {
-	//	onUpdateSucess(true);
-	//	fetchTableData();
-	//};
+	//Confirmando o update do venda
+	const handleOnUpdateSucess = () => {
+		onUpdateSucess(true);
+		fetchTableData();
+	};
 
 	////Confirmando o delete do venda
 	//const handleOnDeleteSucess = () => {
@@ -165,7 +166,7 @@ const TableVendas = ({onSaveSucess}) => {
 								<Dropdown isOpen={dropdownOpen === item[0]} toggle={() => toggle(item[0])} direction="down" size="medium">
 									<DropdownToggle color='primary' caret>Ações</DropdownToggle>
 									<DropdownMenu >
-										<DropdownItem onClick={() => { alert("selectedId"); }}>
+										<DropdownItem onClick={() =>setSelectedVenda(item[0])}>
 											<BiPencil />
 											<Label style={{ paddingLeft: 10, paddingRight: 10 }}>Alterar</Label>
 										</DropdownItem>
@@ -206,7 +207,7 @@ const TableVendas = ({onSaveSucess}) => {
 					</Pagination>
 				</Col>
 			</Row>
-			
+			<AtualizarVendaModal VendaId={selectedVenda} Sucess={handleOnUpdateSucess}/>
 			<CadastrarVendaModal state={vendaCadastroModal} Sucess={handleOnSaveSucess} onChangeState={handleToggleVendaCadastroModal} />
 		</Container>
 

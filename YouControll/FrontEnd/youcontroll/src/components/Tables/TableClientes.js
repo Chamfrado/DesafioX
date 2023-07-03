@@ -108,6 +108,7 @@ const TableCliente = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 
 	//Abrir Modal de Atualizar Cadastro
 	const [selectedCliente, setSelectedCliente] = useState(-1);
+	//Abrir Modal de Deletar Cliente
 	const [deleteCliente, setDeleteCliente] = useState({
 		id: -1,
 		nome: ""

@@ -1,36 +1,25 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
-import {
-	Button,
-	Col,
-	Form,
-	FormFeedback,
-	FormGroup,
-	Input,
-	InputGroup,
-	InputGroupText,
-	Label,
-	Modal,
-	ModalBody,
-	ModalFooter,
-	ModalHeader,
-	Row,
-	Spinner,
-} from "reactstrap";
+import { Button, Col, Form, FormFeedback, FormGroup, Input, InputGroup, InputGroupText, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row, Spinner } from "reactstrap";
 import YCapi from "../../services/YouControllApi";
 import { BiSearch } from "react-icons/bi";
-
 import PesquisarCliente from "./PesquisarCliente";
-
 
 //FormatDate
 function formatDate(dateString) {
 	const [year, month, day] = dateString.split("-");
+    
 	return `${day}/${month}/${year}`;
 }
 
+function revertDate(dateString) {
+	const [day, month, year] = dateString.split("/");
+	return `${year}-${month}-${day}`;
+}
 
-// eslint-disable-next-line react/prop-types
-const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
+
+const AtualizarVendaModal = ({ VendaId, Sucess }) => {
+	
 	const [modal, setModal] = useState(false);
 	const [formData, setFormData] = useState({
 		cliente_id: -1,
@@ -39,6 +28,8 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 		status: "",
 		valor: "",
 	});
+
+
 	// eslint-disable-next-line no-unused-vars
 	const [errorForm, setErrorForm] = useState({
 		nome: "",
@@ -54,18 +45,35 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 	const [isSaveLoading, setIsSaveLoading] = useState(false);
 	const [pesquisaModal, setPesquisaModal] = useState(false);
 
+	//Atualizando Cliente Selecionado
 	useEffect(() => {
-		setModal(state);
-	}, [state]);
+		
+		const url = "/vendas/" + VendaId;
+		if (VendaId != -1){
+			YCapi.get(url)
+				.then((venda) => {
+					toggle();
+					setFormData({
+						cliente_id: venda.data.clienteId,
+						data:revertDate(venda.data.data),
+						status: venda.data.status,
+						valor: venda.data.valor,
+					});
+					YCapi.get("/clientes/" + venda.data.clienteId).then((cliente) => {
+						setFormData((prevFormData)=> ({
+							...prevFormData,
+							nome: cliente.data.nome
+						}));
+					});
+				})
+				.catch((error)=> alert(error));
+		}
+	},[VendaId]);
 
 	const toggle = () => {
 		setModal(!modal);
-		onChangeState(modal);
 	};
 
-	const handleDismiss = () => {
-		onChangeState(false);
-	};
 
 	const handleSelectedCliente = (cliente) => {
 		setFormData((prevForm) => ({
@@ -104,7 +112,8 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 
 	const save = async () => {
 		try {
-			await YCapi.post("vendas/add", {
+			await YCapi.put("vendas/update", {
+				id: VendaId,
 				clienteId: formData.cliente_id,
 				data: formatDate(formData.data),
 				status: formData.status,
@@ -121,7 +130,7 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 			setIsSaveLoading(false);
 			setModal(false);
 		} catch (error) {
-			alert("Error saving venda:", error);
+			alert( error);
 			setIsSaveLoading(false);
 		}
 	};
@@ -219,7 +228,8 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 
 	return (
 		<Modal isOpen={modal} toggle={toggle} size="lg">
-			<ModalHeader toggle={toggle} close={toggle} onClosed={handleDismiss}>
+			<Button onClick={() => alert(JSON.stringify(formData))}>teste</Button>
+			<ModalHeader toggle={toggle} close={toggle} >
         Cadastrar Venda
 			</ModalHeader>
 			<ModalBody>
@@ -268,8 +278,8 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 								type="date"
 								id="data"
 								name="data"
-								onChange={handleChange}
 								value={formData.data}
+								onChange={handleChange}
 								className={isDateValid ? "is-valid" : "is-invalid"}
 							/>
 							{errorForm.valor && (
@@ -287,7 +297,6 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 								onChange={handleChange}
 								className={isStatusValid ? "is-valid" : "is-invalid"}
 							>
-								<option>Selecione a Situação</option>
 								{statusOptions.map((option, index) => (
 									<option key={index}>{option}</option>
 								))}
@@ -348,4 +357,4 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 	);
 };
 
-export default CadastrarVendaModal;
+export default AtualizarVendaModal;
