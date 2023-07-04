@@ -314,12 +314,13 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 	//Handle quando algum form é alterado
 	const handleChange = (event) => {
 		const { name, value } = event.target;
+
 		if(name === "cnpj" || name=== "telefone"){
 			setFormData((prevFormData) => ({
 				...prevFormData,
 				[name]: value.replace(/\D/g, "")
 			}));
-		}else if(name === "cep" && value.replace(/\D/g, "").length === 8){
+		}else if(name === "cep" && value.length === 8){
 			handleChangeCEP(value);
 		}else{
 			setFormData((prevFormData) => ({
@@ -357,9 +358,13 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 				}));
 
 
+
 			})
-			.catch((error) => {
-				console.log(error);
+			.catch(() => {
+				setFormData((prevFormData) => ({
+					...prevFormData,
+					cep: value
+				}));
 			});
 	};
 
@@ -528,8 +533,8 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 								onChange={handleChange}
 								placeholder="Insira o CEP"
 								required
-								minLength={8}
-								maxLength={8}
+								minLength={9}
+								maxLength={9}
 								className={errorForm.cep? "is-invalid" : "is-valid"}
 							/>
 							{errorForm.cep && (

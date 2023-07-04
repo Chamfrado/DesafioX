@@ -34,15 +34,15 @@ const Home = () => {
 
 			<Row style={{ paddingTop: 10 }}>
 				<Col>
-					<Alert isOpen={alertSaveSucess} toggle={onDismissSave}>
+					{alertSaveSucess && <Alert isOpen={alertSaveSucess} toggle={onDismissSave}>
                         Cliente cadastrado com sucesso!
-					</Alert>
-					<Alert isOpen={alertUpdateSucess} toggle={onDismissUpdate}>
+					</Alert>}
+					{alertUpdateSucess && <Alert isOpen={alertUpdateSucess} toggle={onDismissUpdate}>
 						Cliente atualizado com sucesso!
-					</Alert>
-					<Alert isOpen={alertDeleteSucess} toggle={onDismissDelete}>
+					</Alert>}
+					{alertSaveSucess && <Alert isOpen={alertDeleteSucess} toggle={onDismissDelete}>
 						Cliente Deletado com sucesso!
-					</Alert>
+					</Alert>}
 				</Col>
 
 			</Row>

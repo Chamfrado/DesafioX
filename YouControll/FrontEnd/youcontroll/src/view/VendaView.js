@@ -36,15 +36,15 @@ const VendaView = () => {
 
 			<Row style={{ paddingTop: 10 }}>
 				<Col>
-					<Alert isOpen={alertSaveSucess} toggle={onDismissSave}>
+					{alertSaveSucess && <Alert isOpen={alertSaveSucess} toggle={onDismissSave}>
                         Venda cadastrada com sucesso!
-					</Alert>
-					<Alert isOpen={alertUpdateSucess} toggle={onDismissUpdate}>
-					Venda atualizada com sucesso!
-					</Alert>
-					<Alert isOpen={alertDeleteSucess} toggle={onDismissDelete}>
+					</Alert>}
+					{alertUpdateSucess && <Alert isOpen={alertUpdateSucess} toggle={onDismissUpdate}>
+						Venda atualizada com sucesso!
+					</Alert>}
+					{alertSaveSucess && <Alert isOpen={alertDeleteSucess} toggle={onDismissDelete}>
 						Venda Deletada com sucesso!
-					</Alert>
+					</Alert>}
 				</Col>
 
 			</Row>

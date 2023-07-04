@@ -1,49 +1,59 @@
 import React from "react";
 import {
-	Row, Col, Label, Offcanvas, Collapse,
-	Navbar,
-	NavbarToggler,
-	Nav,
-	NavItem, OffcanvasBody, OffcanvasHeader, NavLink
+	Row, Col, Label, 
+	Container,
+	Alert
 } from "reactstrap";
 import { BiUserCircle, BiExit } from "react-icons/bi";
 import logoImage from "../../resources/referencia.png";
 import { useState } from "react";
+import MenuHeaderCanvas from "../OffCanvas/MenuHeaderCanvas";
 
 
 // eslint-disable-next-line react/prop-types
 const Header = ({ height }) => {
 
+
+
+	
+
 	const [isOpen, setIsOpen] = useState(false);
-	const [collapsedClientes, setCollapsedClientes] = useState(true);
-	const [collapsedVendas, setCollapsedVendas] = useState(true);
 
-
+	
 	const toggleOffcanvas = () => {
 		setIsOpen((prevState) => !prevState);
 	};
+	
+	const[ sucessCliente, setSucessCliente] = useState(false);
+	const onDismissSaveCliente = () => { setSucessCliente(!setSucessCliente); };
 
+	const[ sucessVenda, setSucessVenda] = useState(false);
+	const onDismissSaveVenda = () => { setSucessVenda(!setSucessVenda); };
 
-
-
-	const toggleNavbarClientes = () => {
-		setCollapsedClientes((prevState) => !prevState);
-		setCollapsedVendas(true);
+	const handleSave = (save) => {
+		if( save === "cliente"){
+			setSucessCliente(true);
+			setIsOpen((prevState) => !prevState);
+		}else if(save === "venda"){
+			setSucessVenda(true);
+			setIsOpen((prevState) => !prevState);
+		}
 	};
 
-	const toggleNavbarVendas = () => {
-		setCollapsedVendas((prevState) => !prevState);
-		setCollapsedClientes(true);
-	};
-
+	
 
 	return (
-		<div style={{ backgroundColor: "#0a58ca", height: height }}>
+		<Container style={{ backgroundColor: "#0a58ca", height: height }}>
 			<Row style={{ height: "100%" }}>
 				<Col style={{ display: "flex", alignItems: "center" }}>
-					<div style={{ display: "flex", alignItems: "center", height: "100%" }}>
-						<img onClick={toggleOffcanvas} style={{ maxWidth: "70%", maxHeight: "70%" }} src={logoImage} alt="Logo" />
-					</div>
+					
+					<img
+						onClick={toggleOffcanvas}
+						style={{ height: "70%", width: "10%", cursor: "pointer" }}
+						src={logoImage}
+						alt="Logo"
+					/>
+
 				</Col>
 				<Col style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", paddingRight: 40 }}>
 					<BiUserCircle color="white" size={40} style={{ marginRight: "10px" }} />
@@ -54,44 +64,15 @@ const Header = ({ height }) => {
 					<BiExit color="white" size={40} style={{ marginLeft: "10px" }} />
 				</Col>
 			</Row>
-			<div>
 
-				<Offcanvas style={{ backgroundColor: "#0a58ca", color: "white" }} isOpen={isOpen} toggle={toggleOffcanvas}>
-					<OffcanvasHeader toggle={toggleOffcanvas}></OffcanvasHeader>
-					<OffcanvasBody>
-						<Navbar dark light>
-
-							<NavbarToggler style={{ borderWidth: "0", color: "white" }} onClick={toggleNavbarClientes}>GESTÃO DE CLIENTES</NavbarToggler>
-							<Collapse isOpen={!collapsedClientes} navbar>
-								<Nav navbar>
-									<NavItem>
-										<NavLink href="/clientes">Lista de clientes</NavLink>
-									</NavItem>
-									<NavItem>
-										<NavLink href="/home">
-											Cadastrar cliente
-										</NavLink>
-									</NavItem>
-								</Nav>
-							</Collapse>
-							<NavbarToggler style={{ borderWidth: "0", color: "white", marginTop: 50 }} onClick={toggleNavbarVendas}>GESTÃO DE VENDAS</NavbarToggler>
-							<Collapse isOpen={!collapsedVendas} navbar>
-								<Nav navbar>
-									<NavItem>
-										<NavLink href="/vendas">Lista de vendas</NavLink>
-									</NavItem>
-									<NavItem>
-										<NavLink href="/home">
-											Cadastrar venda
-										</NavLink>
-									</NavItem>
-								</Nav>
-							</Collapse>
-						</Navbar>
-					</OffcanvasBody>
-				</Offcanvas>
-			</div>
-		</div>
+			{isOpen && <MenuHeaderCanvas handleClose={toggleOffcanvas} open={isOpen}  SaveClienteSucess={handleSave}/>}
+			{sucessCliente && <Alert isOpen={sucessCliente} style={{margin: 10}} toggle={onDismissSaveCliente}>
+                        Cliente cadastrado com sucesso!
+			</Alert>}
+			{sucessVenda && <Alert isOpen={sucessVenda} style={{margin: 10}} toggle={onDismissSaveVenda}>
+                        Venda cadastrada com sucesso!
+			</Alert>}
+		</Container>
 	);
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {  useState } from "react";
 import { Link } from "react-router-dom";
 import Test from "../components/component_teste/teste";
 import { Label } from "reactstrap";
@@ -7,11 +7,13 @@ import MapaTodosClientes from "../components/Maps/MapaTodosClientes";
 
 const Home = () => {
 
-	const [teste,setTeste] = useState();
+	const [teste, setTeste] = useState();
 
 	const handleteste = (newTeste) => {
 		setTeste(newTeste);
 	};
+
+	
 
 	return (
 		<div>
@@ -22,7 +24,8 @@ const Home = () => {
 			</Link>
 			<Test onChangeTeste={handleteste}></Test>
 			<Label>VALOR DO TESTE: {teste}</Label>
-			<MapaTodosClientes/>
+			<MapaTodosClientes />
+			
 		</div>
 	);
 };

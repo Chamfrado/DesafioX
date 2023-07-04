@@ -167,7 +167,7 @@ const TableCliente = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 
 			</Row>
 
-			<Table hover>
+			<Table hover responsive>
 				<thead>
 					<tr>
 						<th>

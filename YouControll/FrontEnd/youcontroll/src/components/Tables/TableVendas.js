@@ -107,10 +107,10 @@ const TableVendas = ({onSaveSucess, onUpdateSucess, onDeleteSucess}) => {
 
 
 	return (
-		<Container fluid>
-			<Row style={{ paddingTop: 20, marginBottom: 10 }}>
+		<Container fluid >
+			<Row  style={{ paddingTop: 20, marginBottom: 10 }}>
 				<Col style={{ display: "flex", alignItems: "center" }}>
-					<Input
+					<Input 
 						id="search"
 						name="searchQuery"
 						placeholder="Digite o nome do que deseja pesquisar"
@@ -130,7 +130,7 @@ const TableVendas = ({onSaveSucess, onUpdateSucess, onDeleteSucess}) => {
 
 			</Row>
 
-			<Table hover>
+			<Table responsive hover>
 				<thead>
 					<tr>
 						<th>
