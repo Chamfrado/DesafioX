@@ -2,13 +2,12 @@ import React from "react";
 import {
 	Row, Col, Label, 
 	Container,
-	Alert
+	Alert,
 } from "reactstrap";
 import { BiUserCircle, BiExit } from "react-icons/bi";
 import logoImage from "../../resources/referencia.png";
 import { useState } from "react";
 import MenuHeaderCanvas from "../OffCanvas/MenuHeaderCanvas";
-
 
 // eslint-disable-next-line react/prop-types
 const Header = ({ height }) => {
@@ -43,7 +42,7 @@ const Header = ({ height }) => {
 	
 
 	return (
-		<Container style={{ backgroundColor: "#0a58ca", height: height }}>
+		<Container style={{  height: height }} className="bg-primary">
 			<Row style={{ height: "100%" }}>
 				<Col style={{ display: "flex", alignItems: "center" }}>
 					

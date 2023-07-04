@@ -40,7 +40,7 @@ const MenuHeaderCanvas = ({open, handleClose, SaveClienteSucess, SaveVendaSucess
 
 
 	return(
-		<Offcanvas isOpen={Offcanvas}  color="primary" toggle={toggle} style={{backgroundColor: "#0d6efd", color: "white"}} >
+		<Offcanvas isOpen={Offcanvas}  color="primary" toggle={toggle} className="bg-primary" style={{ color: "white"}} >
 			<OffcanvasHeader toggle={toggle}>Menu Principal</OffcanvasHeader>
 			<OffcanvasBody>
 				
@@ -108,7 +108,7 @@ const MenuHeaderCanvas = ({open, handleClose, SaveClienteSucess, SaveVendaSucess
 									
 					
 									<NavItem  >
-										<NavLink active href="/vendas" style={{color: "white" }}>Relatórios</NavLink>
+										<NavLink active href="/relatorio" style={{color: "white" }}>Relatórios</NavLink>
 									</NavItem>
 									
 								</Nav>

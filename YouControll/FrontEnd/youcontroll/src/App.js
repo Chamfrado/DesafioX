@@ -1,4 +1,4 @@
-import "./App.css";
+
 import { Route, Routes } from "react-router-dom";
 import {React} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -12,6 +12,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import HomeView from "./view/HomeView";
 import ClienteView from "./view/ClienteView";
 import VendaView from "./view/VendaView";
+import RelatorioView from "./view/RelatorioView";
 
 function App() {
 	return (
@@ -20,6 +21,7 @@ function App() {
 				<Route path="/" element={<HomeView />} />
 				<Route path="/clientes" element={<ClienteView/>}/>
 				<Route path='/vendas' element={<VendaView/>}/>
+				<Route path="/relatorio" element={<RelatorioView/>}/>
 			</Routes>
 		</div>
 	);

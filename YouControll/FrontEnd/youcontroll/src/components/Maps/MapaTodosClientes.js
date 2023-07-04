@@ -58,7 +58,7 @@ const MapaClientes = () => {
 
 	return (
 		<div>
-			<MapContainer center={[-15.7801, -47.9292]} zoom={13} style={{ height: "250px", width: "100%" }}>
+			<MapContainer center={[-22.252753, -45.704336]} zoom={15} style={{ height: "250px", width: "100%" }}>
 				<TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 				{clients.map((client, index) => {
 					if (client.nome) {
