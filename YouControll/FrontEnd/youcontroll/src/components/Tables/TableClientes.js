@@ -70,9 +70,49 @@ const TableCliente = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 	const currentData = tableData.slice(indexOfFirstItem, indexOfLastItem);
 
 	const handlePageChange = (pageNumber) => {
-		setCurrentPage(pageNumber);
+		if (pageNumber < 1) {
+			setCurrentPage(1);
+		} else if (pageNumber > totalPages) {
+			setCurrentPage(totalPages);
+		} else {
+			setCurrentPage(pageNumber);
+		}
 	};
 
+	const getPageRange = () => {
+		let pageRange = [];
+
+		if (totalPages <= 5) {
+			// Display all pages if there are 5 or less
+			pageRange = Array.from({ length: totalPages }, (_, index) => index + 1);
+		} else {
+			// Display the current page, last 2 pages, and next 2 pages
+			pageRange = [currentPage];
+			const remainingPages = 4 - pageRange.length;
+
+			// Add pages before the current page
+			for (let i = currentPage - 1; i > 0 && i >= currentPage - remainingPages; i--) {
+				pageRange.unshift(i);
+			}
+
+			// Add pages after the current page
+			for (let i = currentPage + 1; i <= totalPages && i <= currentPage + remainingPages; i++) {
+				pageRange.push(i);
+			}
+
+			// Add ellipsis if there are more pages before the current page
+			if (pageRange[0] > 1) {
+				pageRange.unshift("...");
+			}
+
+			// Add ellipsis if there are more pages after the current page
+			if (pageRange[pageRange.length - 1] < totalPages) {
+				pageRange.push("...");
+			}
+		}
+
+		return pageRange;
+	};
 	//Ativação do Dropdown Ações
 	const [dropdownOpen, setDropdownOpen] = useState(null);
 	const toggle = (index) => {
@@ -219,9 +259,8 @@ const TableCliente = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 			</Table>
 			{isLoading ? <Spinner color="primary" style={{ alignSelf: "center" }} /> : <></>}
 			<Row>
-				<Col className='d-flex align-items-end justify-content-end'>
+				<Col className="d-flex align-items-end justify-content-end">
 					{/* Pagination */}
-
 					<Pagination aria-label="Page navigation example" size="sm">
 						<PaginationItem disabled={currentPage === 1}>
 							<PaginationLink first onClick={() => handlePageChange(1)} />
@@ -229,9 +268,9 @@ const TableCliente = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 						<PaginationItem disabled={currentPage === 1}>
 							<PaginationLink previous onClick={() => handlePageChange(currentPage - 1)} />
 						</PaginationItem>
-						{Array.from({ length: totalPages }, (_, index) => (
-							<PaginationItem key={index} active={currentPage === index + 1}>
-								<PaginationLink onClick={() => handlePageChange(index + 1)}>{index + 1}</PaginationLink>
+						{getPageRange().map((page, index) => (
+							<PaginationItem key={index} active={currentPage === page}>
+								<PaginationLink onClick={() => handlePageChange(page)}>{page}</PaginationLink>
 							</PaginationItem>
 						))}
 						<PaginationItem disabled={currentPage === totalPages}>

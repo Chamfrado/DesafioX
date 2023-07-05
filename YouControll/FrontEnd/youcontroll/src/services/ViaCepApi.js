@@ -1,8 +1,8 @@
 import axios from "axios";
 
 
-const YCapi = axios.create({
+const ViaCepApi = axios.create({
 	baseURL : "https://viacep.com.br/ws/"
 });
 
-export default YCapi;
+export default ViaCepApi;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Row, Table } from "reactstrap";
+import { Button, Col, Container, Label, Row, Table } from "reactstrap";
 import YCapi from "../../services/YouControllApi";
 import { Bar } from "react-chartjs-2";
 import { Chart, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
@@ -50,9 +50,10 @@ const YearChart = () => {
 			labels: labels,
 			datasets: [
 				{
-					label: "Vendas",
+					label: "Vendas (R$)",
 					data: data,
 					backgroundColor: "#0d6efd", // Customize the background color
+					
 				},
 			],
 		};
@@ -170,7 +171,7 @@ const TableRelacaoVendas = ({onGetTable}) => {
 				<Col style={{ height: "100%" }}>
 					{tableData.length > 0 && (
 						<Table  size="sm" striped bordered responsive style={{ height: "100%" }}>
-							<thead className="bg-primary" style={{color: "white"}}>
+							<thead  >
 								<tr style={{padding: 1}}>
 									<th style={{padding: ".15rem .15rem"}}>Mês</th>
 									<th style={{padding: ".15rem .15rem"}}>Vendas</th>
@@ -215,14 +216,16 @@ const VendasPorAno = () => {
 		setTableData(data);
 	};
 	return (
-		<Container  fluid style={{ height: "43vh", borderWidth: 3, paddingTop: 5 }}>
+		<Container  fluid style={{ height: "50vh",  paddingTop: 5 }}>
 
 			
 			<Row style={{ height: "100%" }}>
-				<Col  style={{ height: "100%" }}>
-					<YearChart />
+				<Col style={{ height: "100%"}}>
+					<Label className="d-flex align-items-center justify-content-center" for="yearChart" size="lg"><strong>Valor(R$) X Mês</strong></Label>
+					<YearChart key={"yearChart"} />
 				</Col>
 				<Col  style={{ height: "100%" }}>
+					
 					<TableRelacaoVendas onGetTable={handleGetTable}/>
 				</Col >
 				<Col sm="1" >

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import {  Button, Col, Container, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Input, Label, Pagination, PaginationItem, PaginationLink, Row, Spinner, Table } from "reactstrap";
+import { Button, Col, Container, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Input, Label, Pagination, PaginationItem, PaginationLink, Row, Spinner, Table } from "reactstrap";
 import React, { useEffect, useState } from "react";
 import { BiPencil, BiPlus, BiSearch, BiTrash } from "react-icons/bi";
 import { BsChevronDoubleDown, BsDashLg } from "react-icons/bs";
@@ -9,7 +9,7 @@ import AtualizarVendaModal from "../Modals/AtualizarVendaModal";
 import DeletarVendaModal from "../Modals/DeletarVendaModal";
 
 
-const TableVendas = ({onSaveSucess, onUpdateSucess, onDeleteSucess}) => {
+const TableVendas = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 
 	const [error, setError] = useState();
 
@@ -21,12 +21,12 @@ const TableVendas = ({onSaveSucess, onUpdateSucess, onDeleteSucess}) => {
 	};
 
 	//Filtro
-	const[orderBy,setOrderBy] = useState("nome");
+	const [orderBy, setOrderBy] = useState("nome");
 	// eslint-disable-next-line no-unused-vars
-	const[isDesc, setIsDesc] = useState("false");
+	const [isDesc, setIsDesc] = useState("false");
 
 	const handleChangeFiltro = (index) => {
-		if(orderBy === index){
+		if (orderBy === index) {
 			setIsDesc(!isDesc);
 		}
 		setOrderBy(index);
@@ -38,9 +38,9 @@ const TableVendas = ({onSaveSucess, onUpdateSucess, onDeleteSucess}) => {
 	const [tableData, setTableData] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const fetchTableData = () => {
-		const url = searchQuery ? `vendas?orderBy=${encodeURIComponent(orderBy)}&search=${encodeURIComponent(searchQuery)}` : `vendas?orderBy=${encodeURIComponent(orderBy)}` ;
+		const url = searchQuery ? `vendas?orderBy=${encodeURIComponent(orderBy)}&search=${encodeURIComponent(searchQuery)}` : `vendas?orderBy=${encodeURIComponent(orderBy)}`;
 		YCapi.get(url)
-			.then(( data ) => {
+			.then((data) => {
 				setTableData(data.data);
 				setIsLoading(false);
 			})
@@ -64,7 +64,48 @@ const TableVendas = ({onSaveSucess, onUpdateSucess, onDeleteSucess}) => {
 	const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 	const currentData = tableData.slice(indexOfFirstItem, indexOfLastItem);
 	const handlePageChange = (pageNumber) => {
-		setCurrentPage(pageNumber);
+		if (pageNumber < 1) {
+			setCurrentPage(1);
+		} else if (pageNumber > totalPages) {
+			setCurrentPage(totalPages);
+		} else {
+			setCurrentPage(pageNumber);
+		}
+	};
+
+	const getPageRange = () => {
+		let pageRange = [];
+
+		if (totalPages <= 5) {
+			// Display all pages if there are 5 or less
+			pageRange = Array.from({ length: totalPages }, (_, index) => index + 1);
+		} else {
+			// Display the current page, last 2 pages, and next 2 pages
+			pageRange = [currentPage];
+			const remainingPages = 4 - pageRange.length;
+
+			// Add pages before the current page
+			for (let i = currentPage - 1; i > 0 && i >= currentPage - remainingPages; i--) {
+				pageRange.unshift(i);
+			}
+
+			// Add pages after the current page
+			for (let i = currentPage + 1; i <= totalPages && i <= currentPage + remainingPages; i++) {
+				pageRange.push(i);
+			}
+
+			// Add ellipsis if there are more pages before the current page
+			if (pageRange[0] > 1) {
+				pageRange.unshift("...");
+			}
+
+			// Add ellipsis if there are more pages after the current page
+			if (pageRange[pageRange.length - 1] < totalPages) {
+				pageRange.push("...");
+			}
+		}
+
+		return pageRange;
 	};
 	//Ativação do Dropdown Ações
 	const [dropdownOpen, setDropdownOpen] = useState(null);
@@ -108,9 +149,9 @@ const TableVendas = ({onSaveSucess, onUpdateSucess, onDeleteSucess}) => {
 
 	return (
 		<Container fluid >
-			<Row  style={{ paddingTop: 20, marginBottom: 10 }}>
+			<Row style={{ paddingTop: 20, marginBottom: 10 }}>
 				<Col style={{ display: "flex", alignItems: "center" }}>
-					<Input 
+					<Input
 						id="search"
 						name="searchQuery"
 						placeholder="Digite o nome do que deseja pesquisar"
@@ -134,20 +175,20 @@ const TableVendas = ({onSaveSucess, onUpdateSucess, onDeleteSucess}) => {
 				<thead>
 					<tr>
 						<th>
-							<Button style={{backgroundColor: "white", borderWidth:0, color: "black"}} onClick={() => handleChangeFiltro("nome")}><strong>Venda</strong></Button>
-							{orderBy === "nome" ? <BsChevronDoubleDown/> : <BsDashLg/>}
+							<Button style={{ backgroundColor: "white", borderWidth: 0, color: "black" }} onClick={() => handleChangeFiltro("nome")}><strong>Venda</strong></Button>
+							{orderBy === "nome" ? <BsChevronDoubleDown /> : <BsDashLg />}
 						</th>
 						<th>
-							<Button style={{backgroundColor: "white", borderWidth:0, color: "black"}} onClick={() => handleChangeFiltro("data")}><strong>Data</strong></Button>
-							{orderBy === "data" ? <BsChevronDoubleDown/> : <BsDashLg/>}
+							<Button style={{ backgroundColor: "white", borderWidth: 0, color: "black" }} onClick={() => handleChangeFiltro("data")}><strong>Data</strong></Button>
+							{orderBy === "data" ? <BsChevronDoubleDown /> : <BsDashLg />}
 						</th>
 						<th>
-							<Button style={{backgroundColor: "white", borderWidth:0, color: "black"}} onClick={() => handleChangeFiltro("status")}><strong>Status</strong></Button>
-							{orderBy === "status" ? <BsChevronDoubleDown/> : <BsDashLg/>}
+							<Button style={{ backgroundColor: "white", borderWidth: 0, color: "black" }} onClick={() => handleChangeFiltro("status")}><strong>Status</strong></Button>
+							{orderBy === "status" ? <BsChevronDoubleDown /> : <BsDashLg />}
 						</th>
 						<th>
-							<Button style={{backgroundColor: "white", borderWidth:0, color: "black"}} onClick={() => handleChangeFiltro("valor")}><strong>Valor</strong></Button>
-							{orderBy === "valor" ? <BsChevronDoubleDown/> : <BsDashLg/>}
+							<Button style={{ backgroundColor: "white", borderWidth: 0, color: "black" }} onClick={() => handleChangeFiltro("valor")}><strong>Valor</strong></Button>
+							{orderBy === "valor" ? <BsChevronDoubleDown /> : <BsDashLg />}
 						</th>
 						<th>
 
@@ -165,13 +206,13 @@ const TableVendas = ({onSaveSucess, onUpdateSucess, onDeleteSucess}) => {
 								<Dropdown isOpen={dropdownOpen === item[0]} toggle={() => toggle(item[0])} direction="down" size="medium">
 									<DropdownToggle color='primary' caret>Ações</DropdownToggle>
 									<DropdownMenu >
-										<DropdownItem onClick={() =>setSelectedVenda(item[0])}>
+										<DropdownItem onClick={() => setSelectedVenda(item[0])}>
 											<BiPencil />
 											<Label style={{ paddingLeft: 10, paddingRight: 10 }}>Alterar</Label>
 										</DropdownItem>
 										<DropdownItem>
 											<BiTrash />
-											<Label style={{ paddingLeft: 10 }} onClick={() =>setDeleteVenda(item[0])}>Excluir</Label>
+											<Label style={{ paddingLeft: 10 }} onClick={() => setDeleteVenda(item[0])}>Excluir</Label>
 										</DropdownItem>
 									</DropdownMenu>
 								</Dropdown>
@@ -182,9 +223,8 @@ const TableVendas = ({onSaveSucess, onUpdateSucess, onDeleteSucess}) => {
 			</Table>
 			{isLoading ? <Spinner color="primary" style={{ alignSelf: "center" }} /> : <></>}
 			<Row>
-				<Col className='d-flex align-items-end justify-content-end'>
+				<Col className="d-flex align-items-end justify-content-end">
 					{/* Pagination */}
-
 					<Pagination aria-label="Page navigation example" size="sm">
 						<PaginationItem disabled={currentPage === 1}>
 							<PaginationLink first onClick={() => handlePageChange(1)} />
@@ -192,9 +232,9 @@ const TableVendas = ({onSaveSucess, onUpdateSucess, onDeleteSucess}) => {
 						<PaginationItem disabled={currentPage === 1}>
 							<PaginationLink previous onClick={() => handlePageChange(currentPage - 1)} />
 						</PaginationItem>
-						{Array.from({ length: totalPages }, (_, index) => (
-							<PaginationItem key={index} active={currentPage === index + 1}>
-								<PaginationLink onClick={() => handlePageChange(index + 1)}>{index + 1}</PaginationLink>
+						{getPageRange().map((page, index) => (
+							<PaginationItem key={index} active={currentPage === page}>
+								<PaginationLink onClick={() => handlePageChange(page)}>{page}</PaginationLink>
 							</PaginationItem>
 						))}
 						<PaginationItem disabled={currentPage === totalPages}>
@@ -206,9 +246,9 @@ const TableVendas = ({onSaveSucess, onUpdateSucess, onDeleteSucess}) => {
 					</Pagination>
 				</Col>
 			</Row>
-			<AtualizarVendaModal VendaId={selectedVenda} Sucess={handleOnUpdateSucess}/>
+			<AtualizarVendaModal VendaId={selectedVenda} Sucess={handleOnUpdateSucess} />
 			<CadastrarVendaModal state={vendaCadastroModal} Sucess={handleOnSaveSucess} onChangeState={handleToggleVendaCadastroModal} />
-			<DeletarVendaModal VendaId={deleteVenda}  Sucess={handleOnDeleteSucess} />
+			<DeletarVendaModal VendaId={deleteVenda} Sucess={handleOnDeleteSucess} />
 		</Container>
 
 	);

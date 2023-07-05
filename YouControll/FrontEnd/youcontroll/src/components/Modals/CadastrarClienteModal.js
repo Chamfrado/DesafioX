@@ -201,7 +201,7 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 				cep: "Preencher o CEP é obrigatório!"
 			}));
 			isCEPValid = false;
-		}else if((formData.cep.replace(/\D/g, "").length !== 8)){
+		}else if(formData.cep.length !== 8){
 			setErrorForm((prevErrorForm) =>({
 				...prevErrorForm,
 				cep: "O CEP precisa conter 8 caracteres"
@@ -320,8 +320,6 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 				...prevFormData,
 				[name]: value.replace(/\D/g, "")
 			}));
-		}else if(name === "cep" && value.length === 8){
-			handleChangeCEP(value);
 		}else{
 			setFormData((prevFormData) => ({
 				...prevFormData,
@@ -333,39 +331,48 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 
 	//Quando o CEP é alterado
 	// eslint-disable-next-line no-unused-vars
-	const handleChangeCEP = (value) => {
-		
+	const handleChangeCEP = (event) => {
+		const {  value } = event.target;
+		alert(value);
 		const url = value + "/json/?callback=callback_name";
-
-		ViaCepApi.get(url)
-			.then(({ data }) => {
+		if(value.length === 8){
+			ViaCepApi.get(url)
+				.then(({ data }) => {
 				// Remover a função de retorno de chamada da resposta
-				const jsonString = data.replace("callback_name(", "").replace(");", "");
+					const jsonString = data.replace("callback_name(", "").replace(");", "");
 
-				// Converter a string JSON em objeto
-				const responseObject = JSON.parse(jsonString);
+					// Converter a string JSON em objeto
+					const responseObject = JSON.parse(jsonString);
 
-				// Extrair o logradouro do objeto
-				const { logradouro, bairro, localidade, uf } = responseObject;
-
-				setFormData((prevFormData) => ({
-					...prevFormData,
-					uf: uf,
-					logradouro: logradouro,
-					bairro: bairro,
-					cidade: localidade,
-					cep: value
-				}));
-
+					// Extrair o logradouro do objeto
+					const { logradouro, bairro, localidade, uf } = responseObject;
+					setFormData((prevFormData) => ({
+						...prevFormData,
+						uf: uf,
+						logradouro: logradouro,
+						bairro: bairro,
+						cidade: localidade,
+						cep: value
+					}));
 
 
-			})
-			.catch(() => {
-				setFormData((prevFormData) => ({
-					...prevFormData,
-					cep: value
-				}));
-			});
+
+				})
+				.catch((error) => {
+					alert(error);
+					setFormData((prevFormData) => ({
+						...prevFormData,
+						cep: value
+					}));
+				});
+		}else{
+			setFormData((prevFormData) => ({
+				...prevFormData,
+				cep: value
+			}));
+		}
+			
+		
 	};
 
 
@@ -408,7 +415,6 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 	//Handle para completar o Form
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		alert(isFormValid);
 		if (!isFormValid) {
 			return;
 		}
@@ -530,11 +536,12 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 								id="cep"
 								type="text"
 								value={formData.cep}
+								onBlur={handleChangeCEP}
 								onChange={handleChange}
 								placeholder="Insira o CEP"
 								required
-								minLength={9}
-								maxLength={9}
+								minLength={8}
+								maxLength={8}
 								className={errorForm.cep? "is-invalid" : "is-valid"}
 							/>
 							{errorForm.cep && (
