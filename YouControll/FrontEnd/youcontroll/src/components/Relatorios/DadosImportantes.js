@@ -3,9 +3,9 @@ import {  Col, Container, Row, Toast, ToastBody, ToastHeader } from "reactstrap"
 
 const DadosImportantes = () => {
 	return (
-		<Container fluid>
+		<Container fluid >
 			
-			<Row style={{ paddingTop: 20, marginLeft: "1%", marginRight: "1%", paddingBottom: 30 }}>
+			<Row  style={{ paddingTop: 20, marginLeft: "1%", marginRight: "1%", paddingBottom: 30 }}>
 
 				<Col xs="3" style={{ marginTop: 5 }}>
 					<Toast>

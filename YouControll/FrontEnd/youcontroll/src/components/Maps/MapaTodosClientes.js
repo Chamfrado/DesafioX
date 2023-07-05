@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import YCapi from "../../services/YouControllApi";
 import shopIcon from "../../resources/shop.png";
-import { Label, Row } from "reactstrap";
+import { Container, Label, Row } from "reactstrap";
 
 
 import L from "leaflet";
@@ -57,8 +57,8 @@ const MapaClientes = () => {
 
 
 	return (
-		<div>
-			<MapContainer center={[-22.252753, -45.704336]} zoom={15} style={{ height: "250px", width: "100%" }}>
+		<Container style={{ height: "43vh", width: "100%", padding: 0  }}>
+			<MapContainer center={[-22.252753, -45.704336]} zoom={15}  style={{ height: "100%", width: "100%" }}>
 				<TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 				{clients.map((client, index) => {
 					if (client.nome) {
@@ -95,7 +95,7 @@ const MapaClientes = () => {
 					<p>State: {selectedClient.uf}</p>
 				</div>
 			)}
-		</div>
+		</Container>
 	);
 };
 
