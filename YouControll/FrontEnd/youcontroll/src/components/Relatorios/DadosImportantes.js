@@ -1,11 +1,11 @@
-/* eslint-disable no-unused-vars */
+
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Label, Row, Toast, ToastBody, ToastHeader } from "reactstrap";
+import { Col, Container, Label, Row, Toast, ToastBody, ToastHeader } from "reactstrap";
 import YCapi from "../../services/YouControllApi";
 import {BiDollar, BiCalendarStar, BiUser} from "react-icons/bi";
+import PropTypes from "prop-types";
 
 
-// eslint-disable-next-line react/prop-types
 const DadosImportantes = ({Ano}) => {
 	const Meses = [
 		"Janeiro",
@@ -186,5 +186,10 @@ const DadosImportantes = ({Ano}) => {
 
 	);
 };
+
+DadosImportantes.propTypes = {
+	Ano: PropTypes.number.isRequired,
+};
+
 
 export default DadosImportantes;

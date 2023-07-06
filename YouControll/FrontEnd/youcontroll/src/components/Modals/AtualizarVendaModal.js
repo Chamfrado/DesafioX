@@ -1,9 +1,10 @@
-/* eslint-disable react/prop-types */
+
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, FormFeedback, FormGroup, Input, InputGroup, InputGroupText, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row, Spinner } from "reactstrap";
 import YCapi from "../../services/YouControllApi";
 import { BiSearch } from "react-icons/bi";
 import PesquisarCliente from "./PesquisarCliente";
+import PropTypes from "prop-types";
 
 //FormatDate
 function formatDate(dateString) {
@@ -355,6 +356,12 @@ const AtualizarVendaModal = ({ VendaId, Sucess }) => {
 			/>
 		</Modal>
 	);
+};
+
+
+AtualizarVendaModal.propTypes = {
+	VendaId: PropTypes.number.isRequired,
+	Sucess: PropTypes.func.isRequired
 };
 
 export default AtualizarVendaModal;

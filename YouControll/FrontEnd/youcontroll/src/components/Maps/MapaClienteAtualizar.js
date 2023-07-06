@@ -1,10 +1,11 @@
-/* eslint-disable react/prop-types */
+
 import { Button, Col, Container, FormGroup, Input, Label, Row } from "reactstrap";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import axios from "axios";
 import shopIcon from "../../resources/shop.png";
 import L from "leaflet";
+import PropTypes from "prop-types";
 
 
 const MapaClienteAtualizar = ({ ClientCoordinates, onChangeLocation, StartLocation }) => {
@@ -28,7 +29,6 @@ const MapaClienteAtualizar = ({ ClientCoordinates, onChangeLocation, StartLocati
 
 	const handleLocalizar = async () => {
 
-		// eslint-disable-next-line react/prop-types
 		const address = ` ${ClientCoordinates.logradouro} , ${ClientCoordinates.bairro}, ${ClientCoordinates.cidade}, ${ClientCoordinates.cep}`;
 		try {
 			const response = await axios.get(
@@ -142,6 +142,14 @@ const MapaClienteAtualizar = ({ ClientCoordinates, onChangeLocation, StartLocati
 		</Container>
 
 	);
+};
+
+
+
+MapaClienteAtualizar.propTypes = {
+	ClientCoordinates: PropTypes.object.isRequired,
+	onChangeLocation: PropTypes.func.isRequired,
+	StartLocation: PropTypes.object.isRequired
 };
 
 export default MapaClienteAtualizar;

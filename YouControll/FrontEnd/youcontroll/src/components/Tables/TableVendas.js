@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+
 import { Button, Col, Container, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Input, Label, Pagination, PaginationItem, PaginationLink, Row, Spinner, Table } from "reactstrap";
 import React, { useEffect, useState } from "react";
 import { BiPencil, BiPlus, BiSearch, BiTrash } from "react-icons/bi";
@@ -7,6 +7,7 @@ import YCapi from "../../services/YouControllApi";
 import CadastrarVendaModal from "../Modals/CadastrarVendaModal";
 import AtualizarVendaModal from "../Modals/AtualizarVendaModal";
 import DeletarVendaModal from "../Modals/DeletarVendaModal";
+import PropTypes from "prop-types";
 
 
 const TableVendas = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
@@ -224,7 +225,7 @@ const TableVendas = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 			{isLoading ? <Spinner color="primary" style={{ alignSelf: "center" }} /> : <></>}
 			<Row>
 				<Col>
-					<Label size="sm">Exibindo {currentPage*10 - 9} a {currentPage*10} dos {tableData.length} itens.</Label>
+					<Label size="sm">Exibindo {currentPage*10 - 9} a {currentPage === totalPages? tableData.length : currentPage*10 }  dos {tableData.length} itens.</Label>
 				</Col>
 				<Col className="d-flex align-items-end justify-content-end">
 					{/* Pagination */}
@@ -255,6 +256,12 @@ const TableVendas = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 		</Container>
 
 	);
+};
+
+TableVendas.propTypes = {
+	onSaveSucess: PropTypes.func.isRequired,
+	onUpdateSucess: PropTypes.func.isRequired, 
+	onDeleteSucess: PropTypes.func.isRequired
 };
 
 export default TableVendas;

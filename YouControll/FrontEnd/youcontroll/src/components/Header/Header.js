@@ -8,8 +8,8 @@ import { BiUserCircle, BiExit } from "react-icons/bi";
 import logoImage from "../../resources/referencia.png";
 import { useState } from "react";
 import MenuHeaderCanvas from "../OffCanvas/MenuHeaderCanvas";
+import PropTypes from "prop-types";
 
-// eslint-disable-next-line react/prop-types
 const Header = ({ height }) => {
 
 
@@ -73,6 +73,11 @@ const Header = ({ height }) => {
 			</Alert>}
 		</Container>
 	);
+};
+
+
+Header.propTypes ={
+	height: PropTypes.string.isRequired
 };
 
 export default Header;

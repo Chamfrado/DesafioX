@@ -1,7 +1,9 @@
-/* eslint-disable react/prop-types */
+
 import { Button, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row } from "reactstrap";
 import React, { useEffect, useState } from "react";
 import YCapi from "../../services/YouControllApi";
+
+import PropTypes from "prop-types";
 
 
 
@@ -50,6 +52,11 @@ const DeletarVendaModal = ({ VendaId , Sucess }) => {
 			</ModalFooter>
 		</Modal>
 	);
+};
+
+DeletarVendaModal.propTypes = {
+	VendaId: PropTypes.number.isRequired, 
+	Sucess: PropTypes.func.isRequired
 };
 
 export default DeletarVendaModal;

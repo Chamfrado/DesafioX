@@ -8,11 +8,9 @@ import PropTypes from "prop-types";
 import AtualizarClienteModal from "../Modals/AtualizarClienteModal";
 import DeletarClienteModal from "../Modals/DeletarClienteModal";
 
-// eslint-disable-next-line no-unused-vars
 import{BsChevronDoubleDown,BsDashLg} from "react-icons/bs";
 
 
-// eslint-disable-next-line react/prop-types
 const TableCliente = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 
 	
@@ -260,7 +258,7 @@ const TableCliente = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 			{isLoading ? <Spinner color="primary" style={{ alignSelf: "center" }} /> : <></>}
 			<Row>
 				<Col>
-					<Label size="sm">Exibindo {currentPage*8 - 7} a {currentPage*8} dos {tableData.length} itens.</Label>
+					<Label size="sm">Exibindo {currentPage*10 - 9} a {currentPage === totalPages? tableData.length : currentPage*10 }  dos {tableData.length} itens.</Label>
 				</Col>
 				<Col className="d-flex align-items-end justify-content-end">
 					{/* Pagination */}
@@ -294,8 +292,10 @@ const TableCliente = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 	);
 };
 
-TableCliente.PropTypes = {
-	onSaveSucess: PropTypes.func
+TableCliente.propTypes = {
+	onSaveSucess: PropTypes.func.isRequired,
+	onUpdateSucess: PropTypes.func.isRequired, 
+	onDeleteSucess: PropTypes.func.isRequired
 };
 
 export default TableCliente;

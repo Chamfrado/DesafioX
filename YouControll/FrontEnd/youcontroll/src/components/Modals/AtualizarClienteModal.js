@@ -1,10 +1,11 @@
-/* eslint-disable react/prop-types */
+
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, FormFeedback, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row, Spinner } from "reactstrap";
 import YCapi from "../../services/YouControllApi";
 import MapaClienteAtualizar from "../Maps/MapaClienteAtualizar";
 import EstadosApi from "../../services/EstadosApi";
 import ViaCepApi from "../../services/ViaCepApi";
+import PropTypes from "prop-types";
 
 const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -675,4 +676,10 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 	);
 };
 
+
+AtualizarClienteModal.propTypes = {
+	ClienteId: PropTypes.number.isRequired,
+	Sucess: PropTypes.func.isRequired
+};
+  
 export default AtualizarClienteModal;

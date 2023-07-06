@@ -1,16 +1,15 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-mixed-spaces-and-tabs */
+
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import shopIcon from "../../resources/shop.png";
 import { Container, Label, Row, Input, Col, Button, FormGroup } from "reactstrap";
 import axios from "axios";
+import PropTypes from "prop-types";
 
 
 import L from "leaflet";
 
 
-// eslint-disable-next-line react/prop-types
 const MapClienteCadastro = ({ endereco, onChangeLocation }) => {
 
 	const [isChecked, setIsChecked] = useState(false);
@@ -29,7 +28,7 @@ const MapClienteCadastro = ({ endereco, onChangeLocation }) => {
 
 
 
-		// eslint-disable-next-line react/prop-types
+
 		const address = ` ${endereco.logradouro} , ${endereco.bairro}, ${endereco.cidade}, ${endereco.cep}`;
 		try {
 			const response = await axios.get(
@@ -146,4 +145,9 @@ const MapClienteCadastro = ({ endereco, onChangeLocation }) => {
 	);
 };
 
+
+MapClienteCadastro.propTypes = {
+	endereco: PropTypes.object.isRequired,
+	onChangeLocation: PropTypes.func.isRequired
+};
 export default MapClienteCadastro;

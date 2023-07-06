@@ -1,10 +1,11 @@
-/* eslint-disable react/prop-types */
+
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Label, Row, Table } from "reactstrap";
 import YCapi from "../../services/YouControllApi";
 import { Bar } from "react-chartjs-2";
 import { Chart, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import Papa from "papaparse";// Importe a biblioteca json2csv
+import PropTypes from "prop-types";
 
 // Register the required chart.js scales and elements
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -106,7 +107,8 @@ const YearChart = ({ Ano }) => {
 	);
 };
 
-// eslint-disable-next-line react/prop-types
+
+
 const TableRelacaoVendas = ({ onGetTable, Ano }) => {
 	const Meses = [
 		"Janeiro",
@@ -275,5 +277,18 @@ const VendasPorAno = ({ Ano }) => {
 		</Container>
 	);
 };
+
+
+YearChart.propTypes = {
+	Ano: PropTypes.number.isRequired,
+};
+VendasPorAno.propTypes = {
+	Ano: PropTypes.number.isRequired,
+};
+TableRelacaoVendas.propTypes = {
+	Ano: PropTypes.number.isRequired,
+	onGetTable: PropTypes.func.isRequired
+};
+
 
 export default VendasPorAno;

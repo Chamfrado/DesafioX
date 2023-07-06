@@ -21,6 +21,8 @@ import { BiSearch } from "react-icons/bi";
 
 import PesquisarCliente from "./PesquisarCliente";
 
+import PropTypes from "prop-types";
+
 
 //FormatDate
 function formatDate(dateString) {
@@ -29,7 +31,6 @@ function formatDate(dateString) {
 }
 
 
-// eslint-disable-next-line react/prop-types
 const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 	const [modal, setModal] = useState(false);
 	const [formData, setFormData] = useState({
@@ -345,6 +346,12 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 			/>
 		</Modal>
 	);
+};
+
+CadastrarVendaModal.propTypes = {
+	state: PropTypes.bool.isRequired, 
+	onChangeState: PropTypes.func.isRequired, 
+	Sucess: PropTypes.func.isRequired
 };
 
 export default CadastrarVendaModal;

@@ -4,8 +4,9 @@ import EstadosApi from "../../services/EstadosApi";
 import ViaCepApi from "../../services/ViaCepApi";
 import YCapi from "../../services/YouControllApi";
 import MapClienteCadastro from "../Maps/MapaClienteCadastro";
+import PropTypes from "prop-types";
 
-// eslint-disable-next-line react/prop-types
+
 const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -648,6 +649,12 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 			</ModalFooter>
 		</Modal>
 	);
+};
+
+CadastarClienteModal.propTypes = {
+	state: PropTypes.bool.isRequired, 
+	onChangeState: PropTypes.func.isRequired, 
+	Sucess: PropTypes.func.isRequired
 };
 
 export default CadastarClienteModal;

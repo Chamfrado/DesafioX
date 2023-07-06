@@ -1,12 +1,12 @@
-/* eslint-disable react/prop-types */
-// eslint-disable-next-line no-unused-vars
-import { AccordionBody, AccordionHeader,NavLink, AccordionItem, Card, Collapse, Nav, NavItem,  NavbarToggler, Offcanvas, OffcanvasBody, OffcanvasHeader, Row, UncontrolledAccordion } from "reactstrap";
+
+import { AccordionBody, AccordionHeader,NavLink, AccordionItem, Nav, NavItem, Offcanvas, OffcanvasBody, OffcanvasHeader, Row, UncontrolledAccordion } from "reactstrap";
 import React, { useEffect, useState } from "react";
 import CadastarClienteModal from "../Modals/CadastrarClienteModal";
 import CadastrarVendaModal from "../Modals/CadastrarVendaModal";
+import PropTypes from "prop-types";
 
-// eslint-disable-next-line no-unused-vars
-const MenuHeaderCanvas = ({open, handleClose, SaveClienteSucess, SaveVendaSucess}) => {
+ 
+const MenuHeaderCanvas = ({open, handleClose, SaveClienteSucess}) => {
 
 	
 	const [cadastrarCliente, setCadastrarCliente] = useState(false);
@@ -127,6 +127,11 @@ const MenuHeaderCanvas = ({open, handleClose, SaveClienteSucess, SaveVendaSucess
 			{cadastrarVenda && <CadastrarVendaModal Sucess={handleSucessVenda} onChangeState={handleCadastrarVenda} state={cadastrarVenda}/>}
 		</Offcanvas>
 	);
+};
+MenuHeaderCanvas.propTypes = {
+	open: PropTypes.bool.isRequired,
+	handleClose: PropTypes.func.isRequired,
+	SaveClienteSucess: PropTypes.func.isRequired
 };
 
 export default MenuHeaderCanvas;

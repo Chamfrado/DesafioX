@@ -3,11 +3,10 @@ import React, { useEffect, useState } from "react";
 import { BsChevronDoubleDown, BsDashLg } from "react-icons/bs";
 import YCapi from "../../services/YouControllApi";
 import { BiSearch } from "react-icons/bi";
+import PropTypes from "prop-types";
 
-// eslint-disable-next-line react/prop-types, no-unused-vars
 const PesquisarCliente = ({onClienteSelected, searchState, state, onChangeState }) => {
 	const [modal,setModal] = useState(false);
-	// eslint-disable-next-line no-unused-vars
 	const [selectedCliente, setSelectedCliente] = useState({
 		id: -1,
 		nome: "",
@@ -241,6 +240,13 @@ const PesquisarCliente = ({onClienteSelected, searchState, state, onChangeState 
 			
 		</Modal>
 	);
+};
+
+PesquisarCliente.propTypes = {
+	onClienteSelected: PropTypes.func.isRequired, 
+	searchState: PropTypes.string.isRequired, 
+	state: PropTypes.bool.isRequired, 
+	onChangeState : PropTypes.func.isRequired
 };
 
 export default PesquisarCliente;
