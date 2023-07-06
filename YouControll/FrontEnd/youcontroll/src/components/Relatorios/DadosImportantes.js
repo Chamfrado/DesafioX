@@ -93,7 +93,7 @@ const DadosImportantes = ({Ano}) => {
 
 		setClienteAnual(ClienteValor);
 	};
-
+	
 	useEffect(() => {
 		fetchVendas();
 	}, [Ano]);
@@ -143,7 +143,7 @@ const DadosImportantes = ({Ano}) => {
 						<ToastHeader className="bg-primary " style={{ color: "white" }}>
 							Total em vendas no ano
 						</ToastHeader>
-						<ToastBody className="">
+						<ToastBody >
 							<Label className="d-flex align-items-center justify-content-center" size="lg"><BiDollar style={{marginRight: 10, color:"#0d6efd"}} /> R$ {totalVendas}</Label>
 						</ToastBody>
 					</Toast>
@@ -154,7 +154,7 @@ const DadosImportantes = ({Ano}) => {
 						<ToastHeader className="bg-primary " style={{ color: "white" }}>
 							Media mensal de vendas
 						</ToastHeader>
-						<ToastBody className="">
+						<ToastBody >
 							<Label className="d-flex align-items-center justify-content-center" size="lg"><BiDollar style={{marginRight: 10, color:"#0d6efd"}} />R$ {mediaVendas}</Label>
 						</ToastBody>
 					</Toast>
@@ -164,7 +164,7 @@ const DadosImportantes = ({Ano}) => {
 						<ToastHeader className="bg-primary " style={{ color: "white" }}>
 							Cliente com maior faturamento por mês
 						</ToastHeader>
-						<ToastBody className="">
+						<ToastBody >
 							<Label className="d-flex align-items-center justify-content-center" size="lg"><BiCalendarStar style={{marginRight: 10, color:"#0d6efd"}} />{melhorMes.mes} (R$ {melhorMes.totalMes.toFixed(2)})</Label>
 						</ToastBody>
 					</Toast>

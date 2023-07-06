@@ -12,7 +12,7 @@ import YCapi from "../services/YouControllApi";
 const RelatorioView = () => {
 	const [activeTab, setActiveTab] = useState("1");
 	const[anosDisponiveis,setAnosDisponiveis] = useState([]);
-	const[selectedAno, setSelectedAno] = useState();
+	const[selectedAno, setSelectedAno] = useState(0);
 
 	
 
@@ -39,8 +39,12 @@ const RelatorioView = () => {
 	};
 
 	const handleChange = (event) =>{
+
 		const {value} = event.target;
+		
 		setSelectedAno (value);
+		
+		
 	};
 
 	useState(() => {
@@ -73,6 +77,7 @@ const RelatorioView = () => {
 						value={selectedAno}
 						onChange={handleChange}
 					>
+						<option>Selecione um ano</option>
 						{anosDisponiveis.map((option) => (
 							<option key={option}>{option}</option>
 						))}
@@ -117,7 +122,7 @@ const RelatorioView = () => {
 
 
 					<TabPane tabId="2" >
-						<VendasPorAno />
+						<VendasPorAno Ano={selectedAno}/>
 					</TabPane>
 
 				</TabContent>
