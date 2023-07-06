@@ -58,7 +58,7 @@ const TableVendas = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 
 	//Paginação
 	const [currentPage, setCurrentPage] = useState(1);
-	const [itemsPerPage] = useState(8);
+	const [itemsPerPage] = useState(10);
 	const totalPages = Math.ceil(tableData.length / itemsPerPage);
 	const indexOfLastItem = currentPage * itemsPerPage;
 	const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -223,6 +223,9 @@ const TableVendas = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 			</Table>
 			{isLoading ? <Spinner color="primary" style={{ alignSelf: "center" }} /> : <></>}
 			<Row>
+				<Col>
+					<Label size="sm">Exibindo {currentPage*10 - 9} a {currentPage*10} dos {tableData.length} itens.</Label>
+				</Col>
 				<Col className="d-flex align-items-end justify-content-end">
 					{/* Pagination */}
 					<Pagination aria-label="Page navigation example" size="sm">

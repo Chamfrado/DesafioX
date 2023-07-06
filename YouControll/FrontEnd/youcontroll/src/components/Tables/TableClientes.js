@@ -259,6 +259,9 @@ const TableCliente = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 			</Table>
 			{isLoading ? <Spinner color="primary" style={{ alignSelf: "center" }} /> : <></>}
 			<Row>
+				<Col>
+					<Label size="sm">Exibindo {currentPage*8 - 7} a {currentPage*8} dos {tableData.length} itens.</Label>
+				</Col>
 				<Col className="d-flex align-items-end justify-content-end">
 					{/* Pagination */}
 					<Pagination aria-label="Page navigation example" size="sm">

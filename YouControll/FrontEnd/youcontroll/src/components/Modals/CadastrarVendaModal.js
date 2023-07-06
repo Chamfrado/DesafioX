@@ -50,7 +50,6 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 	const [isDateValid, setIsDateValid] = useState(false);
 	const [isStatusValid, setIsStatusValid] = useState(false);
 	const [isValueValid, setIsValueValid] = useState(false);
-	const [isFormValid, setIsFormValid] = useState(false);
 	const [isSaveLoading, setIsSaveLoading] = useState(false);
 	const [pesquisaModal, setPesquisaModal] = useState(false);
 
@@ -92,6 +91,8 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 		verifyValor();
 		verifyStatus();
 
+		
+
 		setFormData((prevFormData) => ({
 			...prevFormData,
 			[name]: value,
@@ -128,11 +129,9 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		setIsFormValid(
-			isClienteValid && isDateValid && isStatusValid && isValueValid
-		);
 		
-		if (!isFormValid) {
+		
+		if (!(isClienteValid && isDateValid && isStatusValid && isValueValid)) {
 			return;
 		}
 
