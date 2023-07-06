@@ -25,7 +25,13 @@ public interface VendaRepository extends JpaRepository<Venda, Long>{
             return save(venda);
     }
 
-    @Query(value = "select v.id, c.nome, v.data, v.status, v.valor from venda v left join cliente c on v.cliente_id = c.id where lower(unaccent(c.nome)) ILIKE lower(unaccent(concat('%', :search , '%'))) ORDER BY CASE WHEN :orderBy = 'nome' THEN nome END ASC, CASE WHEN :orderBy = 'data' THEN data END ASC, CASE WHEN :orderBy = 'status' THEN status END ASC, CASE WHEN :orderBy = 'valor' THEN valor END ASC", nativeQuery = true)
+    @Query(value = "SELECT v.id, c.nome, v.data, v.status, v.valor from venda v " +
+    "LEFT JOIN cliente c on v.cliente_id = c.id " +
+     "WHERE lower(unaccent(c.nome)) ILIKE lower(unaccent(concat('%', :search , '%'))) " +
+     "ORDER BY CASE WHEN :orderBy = 'nome' THEN nome END ASC, "+
+     "CASE WHEN :orderBy = 'data' THEN data END ASC, "+
+     "CASE WHEN :orderBy = 'status' THEN status END ASC, "+
+     "CASE WHEN :orderBy = 'valor' THEN valor END ASC", nativeQuery = true)
     List<Object> findAllWithClientName(@Param("search") String search, @Param("orderBy") String orderBy);
 
 }

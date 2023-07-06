@@ -433,7 +433,7 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 			logradouro: location.logradouro,
 			lat: location.lat,
 			lng: location.lng,
-			cep: location.cep,
+			cep: location.cep.replace(/\D/g, ""),
 			cidade: location.cidade,
 			bairro: location.bairro,
 			uf: location.uf

@@ -267,7 +267,6 @@ const VendasPorAno = ({ Ano }) => {
 				</Col >
 				<Col sm="1" >
 					<Button color="primary" onClick={exportToCSV}>To CSV</Button>
-					<Button onClick={() => alert(Ano)}>teste</Button>
 				</Col>
 
 			</Row>

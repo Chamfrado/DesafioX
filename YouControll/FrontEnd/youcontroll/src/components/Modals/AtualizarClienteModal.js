@@ -290,39 +290,47 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 
 	//Quando o CEP é alterado
 	const handleChangeCEP = (event) => {
-		const { value } = event.target;
+		const {  value } = event.target;
 		const url = value + "/json/?callback=callback_name";
-		setUpdateForm(((prevUpdateForm) => ({
-			...prevUpdateForm,
-			cep: value
-		})));
-		ViaCepApi.get(url)
-			.then(({ data }) => {
+		if(value.length === 8){
+			ViaCepApi.get(url)
+				.then(({ data }) => {
 				// Remover a função de retorno de chamada da resposta
-				const jsonString = data.replace("callback_name(", "").replace(");", "");
+					const jsonString = data.replace("callback_name(", "").replace(");", "");
 
-				// Converter a string JSON em objeto
-				const responseObject = JSON.parse(jsonString);
+					// Converter a string JSON em objeto
+					const responseObject = JSON.parse(jsonString);
 
-				// Extrair o logradouro do objeto
-				const { logradouro, bairro, localidade, uf } = responseObject;
+					// Extrair o logradouro do objeto
+					const { logradouro, bairro, localidade, uf } = responseObject;
+					setUpdateForm((prevFormData) => ({
+						...prevFormData,
+						uf: uf,
+						logradouro: logradouro,
+						bairro: bairro,
+						cidade: localidade,
+						cep: value
+					}));
 
-				setUpdateForm((prevUpdateForm) => ({
-					...prevUpdateForm,
-					uf: uf,
-					logradouro: logradouro,
-					bairro: bairro,
-					cidade: localidade,
-					cep: value
-				}));
 
 
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+				})
+				.catch((error) => {
+					alert(error);
+					setUpdateForm((prevFormData) => ({
+						...prevFormData,
+						cep: value
+					}));
+				});
+		}else{
+			setUpdateForm((prevFormData) => ({
+				...prevFormData,
+				cep: value
+			}));
+		}
+			
+		
 	};
-
 	//Atualizando Cliente Selecionado
 	useEffect(() => {
 		if (ClienteId != -1)
@@ -346,6 +354,8 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 						lng: lng
 					});
 					setModal(!modal);
+					
+				}).finally(() => {
 				});
 
 	}, [ClienteId]);
@@ -363,7 +373,7 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 			logradouro: location.logradouro,
 			lat: location.lat,
 			lng: location.lng,
-			cep: location.cep,
+			cep: location.cep.replace(/\D/g, ""),
 			cidade: location.cidade,
 			bairro: location.bairro,
 			uf: location.uf
@@ -374,13 +384,12 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 	//Handle quando algum form é alterado
 	const handleChange = (event) => {
 		const { name, value } = event.target;
+
 		if(name === "cnpj" || name=== "telefone"){
 			setUpdateForm((prevFormData) => ({
 				...prevFormData,
 				[name]: value.replace(/\D/g, "")
 			}));
-		}else if(name === "cep" && value.replace(/\D/g, "").length === 8){
-			handleChangeCEP(value);
 		}else{
 			setUpdateForm((prevFormData) => ({
 				...prevFormData,
@@ -552,7 +561,7 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 								id="cep"
 								type="text"
 								value={updateForm.cep}
-								onChange={handleChange}
+								onChange={handleChangeCEP}
 								placeholder="Insira o CEP"
 								required
 								minLength={8}
