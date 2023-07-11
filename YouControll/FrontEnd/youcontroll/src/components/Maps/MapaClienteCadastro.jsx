@@ -111,10 +111,10 @@ const MapClienteCadastro = ({ endereco, onChangeLocation }) => {
 
 
 	return (
-		<Container>
+		<Container >
 			<Row style={{ paddingBottom: 10 }}>
 				<Col className='d-flex align-items-center justify-content-center'>
-					<Button color='primary' onClick={handleLocalizar}>Localizar</Button>
+					<Button color='primary' id="localizar" onClick={handleLocalizar}>Localizar</Button>
 				</Col>
 			</Row>
 			<Row>

@@ -268,7 +268,7 @@ const VendasPorAno = ({ Ano }) => {
 					<TableRelacaoVendas Ano={Ano} onGetTable={handleGetTable} />
 				</Col >
 				<Col sm="1" >
-					<Button color="primary" onClick={exportToCSV}>To CSV</Button>
+					<Button  color="primary" onClick={exportToCSV}>To CSV</Button>
 				</Col>
 
 			</Row>

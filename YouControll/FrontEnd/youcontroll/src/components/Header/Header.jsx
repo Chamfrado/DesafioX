@@ -9,12 +9,20 @@ import logoImage from "../../resources/referencia.png";
 import { useState } from "react";
 import MenuHeaderCanvas from "../OffCanvas/MenuHeaderCanvas";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
-const Header = ({ height }) => {
+// eslint-disable-next-line react/prop-types
+const Header = ({ height , handleLogout} ) => {
+	const navigate = useNavigate();
 
 
+	const handleExit = () => {
+		// Call the handleLogin function to update authentication status
+		handleLogout();
 
-	
+		// Redirect to the protected route (e.g., dashboard) after successful login
+		navigate("/protected");
+	};
 
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -42,11 +50,12 @@ const Header = ({ height }) => {
 	
 
 	return (
-		<Container style={{  height: height }} className="bg-primary">
+		<Container  style={{  height: height }} className="bg-primary">
 			<Row style={{ height: "100%" }}>
 				<Col style={{ display: "flex", alignItems: "center" }}>
 					
 					<img
+						id="menu"
 						onClick={toggleOffcanvas}
 						style={{ height: "70%", width: "10%", cursor: "pointer" }}
 						src={logoImage}
@@ -60,7 +69,7 @@ const Header = ({ height }) => {
 						<Label style={{ fontSize: "20px", color: "white" }}>Lohran Cintra</Label>
 						<Label style={{ fontSize: "12px", color: "white" }}>Desenvolvedor</Label>
 					</div>
-					<BiExit color="white" size={40} style={{ marginLeft: "10px" }} />
+					<BiExit color="white" size={40} style={{ marginLeft: "10px", cursor: "pointer" }} onClick={handleExit} />
 				</Col>
 			</Row>
 

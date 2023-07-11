@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import { Col, Container, Label, Row, Toast, ToastBody, ToastHeader } from "reactstrap";
+import { Col, Container,  Row, Toast, ToastBody, ToastHeader } from "reactstrap";
 import YCapi from "../../services/YouControllApi";
 import {BiDollar, BiCalendarStar, BiUser} from "react-icons/bi";
 import PropTypes from "prop-types";
@@ -138,44 +138,44 @@ const DadosImportantes = ({Ano}) => {
 			
 			<Row style={{ paddingTop: 20, marginLeft: "1%", marginRight: "1%", paddingBottom: 30 }}>
 
-				<Col xs="3" style={{ marginTop: 5 }}>
-					<Toast>
+				<Col xs="12" md="6" lg="3" style={{ marginTop: 5 }}>
+					<Toast className="flex-column">
 						<ToastHeader className="bg-primary " style={{ color: "white" }}>
 							Total em vendas no ano
 						</ToastHeader>
 						<ToastBody >
-							<Label className="d-flex align-items-center justify-content-center" size="lg"><BiDollar style={{marginRight: 10, color:"#0d6efd"}} /> R$ {totalVendas}</Label>
+							<BiDollar style={{marginRight: 10, color:"#0d6efd"}} /> R$ {totalVendas}
 						</ToastBody>
 					</Toast>
 				</Col>
 
-				<Col xs="3" style={{ marginTop: 5 }}>
-					<Toast>
+				<Col xs="12" md="6" lg="3" style={{ marginTop: 5 }}>
+					<Toast className="flex-column">
 						<ToastHeader className="bg-primary " style={{ color: "white" }}>
 							Media mensal de vendas
 						</ToastHeader>
 						<ToastBody >
-							<Label className="d-flex align-items-center justify-content-center" size="lg"><BiDollar style={{marginRight: 10, color:"#0d6efd"}} />R$ {mediaVendas}</Label>
+							<BiDollar style={{marginRight: 10, color:"#0d6efd"}} /> R${mediaVendas}
 						</ToastBody>
 					</Toast>
 				</Col >
-				<Col xs="3" style={{ marginTop: 5 }}>
-					<Toast>
+				<Col xs="12" md="6" lg="3" style={{ marginTop: 5 }}>
+					<Toast className="flex-column">
 						<ToastHeader className="bg-primary " style={{ color: "white" }}>
 							Cliente com maior faturamento por mês
 						</ToastHeader>
 						<ToastBody >
-							<Label className="d-flex align-items-center justify-content-center" size="lg"><BiCalendarStar style={{marginRight: 10, color:"#0d6efd"}} />{melhorMes.mes} (R$ {melhorMes.totalMes.toFixed(2)})</Label>
+							<BiCalendarStar style={{marginRight: 10, color:"#0d6efd"}} />{melhorMes.mes} (R$ {melhorMes.totalMes.toFixed(2)})
 						</ToastBody>
 					</Toast>
 				</Col>
-				<Col xs="3" style={{ marginTop: 5 }}>
-					<Toast>
+				<Col xs="12" md="6" lg="3" style={{ marginTop: 5 }}>
+					<Toast className="flex-column">
 						<ToastHeader className="bg-primary " style={{ color: "white" }}>
 							Cliente com maior faturamento no ano
 						</ToastHeader>
 						<ToastBody className="">
-							<Label className="d-flex align-items-center justify-content-center" size="lg"><BiUser style={{marginRight: 10, color:"#0d6efd"}} />{clienteAnual.cliente} (R$ {clienteAnual.valor.toFixed(2)})</Label>
+							<BiUser style={{marginRight: 10, color:"#0d6efd"}} />{clienteAnual.cliente} (R$ {clienteAnual.valor.toFixed(2)})
 						</ToastBody>
 					</Toast>
 				</Col>

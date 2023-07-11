@@ -2,7 +2,8 @@ import { Container, Card, Row, Col, Alert } from "reactstrap";
 import { useState, React } from "react";
 import MainHeader from "../components/Header/Header";
 import TableClient from "../components/Tables/TableClientes";
-const Home = () => {
+// eslint-disable-next-line react/prop-types
+const ClienteView = ({handleLogin}) => {
 	const [alertSaveSucess, setAlertSaveSucess] = useState(false);
 	const [alertUpdateSucess, setAlertUpdateSucess] = useState(false);
 	const [alertDeleteSucess, setAlertDeleteSucess] = useState(false);
@@ -23,12 +24,15 @@ const Home = () => {
 		setAlertDeleteSucess(true);
 	};
 
+	const handleExit = () => {
+		handleLogin();
+	};
 
 	return (
 		<Container fluid>
 			<Row >
 
-				<MainHeader height="100px" />
+				<MainHeader handleLogout={handleExit} height="100px" />
 
 			</Row>
 
@@ -72,4 +76,4 @@ const Home = () => {
 		</Container >
 	);
 };
-export default Home;
+export default ClienteView;
