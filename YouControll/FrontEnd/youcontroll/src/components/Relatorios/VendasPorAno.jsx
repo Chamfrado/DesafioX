@@ -97,7 +97,7 @@ const YearChart = ({ Ano }) => {
 	};
 
 	return (
-		<Container fluid style={{ height: "100%" }}>
+		<Container >
 			<Row style={{ height: "100%" }}>
 				<Col style={{ height: "100%" }}>
 					<Bar data={arrumarDados()} />
@@ -255,23 +255,22 @@ const VendasPorAno = ({ Ano }) => {
 	};
 
 	return (
-		<Container fluid style={{ height: "50vh", paddingTop: 5 }}>
+		<Container  >
 
 
-			<Row style={{ height: "100%" }}>
+			<Row style={{ height: "100%", marginBottom: 10 }}>
 				<Col style={{ height: "100%" }}>
 					<Label className="d-flex align-items-center justify-content-center" for="yearChart" size="lg"><strong>Valor(R$) X Mês</strong></Label>
 					<YearChart Ano={Ano} key={"yearChart"} />
 				</Col>
-				<Col style={{ height: "100%" }}>
+				<Col  style={{ height: "100%" }}>
 
 					<TableRelacaoVendas Ano={Ano} onGetTable={handleGetTable} />
+					
 				</Col >
-				<Col sm="1" >
-					<Button  color="primary" onClick={exportToCSV}>To CSV</Button>
-				</Col>
+				<Button  color="primary" onClick={exportToCSV}>To CSV</Button>
 
-			</Row>
+			</Row >
 
 
 		</Container>

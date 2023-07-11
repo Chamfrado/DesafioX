@@ -1,18 +1,19 @@
 import React from "react";
 import {
-	Row, Col, Label, 
+	Row, Col, 
 	Container,
 	Alert,
+	Button,
 } from "reactstrap";
-import { BiUserCircle, BiExit } from "react-icons/bi";
-import logoImage from "../../resources/referencia.png";
+import {  BiExit } from "react-icons/bi";
+import logoImage from "../../resources/botao-menu.png";
 import { useState } from "react";
 import MenuHeaderCanvas from "../OffCanvas/MenuHeaderCanvas";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
-const Header = ({ height , handleLogout} ) => {
+const Header = ({ handleLogout} ) => {
 	const navigate = useNavigate();
 
 
@@ -50,27 +51,25 @@ const Header = ({ height , handleLogout} ) => {
 	
 
 	return (
-		<Container  style={{  height: height }} className="bg-primary">
+		<Container style={{ height: "13vh" }}  className="bg-primary">
 			<Row style={{ height: "100%" }}>
-				<Col style={{ display: "flex", alignItems: "center" }}>
+				<Col style={{ height: "100%" }}>
+					<Button style={{height: "75%", marginTop: 10}} onClick={toggleOffcanvas} color="primary"> 
+						<img
+							id="menu"
+							style={{ height: "60%",cursor: "pointer" }}
+							src={logoImage}
+							alt="Logo"
+						/>
+					</Button>
 					
-					<img
-						id="menu"
-						onClick={toggleOffcanvas}
-						style={{ height: "70%", width: "10%", cursor: "pointer" }}
-						src={logoImage}
-						alt="Logo"
-					/>
-
 				</Col>
-				<Col style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", paddingRight: 40 }}>
-					<BiUserCircle color="white" size={40} style={{ marginRight: "10px" }} />
-					<div style={{ display: "flex", flexDirection: "column" }}>
-						<Label style={{ fontSize: "20px", color: "white" }}>Lohran Cintra</Label>
-						<Label style={{ fontSize: "12px", color: "white" }}>Desenvolvedor</Label>
-					</div>
-					<BiExit color="white" size={40} style={{ marginLeft: "10px", cursor: "pointer" }} onClick={handleExit} />
+				<Col className="d-flex justify-content-end align-content-end">
+					<Button  color="primary" style={{height: "75%", marginTop: 10}} onClick={handleExit}>
+						<BiExit color="white" size={40}   />
+					</Button>
 				</Col>
+					
 			</Row>
 
 			{isOpen && <MenuHeaderCanvas handleClose={toggleOffcanvas} open={isOpen}  SaveClienteSucess={handleSave}/>}

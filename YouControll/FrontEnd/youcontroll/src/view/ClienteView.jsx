@@ -30,9 +30,9 @@ const ClienteView = ({handleLogin}) => {
 
 	return (
 		<Container fluid>
-			<Row >
+			<Row style={{height: "100px"}}>
 
-				<MainHeader handleLogout={handleExit} height="100px" />
+				<MainHeader handleLogout={handleExit} />
 
 			</Row>
 

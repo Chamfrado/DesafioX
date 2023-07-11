@@ -46,14 +46,13 @@ function App() {
 						)
 					}
 				/>
-				<Route path="/protected" element={<ProtectedRoute  element={ClienteView} />} />
-				<Route path="/clientes/*" element={<ProtectedRoute  element={ClienteView} />} />
-				<Route path="/vendas/*" element={<ProtectedRoute  element={VendaView} />} />
-				<Route path="/relatorio/*" element={<ProtectedRoute  element={RelatorioView} />} />
+				<Route path="/protected" element={<ProtectedRoute element={ClienteView} />} />
+				<Route path="/clientes/*" element={<ProtectedRoute element={ClienteView} />} />
+				<Route path="/vendas/*" element={<ProtectedRoute element={VendaView} />} />
+				<Route path="/relatorio/*" element={<ProtectedRoute element={RelatorioView} />} />
 			</Routes>
 		</div>
 	);
 }
-
 
 export default App;
