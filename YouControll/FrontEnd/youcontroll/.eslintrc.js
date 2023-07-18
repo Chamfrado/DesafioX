@@ -27,6 +27,7 @@ module.exports = {
 	"plugins": [
 		"react"
 	],
+	"ignorePatterns": ["**/*.spec.js", "**/*.spec.cjs"],
 	"rules": {
 		"indent": [
 			"error",

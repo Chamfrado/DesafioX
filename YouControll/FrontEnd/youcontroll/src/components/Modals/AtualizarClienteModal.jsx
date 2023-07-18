@@ -467,7 +467,7 @@ const AtualizarClienteModal = ({ ClienteId, Sucess }) => {
 		});
 	};
 	return (
-		<Modal isOpen={modal} toggle={toggle} onClosed={handleDismiss} size="xl" >
+		<Modal isOpen={modal} toggle={toggle} onClosed={handleDismiss} id="updateModal" size="xl" >
 			<ModalHeader toggle={toggle} close={toggle} >Atualizar Cliente</ModalHeader>
 			<ModalBody>
 				<Form onSubmit={handleSubmit}>
