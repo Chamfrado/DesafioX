@@ -132,12 +132,13 @@ const PesquisarCliente = ({onClienteSelected, searchState, state, onChangeState 
 		return telefone;
 	};
 
+
 	const handleSelectedCliente = (id, nome) => {
 		setSelectedCliente({
 			id: id,
 			nome:nome
 		});
-		
+
 	};
 	if (error) {
 		return <p>Error: {error}</p>;
@@ -192,11 +193,11 @@ const PesquisarCliente = ({onClienteSelected, searchState, state, onChangeState 
 						</thead>
 						<tbody>
 							{currentData.map(item => (
-								<tr key={item.id} style={{cursor: "pointer"}}  onClick={() => handleSelectedCliente(item.id, item.nome)}>
-									<td style={selectedCliente.id === item.id ? {backgroundColor: "#6c757d"} : {backgroundColor: "#FFFFFF"} }>{item.nome}</td>
-									<td style={selectedCliente.id === item.id ? {backgroundColor: "#6c757d"} : {backgroundColor: "#FFFFFF"} }>{formatCnpj(item.cnpj)}</td>
-									<td style={selectedCliente.id === item.id ? {backgroundColor: "#6c757d"} : {backgroundColor: "#FFFFFF"} }>{item.email}</td>
-									<td style={selectedCliente.id === item.id ? {backgroundColor: "#6c757d"} : {backgroundColor: "#FFFFFF"} }>{formatTelefone(item.telefone)}</td>
+								<tr key={item.id} style={selectedCliente.id === item.id ? {backgroundColor: "#6c757d"} : {backgroundColor: "#FFFFFF"} } onClick={() => handleSelectedCliente(item.id, item.nome)}>
+									<td>{item.nome}</td>
+									<td>{formatCnpj(item.cnpj)}</td>
+									<td>{item.email}</td>
+									<td>{formatTelefone(item.telefone)}</td>
 								</tr>
 							))}
 						</tbody>

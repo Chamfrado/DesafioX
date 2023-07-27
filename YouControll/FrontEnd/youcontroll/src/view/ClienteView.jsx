@@ -29,7 +29,7 @@ const ClienteView = ({handleLogin}) => {
 	};
 
 	return (
-		<Container fluid id="ClienteContainer">
+		<Container fluid>
 			<Row style={{height: "100px"}}>
 
 				<MainHeader handleLogout={handleExit} />

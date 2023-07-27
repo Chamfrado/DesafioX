@@ -105,12 +105,13 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 	};
 
 	const save = async () => {
-		YCapi.post("vendas/add", {
-			clienteId: formData.cliente_id,
-			data: formatDate(formData.data),
-			status: formData.status,
-			valor: formData.valor,
-		}).then(() => {
+		try {
+			await YCapi.post("vendas/add", {
+				clienteId: formData.cliente_id,
+				data: formatDate(formData.data),
+				status: formData.status,
+				valor: formData.valor,
+			});
 			handleSaveSucess();
 			setFormData({
 				cliente_id: -1,
@@ -119,13 +120,12 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 				status: "",
 				valor: "",
 			});
-			setModal(false);
-		}).catch((error) => {
-			alert(error);
 			setIsSaveLoading(false);
-			alert(JSON.stringify(formData));
-		});
-			
+			setModal(false);
+		} catch (error) {
+			alert("Error saving venda:", error);
+			setIsSaveLoading(false);
+		}
 	};
 
 	const handleSubmit = (event) => {

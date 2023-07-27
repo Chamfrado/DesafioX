@@ -383,16 +383,16 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 
 	///FUNÇÃO PARA SALVAR USUARIO
 	async function save() {
-		
-		YCapi.post("clientes", {
-			nome: formData.nome,
-			cnpj: formData.cnpj,
-			email: formData.email,
-			telefone: formData.telefone,
-			uf: formData.uf,
-			lat: formData.lat,
-			lng: formData.lng
-		}).then(() => {
+		try {
+			await YCapi.post("clientes", {
+				nome: formData.nome,
+				cnpj: formData.cnpj,
+				email: formData.email,
+				telefone: formData.telefone,
+				uf: formData.uf,
+				lat: formData.lat,
+				lng: formData.lng
+			});
 			handleSaveSucess();
 			setFormData({ // Reset form data to empty values
 				nome: "",
@@ -406,9 +406,9 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 			});
 			setIsSaveLoading(false);
 			setModal(false);
-		}).catch ((error) => {
+		} catch (error) {
 			console.error("Error saving cliente:", error);
-		});
+		}
 	}
 
 
@@ -443,7 +443,7 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 
 	return (
 		<Modal isOpen={modal} toggle={toggle} size="lg">
-			<ModalHeader toggle={toggle} close={toggle} id="addModal" onClosed={handleDismiss}>Cadastrar Cliente</ModalHeader>
+			<ModalHeader toggle={toggle} close={toggle} onClosed={handleDismiss}>Cadastrar Cliente</ModalHeader>
 			<ModalBody>
 				<Form onSubmit={handleSubmit}>
 					<FormGroup>
