@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Col,  Collapse,  Container, FormGroup, Input, Label, Nav, NavItem, NavLink, Row, TabContent, TabPane,  UncontrolledTooltip, } from "reactstrap";
+import { Col, Container, Input, Label, Nav, NavItem, NavLink, Row, TabContent, TabPane,  UncontrolledTooltip, } from "reactstrap";
 import { BiRefresh } from "react-icons/bi";
 import Header from "../components/Header/Header";
 import MapaTodosClientes from "../components/Maps/MapaTodosClientes";
@@ -14,22 +14,8 @@ const RelatorioView = () => {
 	const [activeTab, setActiveTab] = useState("1");
 	const [anosDisponiveis, setAnosDisponiveis] = useState([]);
 	const [selectedAno, setSelectedAno] = useState(0);
-	const [isOpen, setIsOpen] = useState(false);
-	const [filtros,setFiltros] = useState([]);
 
 	
-
-	const handleChangeFiltro = (event) =>{
-		const {name} = event.target;
-		
-		if(filtros.includes(name)){
-			setFiltros(filtros.filter(item => item !== name));
-		}else{
-			filtros.push(name);
-		}
-	}; 
-
-	const toggle = () => setIsOpen(!isOpen);
 
 
 	const handleChangeTab = (tabId) => {
@@ -72,7 +58,7 @@ const RelatorioView = () => {
 
 
 	return (
-		<Container className="bg-ligt " fluid>
+		<Container id="RelatorioView" className="bg-ligt " fluid>
 
 			<Row>
 				<Header />
@@ -101,58 +87,6 @@ const RelatorioView = () => {
 							<option key={option}>{option}</option>
 						))}
 					</Input>
-				</Col>
-				<Col sm="1">
-					<Button
-						color="primary"
-						onClick={toggle}
-
-						style={{
-							marginBottom: "1rem"
-						}}
-					>
-						Filtros
-					</Button>
-				</Col>
-				<Col>
-					<Collapse isOpen={isOpen}  toggler="#toggler">
-						<Row>
-							<Col>
-								<FormGroup >
-									<Input name="AguardandoPagamento" value={filtros.AguardandoPagamento} onChange={handleChangeFiltro} type="checkbox" />
-									<Label>Aguardando pagamento</Label>
-								</FormGroup>
-								<FormGroup>
-									<Input name="PagamentoAprovado" value={filtros.PagamentoAprovado} onChange={handleChangeFiltro} type="checkbox" />
-									<Label>Pagamento aprovado</Label>
-								</FormGroup>
-							</Col>
-						
-
-
-							<Col >
-								<FormGroup>
-									<Input name="AguardandoEnvio" value={filtros.AguardandoEnvio} onChange={handleChangeFiltro} type="checkbox" />
-									<Label>Aguardando envio</Label>
-								</FormGroup>
-								<FormGroup>
-									<Input name="ACaminho" value={filtros.ACaminho} onChange={handleChangeFiltro} type="checkbox" />
-									<Label>À caminho</Label>
-								</FormGroup>
-
-							</Col>
-							<Col >
-								<FormGroup>
-									<Input name="Finalizado" value={filtros.Finalizado} onChange={handleChangeFiltro} type="checkbox" />
-									<Label>Finalizado</Label>
-								</FormGroup>
-
-
-
-							</Col>
-						</Row>
-						
-					</Collapse>
 				</Col>
 					
 				

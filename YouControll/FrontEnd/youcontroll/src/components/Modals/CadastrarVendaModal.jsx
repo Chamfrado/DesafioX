@@ -218,7 +218,7 @@ const CadastrarVendaModal = ({ state, onChangeState, Sucess }) => {
 	];
 
 	return (
-		<Modal isOpen={modal} toggle={toggle} size="lg">
+		<Modal id="CadastrarVenda" isOpen={modal} toggle={toggle} size="lg">
 			<ModalHeader toggle={toggle} close={toggle} onClosed={handleDismiss}>
         Cadastrar Venda
 			</ModalHeader>

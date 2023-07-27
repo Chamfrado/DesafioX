@@ -40,7 +40,7 @@ const DeletarClienteModal = ({ Cliente, Sucess }) => {
 		}
 	}, [Cliente.id]);
 	return (
-		<Modal isOpen={modal} fluid toggle={toggle}>
+		<Modal id="DeletarCliente" isOpen={modal} fluid toggle={toggle}>
 			<ModalHeader style={{ backgroundColor: "#dc3545", color: "#fff" }}>Deletar Cliente </ModalHeader>
 			<ModalBody>
 				<Row >

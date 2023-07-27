@@ -228,8 +228,7 @@ const AtualizarVendaModal = ({ VendaId, Sucess }) => {
 	];
 
 	return (
-		<Modal isOpen={modal} toggle={toggle} size="lg">
-			<Button onClick={() => alert(JSON.stringify(formData))}>teste</Button>
+		<Modal id="AtualizarVenda" isOpen={modal} toggle={toggle} size="lg">
 			<ModalHeader toggle={toggle} close={toggle} >
         Cadastrar Venda
 			</ModalHeader>

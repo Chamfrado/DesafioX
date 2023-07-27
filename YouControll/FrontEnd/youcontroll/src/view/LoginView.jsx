@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import LogoPng from "../resources/logo.PNG";
-import { Button, Card, CardBody, Col, Form, FormGroup, Input, Label, Row } from "reactstrap";
+import { Alert, Button, Card, CardBody, Col, Form, FormGroup, Input, Label, Row } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 
 const Login = ({ handleLogin }) => {
@@ -10,6 +10,9 @@ const Login = ({ handleLogin }) => {
 		username: "",
 		password: ""
 	});
+	const [invalidUser, setInvalidUser] = useState(false);
+
+	const onDismissInvalid = () => { setInvalidUser(!invalidUser); };
 
 	const handleChange = (event) => {
 		const { name, value } = event.target;
@@ -28,15 +31,12 @@ const Login = ({ handleLogin }) => {
 			// Redirect to the protected route (e.g., dashboard) after successful login
 			navigate("/protected");
 		} else {
-			alert("Invalid credentials");
+			setInvalidUser(true);
 		}
 	};
 
 	return (
-		<Row>
-			<Col style={{marginTop: 20, marginLeft: 20, marginBottom:10, borderRadius: 10}} className="bg-danger"> 
-			
-			</Col>
+		<Row id="LoginContainer">
 			<Col style={{marginTop: 20, marginRight: 20, marginBottom:10}} >
 				<div
 					style={{
@@ -55,6 +55,7 @@ const Login = ({ handleLogin }) => {
 							boxShadow: "0 2px 10px rgba(0, 0, 0, 0.15)"
 						}}
 					>
+						{invalidUser && <Alert id="incorrectAlert" isOpen={invalidUser} toggle={onDismissInvalid} color="danger">Usuario invalido!</Alert>}
 						<CardBody>
 							<img alt="Card cap" src={LogoPng} width="100%" />
 							<Form>
@@ -90,7 +91,7 @@ const Login = ({ handleLogin }) => {
 								</Row>
 								<Row>
 									<Col className="d-flex align-items-center justify-content-center">
-										<Button color="primary" onClick={handleSubmit}>
+										<Button id="btnLogin" color="primary" onClick={handleSubmit}>
 								Accessar
 										</Button>
 									</Col>

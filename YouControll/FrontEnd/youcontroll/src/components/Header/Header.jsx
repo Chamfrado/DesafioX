@@ -51,10 +51,10 @@ const Header = ({ handleLogout} ) => {
 	
 
 	return (
-		<Container style={{ height: "13vh" }}  className="bg-primary">
+		<Container style={{ height: "13vh" }} id="header" className="bg-primary">
 			<Row style={{ height: "100%" }}>
 				<Col style={{ height: "100%" }}>
-					<Button style={{height: "75%", marginTop: 10}} onClick={toggleOffcanvas} color="primary"> 
+					<Button style={{height: "75%", marginTop: 10}} id="togCanvas"  onClick={toggleOffcanvas} color="primary"> 
 						<img
 							id="menu"
 							style={{ height: "60%",cursor: "pointer" }}
@@ -65,7 +65,7 @@ const Header = ({ handleLogout} ) => {
 					
 				</Col>
 				<Col className="d-flex justify-content-end align-content-end">
-					<Button  color="primary" style={{height: "75%", marginTop: 10}} onClick={handleExit}>
+					<Button id="exit" color="primary" style={{height: "75%", marginTop: 10}} onClick={handleExit}>
 						<BiExit color="white" size={40}   />
 					</Button>
 				</Col>
@@ -73,10 +73,10 @@ const Header = ({ handleLogout} ) => {
 			</Row>
 
 			{isOpen && <MenuHeaderCanvas handleClose={toggleOffcanvas} open={isOpen}  SaveClienteSucess={handleSave}/>}
-			{sucessCliente && <Alert isOpen={sucessCliente} style={{margin: 10}} toggle={onDismissSaveCliente}>
+			{sucessCliente && <Alert id="sucessCliente" isOpen={sucessCliente} style={{margin: 10}} toggle={onDismissSaveCliente}>
                         Cliente cadastrado com sucesso!
 			</Alert>}
-			{sucessVenda && <Alert isOpen={sucessVenda} style={{margin: 10}} toggle={onDismissSaveVenda}>
+			{sucessVenda && <Alert id="sucessVenda" isOpen={sucessVenda} style={{margin: 10}} toggle={onDismissSaveVenda}>
                         Venda cadastrada com sucesso!
 			</Alert>}
 		</Container>

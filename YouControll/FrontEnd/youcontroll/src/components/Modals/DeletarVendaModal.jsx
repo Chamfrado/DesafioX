@@ -39,7 +39,7 @@ const DeletarVendaModal = ({ VendaId , Sucess }) => {
 		}
 	}, [VendaId]);
 	return (
-		<Modal isOpen={modal} size="lg" fluid toggle={toggle}>
+		<Modal id="DeletarVenda" isOpen={modal} size="lg" fluid toggle={toggle}>
 			<ModalHeader style={{ backgroundColor: "#dc3545", color: "#fff" }}>Deletar Venda </ModalHeader>
 			<ModalBody>
 				<Row >

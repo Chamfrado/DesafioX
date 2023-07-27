@@ -29,7 +29,7 @@ const ClienteView = ({handleLogin}) => {
 	};
 
 	return (
-		<Container fluid>
+		<Container id="ClienteContainer" fluid>
 			<Row style={{height: "100px"}}>
 
 				<MainHeader handleLogout={handleExit} />
@@ -38,13 +38,13 @@ const ClienteView = ({handleLogin}) => {
 
 			<Row style={{ paddingTop: 10 }}>
 				<Col>
-					{alertSaveSucess && <Alert isOpen={alertSaveSucess} toggle={onDismissSave}>
+					{alertSaveSucess && <Alert id="saveSucess" isOpen={alertSaveSucess} toggle={onDismissSave}>
                         Cliente cadastrado com sucesso!
 					</Alert>}
-					{alertUpdateSucess && <Alert isOpen={alertUpdateSucess} toggle={onDismissUpdate}>
+					{alertUpdateSucess && <Alert id="updateSucess" isOpen={alertUpdateSucess} toggle={onDismissUpdate}>
 						Cliente atualizado com sucesso!
 					</Alert>}
-					{alertSaveSucess && <Alert isOpen={alertDeleteSucess} toggle={onDismissDelete}>
+					{alertSaveSucess && <Alert id="deleteSucess" isOpen={alertDeleteSucess} toggle={onDismissDelete}>
 						Cliente Deletado com sucesso!
 					</Alert>}
 				</Col>

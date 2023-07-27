@@ -27,7 +27,7 @@ const VendaView = () => {
 
 
 	return (
-		<Container fluid>
+		<Container id="VendaContainer"  fluid>
 			<Row >
 
 				<MainHeader height="100px" />
@@ -36,13 +36,13 @@ const VendaView = () => {
 
 			<Row style={{ paddingTop: 10 }}>
 				<Col>
-					{alertSaveSucess && <Alert isOpen={alertSaveSucess} toggle={onDismissSave}>
+					{alertSaveSucess && <Alert id="saveSucess" isOpen={alertSaveSucess} toggle={onDismissSave}>
                         Venda cadastrada com sucesso!
 					</Alert>}
-					{alertUpdateSucess && <Alert isOpen={alertUpdateSucess} toggle={onDismissUpdate}>
+					{alertUpdateSucess && <Alert id="updateSucess" isOpen={alertUpdateSucess} toggle={onDismissUpdate}>
 						Venda atualizada com sucesso!
 					</Alert>}
-					{alertSaveSucess && <Alert isOpen={alertDeleteSucess} toggle={onDismissDelete}>
+					{alertSaveSucess && <Alert id="deleteSucess" isOpen={alertDeleteSucess} toggle={onDismissDelete}>
 						Venda Deletada com sucesso!
 					</Alert>}
 				</Col>
@@ -50,8 +50,8 @@ const VendaView = () => {
 			</Row>
 
 
-			<Row style={{ paddingTop: 20, marginLeft: "1%" }}>
-				<h1>Lista de Vendas</h1>
+			<Row  style={{ paddingTop: 20, marginLeft: "1%" }}>
+				<h1 id="VendaTitle">Lista de Vendas</h1>
 			</Row>
 
 

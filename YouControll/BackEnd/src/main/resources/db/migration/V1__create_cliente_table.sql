@@ -7,5 +7,8 @@ CREATE TABLE cliente (
   uf CHAR(2),
   lat DOUBLE PRECISION,
   lng DOUBLE PRECISION,
-  created_at TIMESTAMP
+  created_at TIMESTAMP,
+  
+ ON DELETE CASCADE
+ ON UPDATE CASCADE
 );

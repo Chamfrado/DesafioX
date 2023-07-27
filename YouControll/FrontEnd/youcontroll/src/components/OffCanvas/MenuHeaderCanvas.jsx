@@ -38,7 +38,7 @@ const MenuHeaderCanvas = ({ open, handleClose, SaveClienteSucess }) => {
 	};
 
 	return (
-		<Offcanvas isOpen={Offcanvas} color="primary" toggle={toggle} className="bg-primary" style={{ color: "white" }}>
+		<Offcanvas id="menuHeaderCanvas" isOpen={Offcanvas} color="primary" toggle={toggle} className="bg-primary" style={{ color: "white" }}>
 			<OffcanvasHeader toggle={toggle}>Menu Principal</OffcanvasHeader>
 			<OffcanvasBody>
 				<Row style={{ marginBottom: 30 }}>
@@ -52,7 +52,7 @@ const MenuHeaderCanvas = ({ open, handleClose, SaveClienteSucess }) => {
 											className="nav-link nav-link-active bg-primary"  style={{color: "white" }}  to="/clientes">Lista de Clientes</Link>
 									</NavItem>
 									<NavItem>
-										<Link className="nav-link nav-link-active bg-primary"  style={{color: "white" }} to="/clientes/cadastrar" onClick={handleCadastrarCliente}>
+										<Link className="nav-link nav-link-active bg-primary"  style={{color: "white" }}  onClick={handleCadastrarCliente}>
                       Cadastrar Cliente
 										</Link>
 									</NavItem>
@@ -71,7 +71,7 @@ const MenuHeaderCanvas = ({ open, handleClose, SaveClienteSucess }) => {
 										<Link className="nav-link nav-link-active bg-primary"  style={{color: "white" }} to="/vendas">Lista de Vendas</Link>
 									</NavItem>
 									<NavItem>
-										<Link className="nav-link nav-link-active bg-primary"  style={{color: "white" }} to="/vendas/cadastrar" onClick={handleCadastrarVenda}>
+										<Link className="nav-link nav-link-active bg-primary"  style={{color: "white" }}  onClick={handleCadastrarVenda}>
                       Cadastrar Venda
 										</Link>
 									</NavItem>

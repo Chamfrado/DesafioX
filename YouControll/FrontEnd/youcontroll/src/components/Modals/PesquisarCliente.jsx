@@ -170,7 +170,7 @@ const PesquisarCliente = ({onClienteSelected, searchState, state, onChangeState 
 					</Col>
 				</Row>
 				<Card>
-					<Table hover>
+					<Table responsive hover>
 						<thead>
 							<tr>
 								<th>

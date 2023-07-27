@@ -149,7 +149,7 @@ const TableVendas = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 
 
 	return (
-		<Container fluid >
+		<Container id="TableVendas" fluid >
 			<Row style={{ paddingTop: 20, marginBottom: 10 }}>
 				<Col style={{ display: "flex", alignItems: "center" }}>
 					<Input
@@ -176,19 +176,19 @@ const TableVendas = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 				<thead>
 					<tr>
 						<th>
-							<Button style={{ backgroundColor: "white", borderWidth: 0, color: "black" }} onClick={() => handleChangeFiltro("nome")}><strong>Venda</strong></Button>
+							<Button id="nome" style={{ backgroundColor: "white", borderWidth: 0, color: "black" }} onClick={() => handleChangeFiltro("nome")}><strong>Cliente</strong></Button>
 							{orderBy === "nome" ? <BsChevronDoubleDown /> : <BsDashLg />}
 						</th>
 						<th>
-							<Button style={{ backgroundColor: "white", borderWidth: 0, color: "black" }} onClick={() => handleChangeFiltro("data")}><strong>Data</strong></Button>
+							<Button id="data" style={{ backgroundColor: "white", borderWidth: 0, color: "black" }} onClick={() => handleChangeFiltro("data")}><strong>Data</strong></Button>
 							{orderBy === "data" ? <BsChevronDoubleDown /> : <BsDashLg />}
 						</th>
 						<th>
-							<Button style={{ backgroundColor: "white", borderWidth: 0, color: "black" }} onClick={() => handleChangeFiltro("status")}><strong>Status</strong></Button>
+							<Button id="status" style={{ backgroundColor: "white", borderWidth: 0, color: "black" }} onClick={() => handleChangeFiltro("status")}><strong>Status</strong></Button>
 							{orderBy === "status" ? <BsChevronDoubleDown /> : <BsDashLg />}
 						</th>
 						<th>
-							<Button style={{ backgroundColor: "white", borderWidth: 0, color: "black" }} onClick={() => handleChangeFiltro("valor")}><strong>Valor</strong></Button>
+							<Button id="valor" style={{ backgroundColor: "white", borderWidth: 0, color: "black" }} onClick={() => handleChangeFiltro("valor")}><strong>Valor</strong></Button>
 							{orderBy === "valor" ? <BsChevronDoubleDown /> : <BsDashLg />}
 						</th>
 						<th>

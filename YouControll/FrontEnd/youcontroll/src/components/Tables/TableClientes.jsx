@@ -182,7 +182,7 @@ const TableCliente = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 
 
 	return (
-		<Container fluid>
+		<Container id="TableClientes" fluid>
 			<Row style={{ paddingTop: 20, marginBottom: 10 }}>
 				<Col style={{ display: "flex", alignItems: "center" }}>
 					<Input
@@ -197,7 +197,7 @@ const TableCliente = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 				</Col>
 				<Col style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
 
-					<Button onClick={handleToggleClienteCadastroModal} color='primary' ><BiPlus /> Cadastrar Cliente</Button>
+					<Button id="cadastrar" onClick={handleToggleClienteCadastroModal} color='primary' ><BiPlus /> Cadastrar Cliente</Button>
 
 
 				</Col>
@@ -209,19 +209,19 @@ const TableCliente = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 					<thead>
 						<tr>
 							<th>
-								<Button style={{backgroundColor: "white", borderWidth:0, color: "black"}} onClick={() => handleChangeFiltro("nome")}><strong>Nome</strong></Button>
+								<Button id="nome" style={{backgroundColor: "white", borderWidth:0, color: "black"}} onClick={() => handleChangeFiltro("nome")}><strong>Nome</strong></Button>
 								{orderBy === "nome" ? <BsChevronDoubleDown/> : <BsDashLg/>}
 							</th>
 							<th>
-								<Button style={{backgroundColor: "white", borderWidth:0, color: "black"}} onClick={() => handleChangeFiltro("cnpj")}><strong>Cnpj</strong></Button>
+								<Button id="cnpj" style={{backgroundColor: "white", borderWidth:0, color: "black"}} onClick={() => handleChangeFiltro("cnpj")}><strong>Cnpj</strong></Button>
 								{orderBy === "cnpj" ? <BsChevronDoubleDown/> : <BsDashLg/>}
 							</th>
 							<th>
-								<Button style={{backgroundColor: "white", borderWidth:0, color: "black"}} onClick={() => handleChangeFiltro("email")}><strong>Email</strong></Button>
+								<Button id="email" style={{backgroundColor: "white", borderWidth:0, color: "black"}} onClick={() => handleChangeFiltro("email")}><strong>Email</strong></Button>
 								{orderBy === "email" ? <BsChevronDoubleDown/> : <BsDashLg/>}
 							</th>
 							<th>
-								<Button style={{backgroundColor: "white", borderWidth:0, color: "black"}} onClick={() => handleChangeFiltro("telefone")}><strong>telefone</strong></Button>
+								<Button id="telefone" style={{backgroundColor: "white", borderWidth:0, color: "black"}} onClick={() => handleChangeFiltro("telefone")}><strong>telefone</strong></Button>
 								{orderBy === "telefone" ? <BsChevronDoubleDown/> : <BsDashLg/>}
 							</th>
 							<th>
@@ -240,11 +240,11 @@ const TableCliente = ({ onSaveSucess, onUpdateSucess, onDeleteSucess }) => {
 									<Dropdown isOpen={dropdownOpen === item.id} toggle={() => toggle(item.id)} direction="down" size="medium">
 										<DropdownToggle color='primary' caret>Ações</DropdownToggle>
 										<DropdownMenu >
-											<DropdownItem onClick={() => { setSelectedCliente(item.id); }}>
+											<DropdownItem id="alterar" onClick={() => { setSelectedCliente(item.id); }}>
 												<BiPencil />
 												<Label style={{ paddingLeft: 10, paddingRight: 10 }}>Alterar</Label>
 											</DropdownItem>
-											<DropdownItem>
+											<DropdownItem id="deletar">
 												<BiTrash />
 												<Label style={{ paddingLeft: 10 }} onClick={() => setDeleteCliente({ id: item.id, nome: item.nome })}>Excluir</Label>
 											</DropdownItem>

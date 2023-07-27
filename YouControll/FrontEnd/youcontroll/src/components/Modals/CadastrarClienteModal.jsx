@@ -442,7 +442,7 @@ const CadastarClienteModal = ({ state, onChangeState, Sucess }) => {
 	};
 
 	return (
-		<Modal isOpen={modal} toggle={toggle} size="lg">
+		<Modal id="CadastrarCliente" isOpen={modal} toggle={toggle} size="lg">
 			<ModalHeader toggle={toggle} close={toggle} onClosed={handleDismiss}>Cadastrar Cliente</ModalHeader>
 			<ModalBody>
 				<Form onSubmit={handleSubmit}>
