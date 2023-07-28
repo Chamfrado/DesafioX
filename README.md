@@ -66,6 +66,8 @@ Após o node estar instalado e o terminal reconhecer o comando npm, navegue para
 
 Na pasta src/services acesse o arquivo YouControllApi e coloque a url em que o back-end está rodando
 
+para entrar só usar o usuario chamfrado e a senha 123
+
 # Rodando o app 
 
 na pasta root do front-end rode o comando npm start
